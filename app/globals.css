@@ -118,10 +118,10 @@
 .badge-pulse::after {
   content: "";
   position: absolute;
-  inset: -4px;
+  inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 16px 6px var(--pulse-color);
-  animation: badge-breathe 2s ease-in-out infinite;
+  box-shadow: 0 0 12px 3px var(--pulse-color);
+  animation: badge-breathe 2.5s ease-in-out infinite;
   pointer-events: none;
 }
 

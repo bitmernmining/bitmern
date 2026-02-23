@@ -20,38 +20,36 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        // Primary — fuel-yellow with beveled depth
+        // Primary — fuel-yellow, single subtle inset for dimension
         default: [
           "bg-primary text-primary-foreground",
-          "shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.2),0_0_0_1px_oklch(0_0_0/0.1)]",
-          "[a&]:hover:shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.2),0_1px_4px_0_oklch(0.795_0.153_78/0.25)]",
+          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.15)]",
+          "[a&]:hover:brightness-105",
         ].join(" "),
 
         // Secondary — frosted glass, translucent
         secondary: [
           "bg-foreground/[0.06] text-foreground/80 backdrop-blur-sm",
-          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.1),0_0_0_1px_oklch(0_0_0/0.04)]",
           "[a&]:hover:bg-foreground/[0.10]",
         ].join(" "),
 
-        // Success — muted green with depth
+        // Success — muted green, single inset
         success: [
           "bg-success text-success-foreground",
-          "shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.15),0_0_0_1px_oklch(0_0_0/0.1)]",
-          "[a&]:hover:shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.15),0_1px_4px_0_oklch(0.60_0.14_150/0.2)]",
+          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.12)]",
+          "[a&]:hover:brightness-105",
         ].join(" "),
 
-        // Destructive — muted red with depth
+        // Destructive — muted red, single inset
         destructive: [
           "bg-destructive text-destructive-foreground",
-          "shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.12),0_0_0_1px_oklch(0_0_0/0.1)]",
-          "[a&]:hover:shadow-[inset_0_-1px_0_0_oklch(0_0_0/0.15),inset_0_1px_0_0_oklch(1_0_0/0.12),0_1px_4px_0_oklch(0.55_0.16_25/0.2)]",
+          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.10)]",
+          "[a&]:hover:brightness-105",
         ].join(" "),
 
-        // Outline — border only, no fill
+        // Outline — border only, no fill, no shadow
         outline: [
           "border-border text-foreground/80 bg-transparent",
-          "shadow-[0_1px_2px_0_oklch(0_0_0/0.03)]",
           "[a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
         ].join(" "),
       },

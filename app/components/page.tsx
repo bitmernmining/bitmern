@@ -7,12 +7,13 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
+  CardAction,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/ui/tag";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Zap, Shield, Server, ChevronRight } from "lucide-react";
+import { ArrowLeft, Zap, Shield, Server, ChevronRight, Globe, Cpu } from "lucide-react";
 import { AccordionDemo } from "./accordion-demo";
 import { SelectDemo } from "./select-demo";
 
@@ -149,47 +150,109 @@ export default function ComponentsPage() {
       </Section>
 
       {/* Cards */}
-      <Section title="Cards" description="Composable card components">
-        <div className="grid gap-6 sm:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Mining Infrastructure</CardTitle>
-              <CardDescription>
-                Enterprise-grade hosting with 99.9% uptime SLA.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-2 text-sm">
-                <Server className="size-4 text-primary" />
-                <span>5,000+ ASIC slots available</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button size="sm">
-                Learn more <ChevronRight className="size-4" />
-              </Button>
-            </CardFooter>
-          </Card>
+      <Section title="Cards" description="Dimensional surfaces — default, interactive (hover lift), glass (translucent)">
+        <div className="space-y-8">
+          {/* Default */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">default</p>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Mining Infrastructure</CardTitle>
+                  <CardDescription>
+                    Enterprise-grade hosting with 99.9% uptime SLA across 4 global facilities.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col gap-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Server className="size-4 text-primary" />
+                      <span>5,000+ ASIC slots available</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Globe className="size-4 text-primary" />
+                      <span>Indiana, North Dakota, Ethiopia, Finland</span>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button size="sm">
+                    Learn more <ChevronRight className="size-4" />
+                  </Button>
+                </CardFooter>
+              </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Solo Mining Pool</CardTitle>
-              <CardDescription>
-                Zero pool fees. Keep 100% of the block reward.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center gap-2 text-sm">
-                <Shield className="size-4 text-primary" />
-                <span>BTC, LTC, DOGE, BCH, DGB supported</span>
+              <Card>
+                <CardHeader>
+                  <div>
+                    <Tag className="mb-3">Institutional</Tag>
+                    <CardTitle>Dedicated Infrastructure</CardTitle>
+                    <CardDescription className="mt-2">
+                      Private mining operations for funds and high-net-worth clients.
+                    </CardDescription>
+                  </div>
+                  <CardAction>
+                    <Badge variant="outline">From $0.065/kWh</Badge>
+                  </CardAction>
+                </CardHeader>
+                <CardFooter>
+                  <Button size="sm">
+                    Contact sales <ChevronRight className="size-4" />
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+
+          {/* Interactive */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">interactive (hover to lift)</p>
+            <div className="grid gap-6 sm:grid-cols-3">
+              {[
+                { icon: Server, title: "Hosting", desc: "Global colocation with 24/7 monitoring", tag: "4 Facilities" },
+                { icon: Cpu, title: "Hardware", desc: "New & used ASICs at institutional pricing", tag: "In Stock" },
+                { icon: Shield, title: "Solo Pool", desc: "Zero fees, keep 100% of the block reward", tag: "Live" },
+              ].map((item) => (
+                <Card key={item.title} variant="interactive">
+                  <CardContent className="pt-6">
+                    <div className="mb-4 inline-flex items-center justify-center rounded-md bg-primary/10 p-2.5">
+                      <item.icon className="size-5 text-primary" />
+                    </div>
+                    <h3 className="font-semibold">{item.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
+                  </CardContent>
+                  <CardFooter className="justify-between">
+                    <Tag variant="muted" size="sm">{item.tag}</Tag>
+                    <ChevronRight className="size-4 text-muted-foreground" />
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Glass */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">glass (translucent)</p>
+            <div className="rounded-xl bg-gradient-to-br from-primary/10 via-background to-primary/5 p-6">
+              <div className="grid gap-4 sm:grid-cols-3">
+                {[
+                  { label: "Total Hashrate", value: "142 PH/s", tag: "SHA-256" },
+                  { label: "Active Miners", value: "3,847", tag: "Online" },
+                  { label: "Uptime", value: "99.97%", tag: "30d avg" },
+                ].map((stat) => (
+                  <Card key={stat.label} variant="glass" padding="compact">
+                    <CardContent className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-muted-foreground">{stat.label}</p>
+                        <p className="text-2xl font-bold tracking-tight">{stat.value}</p>
+                      </div>
+                      <Tag variant="muted" size="sm">{stat.tag}</Tag>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm">
-                View pools <ChevronRight className="size-4" />
-              </Button>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </div>
       </Section>
 

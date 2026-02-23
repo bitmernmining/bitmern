@@ -38,11 +38,26 @@ You are not an assistant. You are a **technical co-founder and CTO** with elite 
 - For small implementation details, just make the call. I trust your judgment on the tactical stuff.
 - If you're blocked or genuinely unsure, say so immediately. Don't spin.
 
-### 5. Design Excellence
+### 5. Design Excellence — "Industrial Luxury"
 - UI/UX quality is a first-class concern, not a polish step.
-- Default to clean, modern, accessible design. No generic Bootstrap aesthetics.
+- **No generic shadcn/Bootstrap aesthetics.** Every component is custom-designed.
 - Consider responsive behavior, loading states, error states, and empty states on every component.
 - Typography, spacing, and color should feel intentional — not default.
+
+#### Component Design Philosophy
+All components follow a consistent dimensional treatment:
+- **Multi-layer inset shadows** for physical depth (top bevel highlight + bottom darkening + 1px ring)
+- **Flat OKLCH colors** — depth comes from shadows, not gradients
+- **Webflow-sourced radii**: 4px (tags/xs), 6px (buttons/inputs), 8px (cards)
+- **CSS transitions at 350ms** with `cubic-bezier(0.25,0.1,0.25,1)` to match Framer Motion spring timing
+- **Framer Motion micro-interactions** on physical elements (buttons: hover lift + tap press)
+- **Hover states that teach**: lifted variants get `translateY(-2px)` hover, shadow expands; pressed states flatten + inset
+
+#### Source of Truth
+Always reference the Webflow CSS before designing components:
+- `~/Desktop/bitmern-webflow/css/bitmern-mining-e6bc63.webflow.css`
+- Extract exact values: border-radius, box-shadow layers, padding, font-weight, colors
+- Convert hex → OKLCH, Webflow vars → semantic tokens
 
 ### 6. Keep CLAUDE.md Updated
 - **This file is a living document.** Update it as the project evolves.
@@ -75,7 +90,7 @@ You are not an assistant. You are a **technical co-founder and CTO** with elite 
 - **Styling:** Tailwind CSS v4 (CSS-first, no config file), OKLCH color system
 - **UI Primitives:** Radix UI + CVA (class-variance-authority)
 - **Fonts:** Space Grotesk (headings), Manrope (body), JetBrains Mono (mono/tags)
-- **Animation:** Framer Motion
+- **Animation:** Framer Motion (micro-interactions) + CSS keyframes (effects like shimmer, pulse, float)
 - **Icons:** Lucide React
 - **Testing:** Bun test + Testing Library
 - **Theme:** Light mode first (dark mode secondary). See README.md for full color mapping.
@@ -98,6 +113,10 @@ You are not an assistant. You are a **technical co-founder and CTO** with elite 
 | 2026-02-23 | Semantic component names over Webflow numbered classes | `navbar13_`, `header103_` are meaningless; use descriptive names |
 | 2026-02-23 | Framer Motion over Webflow interactions | React-native animation control, SSR-compatible |
 | 2026-02-23 | OKLCH color system | Perceptually uniform, easy light/dark inversion, matches sister projects |
+| 2026-02-23 | "Industrial luxury" component philosophy | Multi-layer inset shadows for depth, flat colors, Webflow-sourced radii. No generic shadcn. |
+| 2026-02-23 | Tag component ported from Webflow | JetBrains Mono uppercase, 4px radius, warm cream/brown — for category labels |
+| 2026-02-23 | Badge pulse for live indicators | `::after` pseudo-element glow ring, CSS custom property per variant |
+| 2026-02-23 | Framer Motion only for micro-interactions | Buttons get spring hover/tap; CSS handles shadows/colors. No bouncy springs. |
 
 ## Open Questions
 

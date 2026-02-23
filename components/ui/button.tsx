@@ -42,24 +42,21 @@ const buttonVariants = cva(
           "active:shadow-[inset_0_2px_3px_0_oklch(0_0_0/0.25),inset_0_0_0_1px_oklch(0_0_0/0.15),0_0_0_0_transparent]",
         ].join(" "),
 
-        // Secondary — translucent surface, backdrop blur, subtle inset borders
+        // Secondary — translucent surface, backdrop blur, clean depth
         secondary: [
           "bg-foreground/5 text-foreground backdrop-blur-[10px]",
-          "shadow-[0_1px_2px_0_oklch(0_0_0/0.05),inset_0_-2px_1px_0_oklch(0_0_0/0.05),inset_0_0_0_1px_oklch(0_0_0/0.05)]",
-          "hover:bg-foreground/[0.12]",
-          "hover:shadow-[inset_0_24px_12px_0_oklch(1_0_0/0.08),inset_0_2px_1px_0_oklch(1_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.1),inset_0_-2px_1px_0_oklch(0_0_0/0.05),0_2px_4px_0_oklch(0_0_0/0.05)]",
-          "active:bg-foreground/[0.15]",
-          "active:shadow-[inset_0_2px_3px_0_oklch(0_0_0/0.1),inset_0_0_0_1px_oklch(0_0_0/0.08)]",
+          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.08),0_1px_2px_0_oklch(0_0_0/0.04)]",
+          "hover:bg-foreground/[0.10]",
+          "hover:shadow-[inset_0_1px_0_0_oklch(1_0_0/0.15),0_1px_3px_0_oklch(0_0_0/0.06)]",
+          "active:bg-foreground/[0.14]",
+          "active:shadow-[inset_0_1px_2px_0_oklch(0_0_0/0.08)]",
         ].join(" "),
 
         // Outline — crisp border, clean hover fill
         outline: [
           "border border-border bg-background",
-          "shadow-[0_1px_2px_0_oklch(0_0_0/0.04)]",
-          "hover:bg-accent hover:border-foreground/12",
-          "hover:shadow-[0_2px_4px_0_oklch(0_0_0/0.06)]",
+          "hover:bg-accent hover:border-foreground/10",
           "active:bg-accent/80",
-          "active:shadow-[inset_0_1px_2px_0_oklch(0_0_0/0.06)]",
           "dark:bg-card dark:border-input",
           "dark:hover:bg-input/50 dark:hover:border-foreground/8",
         ].join(" "),

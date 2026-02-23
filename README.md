@@ -43,6 +43,19 @@ Light mode:  White/neutral backgrounds, ebony text, fuel-yellow accents
 Dark mode:   Ebony backgrounds, white/neutral text, fuel-yellow accents
 ```
 
+### Component Design Philosophy — "Industrial Luxury"
+
+Every UI component follows a dimensional treatment inspired by the original Webflow site — **not** generic shadcn defaults:
+
+- **Multi-layer inset shadows** create physical depth (top bevel highlight, bottom darkening, 1px ring border, outer drop shadow)
+- **Flat OKLCH colors** — all dimensionality comes from shadows, not gradients
+- **Webflow-sourced radii**: `4px` (tags, xs buttons), `6px` (buttons, inputs), `8px` (cards)
+- **CSS transitions at 350ms** with a custom cubic-bezier matching Framer Motion spring timing
+- **Framer Motion micro-interactions**: buttons lift on hover (`y: -2`), compress on tap (`scale: 0.98`). Ghost/link variants exempt.
+- **Badge pulse**: `::after` pseudo-element glow ring for live status indicators, color adapts per variant via CSS custom property
+- **Tags**: Ported from Webflow `.tag` class — JetBrains Mono, uppercase, tight tracking, warm cream/brown palette, `backdrop-filter: blur`
+- **Secondary surfaces**: Translucent `bg-foreground/5` with `backdrop-blur` for glassmorphic depth
+
 ### Color Palette
 
 | Token | Light Mode | Dark Mode | Hex Reference |
@@ -98,9 +111,10 @@ app/
 
 components/
   ui/                           → Radix + CVA primitives
-    button.tsx                    Button variants (primary, secondary, outline, ghost, link, icon)
-    card.tsx                      Card container
-    badge.tsx                     Status/label badges
+    button.tsx                    Button — 5-layer shadow, Framer Motion lift/tap, 6 variants × 8 sizes
+    card.tsx                      Card — dimensional surface with inner-shadow bevel, 8px radius
+    badge.tsx                     Badge — status indicators with depth + optional pulse glow
+    tag.tsx                       Tag — Webflow-ported category labels, JetBrains Mono uppercase
     accordion.tsx                 Collapsible FAQ items
     separator.tsx                 Dividers
     dialog.tsx                    Modals
