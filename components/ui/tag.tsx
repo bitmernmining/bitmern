@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 const tagVariants = cva(
   [
     "inline-flex items-center justify-center gap-1.5 whitespace-nowrap",
-    "rounded-sm font-mono text-xs font-normal uppercase tracking-tight",
+    "rounded-sm font-mono text-sm font-normal uppercase tracking-[-0.0625rem]",
     "backdrop-blur-[10px]",
     "select-none shrink-0",
     "[&>svg]:size-3 [&>svg]:pointer-events-none",
@@ -53,9 +53,10 @@ const tagVariants = cva(
         ].join(" "),
       },
       size: {
-        default: "px-2.5 py-1 text-xs",
-        sm: "px-2 py-0.5 text-[0.6875rem]",
-        lg: "px-3 py-1.5 text-sm",
+        // Webflow default: padding 0.25rem 0.625rem, font-size 0.875rem
+        default: "px-2.5 py-1 text-sm",
+        sm: "px-2 py-0.5 text-xs",
+        lg: "px-3 py-1.5 text-base",
       },
     },
     defaultVariants: {

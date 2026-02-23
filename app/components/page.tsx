@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/ui/tag";
-import { Input } from "@/components/ui/input";
+import { Input, Textarea, FormLabel } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Zap, Shield, Server, ChevronRight, Globe, Cpu } from "lucide-react";
 import { AccordionDemo } from "./accordion-demo";
@@ -94,16 +94,17 @@ export default function ComponentsPage() {
       </Section>
 
       {/* Typography */}
-      <Section title="Typography" description="Space Grotesk headings, Manrope body, JetBrains Mono code">
+      <Section title="Typography" description="Space Grotesk headings (uppercase, tight tracking), Manrope body, JetBrains Mono code">
         <div className="space-y-4">
-          <h1 className="text-5xl font-bold tracking-tight">H1 — The quick brown fox</h1>
-          <h2 className="text-4xl font-bold tracking-tight">H2 — The quick brown fox</h2>
-          <h3 className="text-3xl font-semibold tracking-tight">H3 — The quick brown fox</h3>
-          <h4 className="text-2xl font-semibold tracking-tight">H4 — The quick brown fox</h4>
-          <h5 className="text-xl font-semibold">H5 — The quick brown fox</h5>
-          <h6 className="text-lg font-semibold">H6 — The quick brown fox</h6>
+          {/* Headings use base styles from globals.css — no Tailwind overrides */}
+          <h1>H1 — The quick brown fox</h1>
+          <h2>H2 — The quick brown fox</h2>
+          <h3>H3 — The quick brown fox</h3>
+          <h4>H4 — The quick brown fox</h4>
+          <h5>H5 — The quick brown fox</h5>
+          <h6>H6 — The quick brown fox</h6>
           <Separator />
-          <p className="text-base">
+          <p>
             Body — Enterprise-grade Bitcoin mining infrastructure, ASIC hosting,
             and solo mining pools. Built for serious miners who demand
             reliability and performance.
@@ -335,18 +336,22 @@ export default function ComponentsPage() {
       </Section>
 
       {/* Inputs */}
-      <Section title="Inputs" description="Text inputs with various states">
-        <div className="grid gap-4 max-w-md">
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Default</label>
+      <Section title="Inputs" description="Webflow glass treatment — translucent bg, backdrop blur, fuel-yellow focus">
+        <div className="grid gap-5 max-w-md">
+          <div>
+            <FormLabel>Wallet Address</FormLabel>
             <Input placeholder="Enter your wallet address..." />
           </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Email</label>
+          <div>
+            <FormLabel>Email</FormLabel>
             <Input type="email" placeholder="miner@bitmern.com" />
           </div>
-          <div className="space-y-1.5">
-            <label className="text-sm font-medium">Disabled</label>
+          <div>
+            <FormLabel>Message</FormLabel>
+            <Textarea placeholder="Tell us about your mining operation..." />
+          </div>
+          <div>
+            <FormLabel>Disabled</FormLabel>
             <Input disabled placeholder="Not available" />
           </div>
         </div>

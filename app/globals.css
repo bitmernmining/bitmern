@@ -11,7 +11,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.795 0.153 78);
-  --primary-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.30 0.06 70);
   --secondary: oklch(0.94 0 0);
   --secondary-foreground: oklch(0.145 0 0);
   --muted: oklch(0.94 0 0);
@@ -37,7 +37,7 @@
   --popover: oklch(0.17 0 0);
   --popover-foreground: oklch(0.925 0 0);
   --primary: oklch(0.795 0.153 78);
-  --primary-foreground: oklch(0.145 0 0);
+  --primary-foreground: oklch(0.30 0.06 70);
   --secondary: oklch(0.22 0 0);
   --secondary-foreground: oklch(0.925 0 0);
   --muted: oklch(0.22 0 0);
@@ -92,8 +92,53 @@
     @apply bg-background text-foreground;
     font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   }
+  /* Paragraph — softer than foreground for readability (Webflow: neutral-dark #4d4d4d) */
+  p {
+    color: oklch(0.40 0 0);
+  }
+  .dark p {
+    color: oklch(0.65 0 0);
+  }
+  /* Heading system — Webflow-exact values: uppercase, tight tracking, Space Grotesk */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+    text-transform: uppercase;
+  }
+  h1 {
+    font-size: 2.986rem;
+    font-weight: 400;
+    letter-spacing: -0.045rem;
+    line-height: 1.2;
+  }
+  h2 {
+    font-size: 2.488rem;
+    font-weight: 400;
+    letter-spacing: -0.0325rem;
+    line-height: 1;
+  }
+  h3 {
+    font-size: 2.074rem;
+    font-weight: 400;
+    letter-spacing: -0.0275rem;
+    line-height: 1;
+  }
+  h4 {
+    font-size: 1.728rem;
+    font-weight: 500;
+    letter-spacing: -0.0225rem;
+    line-height: 1.3;
+  }
+  h5 {
+    font-size: 1.44rem;
+    font-weight: 400;
+    letter-spacing: -0.0175rem;
+    line-height: 1.1;
+  }
+  h6 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: -0.01375rem;
+    line-height: 1.1;
   }
 }
 
