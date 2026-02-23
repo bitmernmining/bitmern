@@ -24,6 +24,7 @@ const colorTokens = [
   { name: "muted", var: "var(--muted)" },
   { name: "accent", var: "var(--accent)" },
   { name: "destructive", var: "var(--destructive)" },
+  { name: "success", var: "var(--success)" },
   { name: "border", var: "var(--border)" },
   { name: "ring", var: "var(--ring)" },
 ];
