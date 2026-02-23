@@ -97,6 +97,34 @@
   }
 }
 
+/* Badge pulse — breathing glow ring via pseudo-element */
+@keyframes badge-breathe {
+  0%, 100% { opacity: 0; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+.badge-pulse {
+  --pulse-color: oklch(0.795 0.153 78 / 0.55);
+}
+
+.badge-pulse[data-variant="success"] {
+  --pulse-color: oklch(0.60 0.14 150 / 0.55);
+}
+
+.badge-pulse[data-variant="destructive"] {
+  --pulse-color: oklch(0.55 0.16 25 / 0.55);
+}
+
+.badge-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  box-shadow: 0 0 16px 6px var(--pulse-color);
+  animation: badge-breathe 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
 /* Shimmer heading */
 @keyframes shimmer-sweep {
   0% { background-position: 200% center; }

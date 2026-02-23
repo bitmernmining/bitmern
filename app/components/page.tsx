@@ -9,6 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tag } from "@/components/ui/tag";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Zap, Shield, Server, ChevronRight } from "lucide-react";
@@ -40,12 +41,20 @@ const buttonVariants = [
 
 const buttonSizes = ["xs", "sm", "default", "lg"] as const;
 
-const badgeVariants = [
+const badgeVariantList = [
   "default",
   "secondary",
-  "outline",
+  "success",
   "destructive",
-  "ghost",
+  "outline",
+] as const;
+
+const tagVariantList = [
+  "default",
+  "muted",
+  "primary",
+  "success",
+  "destructive",
 ] as const;
 
 export default function ComponentsPage() {
@@ -184,14 +193,76 @@ export default function ComponentsPage() {
         </div>
       </Section>
 
+      {/* Tags */}
+      <Section title="Tags" description="Webflow-ported category labels — JetBrains Mono, uppercase, 4px radius">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">variants</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {tagVariantList.map((variant) => (
+                <Tag key={variant} variant={variant}>
+                  {variant === "default" ? "Infrastructure" : variant === "muted" ? "Colocation" : variant === "primary" ? "Solo Mining" : variant === "success" ? "Online" : "Maintenance"}
+                </Tag>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">sizes</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Tag size="sm">Small Tag</Tag>
+              <Tag size="default">Default Tag</Tag>
+              <Tag size="lg">Large Tag</Tag>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">in context</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Tag>Institutional Mining</Tag>
+              <Tag variant="muted">Global Colocation</Tag>
+              <Tag variant="primary">Full-Service Ops</Tag>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">alternate (dark bg)</p>
+            <div className="flex items-center gap-2 rounded-lg bg-[oklch(0.18_0_0)] px-4 py-3">
+              <Tag variant="alternate">SHA-256</Tag>
+              <Tag variant="alternate">Scrypt</Tag>
+              <Tag variant="alternate">99.9% Uptime</Tag>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Badges */}
-      <Section title="Badges" description="All badge variants">
-        <div className="flex flex-wrap gap-3">
-          {badgeVariants.map((variant) => (
-            <Badge key={variant} variant={variant}>
-              {variant}
-            </Badge>
-          ))}
+      <Section title="Badges" description="Status indicators with inner-shadow depth">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">variants</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {badgeVariantList.map((variant) => (
+                <Badge key={variant} variant={variant}>
+                  {variant === "default" ? "Featured" : variant === "secondary" ? "v2.4.1" : variant === "success" ? "Live" : variant === "destructive" ? "Offline" : "Beta"}
+                </Badge>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">with pulse (live indicator)</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant="success" pulse>Pool Online</Badge>
+              <Badge variant="default" pulse>Mining Active</Badge>
+            </div>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">in context</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge>New</Badge>
+              <Badge variant="success">3 Pools Live</Badge>
+              <Badge variant="secondary">SHA-256</Badge>
+              <Badge variant="outline">Stratum V2</Badge>
+              <Badge variant="destructive">High Temp</Badge>
+            </div>
+          </div>
         </div>
       </Section>
 
