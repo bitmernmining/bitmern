@@ -1,6 +1,9 @@
+"use client"
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
+import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -9,11 +12,20 @@ import { cn } from "@/lib/utils"
 //           inset 0 1px 1px 1px #ffffff40, inset 0 0 0 1px neutral-darkest-15,
 //           0 1px 2px 0 neutral-darkest-5
 
+// Stiff spring — responsive, no overshoot. Feels like precision hardware.
+const springTransition = {
+  type: "spring" as const,
+  stiffness: 500,
+  damping: 35,
+  mass: 0.8,
+}
+
 const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md",
     "text-sm font-medium",
-    "transition-[background-color,box-shadow,transform,color,opacity] duration-200 ease-out",
+    // Shadow/color transitions stay CSS (Framer Motion handles transform)
+    "transition-[background-color,box-shadow,color,opacity] duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
     "disabled:pointer-events-none disabled:opacity-40",
     "[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0",
     "outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -26,9 +38,7 @@ const buttonVariants = cva(
         default: [
           "bg-primary text-primary-foreground",
           "shadow-[inset_0_-2px_1px_0_oklch(0_0_0/0.2),inset_0_32px_24px_0_oklch(1_0_0/0.05),inset_0_1px_1px_1px_oklch(1_0_0/0.25),inset_0_0_0_1px_oklch(0_0_0/0.15),0_1px_2px_0_oklch(0_0_0/0.05)]",
-          "hover:-translate-y-0.5",
           "hover:shadow-[inset_0_-2px_1px_0_oklch(0_0_0/0.2),inset_0_32px_24px_0_oklch(1_0_0/0.05),inset_0_1px_1px_1px_oklch(1_0_0/0.25),inset_0_0_0_1px_oklch(0_0_0/0.15),0_2px_4px_0_oklch(0_0_0/0.05)]",
-          "active:translate-y-0",
           "active:shadow-[inset_0_2px_3px_0_oklch(0_0_0/0.25),inset_0_0_0_1px_oklch(0_0_0/0.15),0_0_0_0_transparent]",
         ].join(" "),
 
@@ -36,9 +46,9 @@ const buttonVariants = cva(
         secondary: [
           "bg-foreground/5 text-foreground backdrop-blur-[10px]",
           "shadow-[0_1px_2px_0_oklch(0_0_0/0.05),inset_0_-2px_1px_0_oklch(0_0_0/0.05),inset_0_0_0_1px_oklch(0_0_0/0.05)]",
-          "hover:-translate-y-0.5 hover:bg-foreground/[0.12]",
+          "hover:bg-foreground/[0.12]",
           "hover:shadow-[inset_0_24px_12px_0_oklch(1_0_0/0.08),inset_0_2px_1px_0_oklch(1_0_0/0.3),inset_0_0_0_1px_oklch(0_0_0/0.1),inset_0_-2px_1px_0_oklch(0_0_0/0.05),0_2px_4px_0_oklch(0_0_0/0.05)]",
-          "active:translate-y-0 active:bg-foreground/[0.15]",
+          "active:bg-foreground/[0.15]",
           "active:shadow-[inset_0_2px_3px_0_oklch(0_0_0/0.1),inset_0_0_0_1px_oklch(0_0_0/0.08)]",
         ].join(" "),
 
@@ -46,9 +56,9 @@ const buttonVariants = cva(
         outline: [
           "border border-border bg-background",
           "shadow-[0_1px_2px_0_oklch(0_0_0/0.04)]",
-          "hover:-translate-y-0.5 hover:bg-accent hover:border-foreground/12",
+          "hover:bg-accent hover:border-foreground/12",
           "hover:shadow-[0_2px_4px_0_oklch(0_0_0/0.06)]",
-          "active:translate-y-0 active:bg-accent/80",
+          "active:bg-accent/80",
           "active:shadow-[inset_0_1px_2px_0_oklch(0_0_0/0.06)]",
           "dark:bg-card dark:border-input",
           "dark:hover:bg-input/50 dark:hover:border-foreground/8",
@@ -68,9 +78,7 @@ const buttonVariants = cva(
         destructive: [
           "bg-destructive text-destructive-foreground",
           "shadow-[inset_0_-2px_1px_0_oklch(0_0_0/0.2),inset_0_32px_24px_0_oklch(1_0_0/0.04),inset_0_1px_1px_1px_oklch(1_0_0/0.2),inset_0_0_0_1px_oklch(0_0_0/0.15),0_1px_2px_0_oklch(0_0_0/0.05)]",
-          "hover:-translate-y-0.5",
           "hover:shadow-[inset_0_-2px_1px_0_oklch(0_0_0/0.2),inset_0_32px_24px_0_oklch(1_0_0/0.04),inset_0_1px_1px_1px_oklch(1_0_0/0.2),inset_0_0_0_1px_oklch(0_0_0/0.15),0_2px_4px_0_oklch(0_0_0/0.05)]",
-          "active:translate-y-0",
           "active:shadow-[inset_0_2px_3px_0_oklch(0_0_0/0.25),inset_0_0_0_1px_oklch(0_0_0/0.15),0_0_0_0_transparent]",
         ].join(" "),
       },
@@ -92,6 +100,9 @@ const buttonVariants = cva(
   }
 )
 
+// Variants that get physical hover/tap motion
+const liftedVariants = new Set(["default", "secondary", "outline", "destructive"])
+
 function Button({
   className,
   variant = "default",
@@ -102,15 +113,45 @@ function Button({
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
   }) {
-  const Comp = asChild ? Slot.Root : "button"
+  const classes = cn(buttonVariants({ variant, size, className }))
+
+  // asChild uses Slot — can't wrap with motion
+  if (asChild) {
+    return (
+      <Slot.Root
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        className={classes}
+        {...props}
+      />
+    )
+  }
+
+  const hasMotion = liftedVariants.has(variant ?? "default")
+
+  if (!hasMotion) {
+    return (
+      <button
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        className={classes}
+        {...props}
+      />
+    )
+  }
 
   return (
-    <Comp
+    <motion.button
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
+      className={classes}
+      whileHover={{ y: -2 }}
+      whileTap={{ y: 1, scale: 0.98 }}
+      transition={springTransition}
+      {...(props as React.ComponentProps<typeof motion.button>)}
     />
   )
 }
