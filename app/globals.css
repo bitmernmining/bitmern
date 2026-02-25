@@ -91,6 +91,8 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
   }
   /* Paragraph — softer than foreground for readability (Webflow: neutral-dark #4d4d4d) */
   p {
@@ -332,6 +334,112 @@
 }
 .dark ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.4 0 0);
+}
+
+/* ===== Webflow Layout System — exact port ===== */
+
+/* Page & main wrappers (Webflow: .page-wrapper, .main-wrapper) */
+/* Webflow .page-wrapper has NO explicit styles — just a semantic container */
+.main-wrapper {
+  width: 100%;
+  max-width: none;
+}
+
+/* Global horizontal gutter — 5% L/R at all breakpoints (Webflow: .padding-global) */
+.padding-global {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.padding-global.z-index-2 { z-index: 2; position: relative; }
+.padding-global.z-index-3 { z-index: 3; position: relative; }
+
+/* Max-width utilities (Webflow: .max-width-*) — no auto margin, just width constraint */
+.max-width-full    { width: 100%; max-width: none; }
+.max-width-xxlarge { width: 100%; max-width: 80rem; }
+.max-width-xlarge  { width: 100%; max-width: 64rem; }
+.max-width-large   { width: 100%; max-width: 48rem; }
+.max-width-medium  { width: 100%; max-width: 35rem; }
+.max-width-small   { width: 100%; max-width: 30rem; }
+.max-width-xsmall  { width: 100%; max-width: 25rem; }
+.max-width-xxsmall { width: 100%; max-width: 20rem; }
+
+/* Container sizes — max-width + auto-center (Webflow: .container-large/medium/small) */
+.container-large {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container-medium {
+  width: 100%;
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+.container-small {
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Centering utility (Webflow: .align-center) */
+.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Text alignment (Webflow: .text-align-center) */
+.text-align-center {
+  text-align: center;
+}
+
+/* Section padding — vertical breathing room inside sections */
+.padding-section-small  { padding-top: 3rem; padding-bottom: 3rem; }
+.padding-section-medium { padding-top: 5rem; padding-bottom: 5rem; }
+.padding-section-large  { padding-top: 7rem; padding-bottom: 7rem; }
+.padding-section-large.is-hero { padding-top: 12rem; }
+.padding-section-large.is-section-hero { padding-top: 12rem; padding-bottom: 12rem; }
+
+/* Spacers — vertical rhythm between content blocks (padding-top only, full width) */
+.spacer-tiny    { padding-top: 0.25rem; width: 100%; }
+.spacer-xxsmall { padding-top: 0.5rem;  width: 100%; }
+.spacer-xsmall  { padding-top: 1rem;    width: 100%; }
+.spacer-small   { padding-top: 1.5rem;  width: 100%; }
+.spacer-medium  { padding-top: 2rem;    width: 100%; }
+.spacer-large   { padding-top: 3rem;    width: 100%; }
+.spacer-xlarge  { padding-top: 4rem;    width: 100%; }
+.spacer-xxlarge { padding-top: 5rem;    width: 100%; }
+.spacer-huge    { padding-top: 6rem;    width: 100%; }
+.spacer-xhuge   { padding-top: 7rem;    width: 100%; }
+.spacer-xxhuge  { padding-top: 10rem;   width: 100%; }
+
+/* Tablet — max-width: 991px */
+@media screen and (max-width: 991px) {
+  .padding-section-medium { padding-top: 4rem; padding-bottom: 4rem; }
+  .padding-section-large  { padding-top: 6rem; padding-bottom: 6rem; }
+  .spacer-large   { padding-top: 2.5rem; }
+  .spacer-xlarge  { padding-top: 3.5rem; }
+  .spacer-xxlarge { padding-top: 4.5rem; }
+  .spacer-huge    { padding-top: 5rem; }
+  .spacer-xhuge   { padding-top: 6rem; }
+  .spacer-xxhuge  { padding-top: 7.5rem; }
+}
+
+/* Mobile landscape — max-width: 767px */
+@media screen and (max-width: 767px) {
+  .padding-section-small  { padding-top: 2rem; padding-bottom: 2rem; }
+  .padding-section-medium { padding-top: 3rem; padding-bottom: 3rem; }
+  .padding-section-large  { padding-top: 4rem; padding-bottom: 4rem; }
+  .spacer-xsmall  { padding-top: 0.75rem; }
+  .spacer-small   { padding-top: 1.25rem; }
+  .spacer-medium  { padding-top: 1.5rem; }
+  .spacer-large   { padding-top: 2rem; }
+  .spacer-xlarge  { padding-top: 2.5rem; }
+  .spacer-xxlarge { padding-top: 3rem; }
+  .spacer-huge    { padding-top: 3.5rem; }
+  .spacer-xhuge   { padding-top: 4rem; }
+  .spacer-xxhuge  { padding-top: 5rem; }
 }
 
 /* Respect user motion preferences */

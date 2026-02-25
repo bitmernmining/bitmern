@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Zap, Shield, Server, ChevronRight, Globe, Cpu } from "lucide-react";
 import { AccordionDemo } from "./accordion-demo";
 import { SelectDemo } from "./select-demo";
+import { NavigationMenuDemo } from "./navigation-menu-demo";
 
 const colorTokens = [
   { name: "background", var: "var(--background)" },
@@ -60,7 +61,8 @@ const tagVariantList = [
 
 export default function ComponentsPage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12">
+    <div className="px-[5%]">
+      <div className="mx-auto w-full max-w-[80rem] py-20">
       {/* Header */}
       <div className="mb-16">
         <Link
@@ -330,6 +332,17 @@ export default function ComponentsPage() {
         </div>
       </Section>
 
+      {/* Navigation Menu */}
+      <section className="relative z-10 mb-16">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold tracking-tight">Navigation Menu</h2>
+          <p className="text-sm text-muted-foreground">Webflow navbar dropdown — full-width panel, 4-col grid, fuel-yellow icon wrappers</p>
+        </div>
+        <div className="relative rounded-lg border bg-card overflow-visible">
+          <NavigationMenuDemo />
+        </div>
+      </section>
+
       {/* Accordion */}
       <Section title="Accordion" description="Radix accordion with chevron animation">
         <AccordionDemo />
@@ -423,7 +436,7 @@ export default function ComponentsPage() {
           </div>
         </div>
       </Section>
-    </div>
+    </div></div>
   );
 }
 

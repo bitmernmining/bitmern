@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Manrope, JetBrains_Mono } from "next/font/google";
+import { Navbar } from "@/components/layout/navbar";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -47,7 +48,10 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen bg-background antialiased">
-        <main>{children}</main>
+        <div className="page-wrapper">
+          <Navbar />
+          <main className="main-wrapper">{children}</main>
+        </div>
       </body>
     </html>
   );
