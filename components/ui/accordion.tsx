@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
 import { Accordion as AccordionPrimitive } from "radix-ui"
+import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 
@@ -63,7 +64,7 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-200" />
+        <ChevronDownIcon className="text-muted-foreground pointer-events-none size-4 shrink-0 transition-transform duration-350" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
@@ -74,13 +75,41 @@ function AccordionContent({
   children,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Content>) {
+  const contentRef = React.useRef<HTMLDivElement>(null)
+  const [open, setOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    const node = contentRef.current
+    if (!node) return
+    const sync = () => setOpen(node.getAttribute("data-state") === "open")
+    sync()
+    const observer = new MutationObserver(sync)
+    observer.observe(node, { attributes: true, attributeFilter: ["data-state"] })
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <AccordionPrimitive.Content
+      ref={contentRef}
       data-slot="accordion-content"
-      className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
+      forceMount
+      className="!block text-sm"
       {...props}
     >
-      <div className={cn("px-6 pt-0 pb-5", className)}>{children}</div>
+      <motion.div
+        initial={false}
+        animate={{
+          height: open ? "auto" : 0,
+          opacity: open ? 1 : 0,
+        }}
+        transition={{
+          height: { duration: 0.35, ease: [0.25, 0.1, 0.25, 1] },
+          opacity: { duration: 0.25, ease: "easeInOut" },
+        }}
+        className="overflow-hidden"
+      >
+        <div className={cn("px-6 pt-0 pb-5", className)}>{children}</div>
+      </motion.div>
     </AccordionPrimitive.Content>
   )
 }
