@@ -17,6 +17,18 @@ import { ArrowLeft, Zap, Shield, Server, ChevronRight, Globe, Cpu } from "lucide
 import { AccordionDemo } from "./accordion-demo";
 import { SelectDemo } from "./select-demo";
 import { NavigationMenuDemo } from "./navigation-menu-demo";
+import {
+  InfrastructureGrid,
+  MiningProfitsAnimation,
+  SupplyChainFlow,
+  DirectAccessBypass,
+  VolumePricingChart,
+  LogisticsTimeline,
+  DeployShipPaths,
+  MinersDeployedGrid,
+  MWChannelFlow,
+  UptimeChart,
+} from "@/components/animations";
 
 const colorTokens = [
   { name: "background", var: "var(--background)" },
@@ -416,6 +428,89 @@ export default function ComponentsPage() {
               </span>
             </div>
           ))}
+        </div>
+      </Section>
+
+      {/* Canvas Animations */}
+      <Section title="Animations" description="Webflow canvas animations — 1:1 port with IntersectionObserver + reduced-motion optimization">
+        <div className="space-y-8">
+          {/* Hero */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">hero — infrastructure grid</p>
+            <div className="relative h-80 rounded-lg border bg-card overflow-hidden">
+              <InfrastructureGrid />
+            </div>
+          </div>
+
+          {/* Mining Profits */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">calculator — mining profits</p>
+            <div className="relative h-80 rounded-lg border bg-card overflow-hidden">
+              <MiningProfitsAnimation />
+            </div>
+          </div>
+
+          {/* Hardware Cards — 2-col grid for the 5 card animations */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">hardware — card backgrounds</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">Supply Chain Convergence</p>
+                <div className="relative h-56 rounded-lg border bg-card overflow-hidden">
+                  <SupplyChainFlow />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">Direct Manufacturer Access</p>
+                <div className="relative h-56 rounded-lg border bg-card overflow-hidden">
+                  <DirectAccessBypass />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">Volume Pricing</p>
+                <div className="relative h-56 rounded-lg border bg-card overflow-hidden">
+                  <VolumePricingChart />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">End-to-End Logistics</p>
+                <div className="relative h-56 rounded-lg border bg-card overflow-hidden">
+                  <LogisticsTimeline />
+                </div>
+              </div>
+              <div className="space-y-1.5 sm:col-span-2">
+                <p className="text-xs text-muted-foreground">Deploy or Ship</p>
+                <div className="relative h-56 rounded-lg border bg-card overflow-hidden">
+                  <DeployShipPaths />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">stats — data visualizations</p>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">Miners Deployed</p>
+                <div className="relative h-48 rounded-lg border bg-card overflow-hidden">
+                  <MinersDeployedGrid />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">MW Under Management</p>
+                <div className="relative h-48 rounded-lg border bg-card overflow-hidden">
+                  <MWChannelFlow />
+                </div>
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-xs text-muted-foreground">Uptime Rate</p>
+                <div className="relative h-48 rounded-lg border bg-card overflow-hidden">
+                  <UptimeChart />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </Section>
 
