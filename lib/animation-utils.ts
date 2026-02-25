@@ -39,15 +39,15 @@ export interface AnimColors {
 // Fallback values — used during SSR or if CSS vars aren't available
 const FALLBACK_LIGHT: AnimColors = {
   accent:  { r: 225, g: 168, b: 46 },   // oklch(0.795 0.153 78)
-  base:    { r: 102, g: 102, b: 102 },   // oklch(0.45 0 0)
-  dim:     { r: 218, g: 218, b: 218 },   // oklch(0.88 0 0)
+  base:    { r: 155, g: 155, b: 155 },   // oklch(0.68 0 0) — medium grey
+  dim:     { r: 190, g: 190, b: 190 },   // oklch(0.80 0 0) — soft grey
   success: { r: 30,  g: 155, b: 100 },   // oklch(0.60 0.14 150)
 }
 
 const FALLBACK_DARK: AnimColors = {
   accent:  { r: 225, g: 168, b: 46 },   // same gold both modes
-  base:    { r: 147, g: 147, b: 147 },   // oklch(0.6 0 0)
-  dim:     { r: 59,  g: 59,  b: 59 },    // oklch(0.28 0 0)
+  base:    { r: 59,  g: 59,  b: 59 },    // oklch(0.28 0 0) — border dark
+  dim:     { r: 40,  g: 40,  b: 40 },    // oklch(0.22 0 0) — muted dark
   success: { r: 30,  g: 155, b: 100 },   // same both modes
 }
 
@@ -115,8 +115,8 @@ export function resolveThemeColors(): AnimColors {
   // Use var() references so the DOM resolves CSS custom properties for us
   _cachedColors = {
     accent:  cssColorToRgb("var(--primary)", fallback.accent),
-    base:    cssColorToRgb("var(--muted-foreground)", fallback.base),
-    dim:     cssColorToRgb("var(--border)", fallback.dim),
+    base:    cssColorToRgb("oklch(0.68 0 0)", fallback.base),
+    dim:     cssColorToRgb("oklch(0.80 0 0)", fallback.dim),
     success: cssColorToRgb("var(--success)", fallback.success),
   }
   _cacheIsDark = isDark
