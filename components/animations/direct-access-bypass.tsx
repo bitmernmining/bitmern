@@ -2,14 +2,7 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
-
-// Colors — exact Webflow values
-const colors = {
-  base: ANIM_COLORS.base,
-  accent: ANIM_COLORS.accent,
-  dim: { r: 100, g: 108, b: 120 },
-}
+import { easeInOutCubic, resolveThemeColors, getCanvasFont, rgba } from "@/lib/animation-utils"
 
 interface Node {
   x: number
@@ -33,6 +26,7 @@ interface Pulse {
 }
 
 export function DirectAccessBypass({ className }: { className?: string }) {
+  const colorsRef = useRef(resolveThemeColors())
   const globalTime = useRef(0)
   const manufacturerNode = useRef<Node>({ x: 0, y: 0, radius: 0, phase: 0 })
   const middlemanNode = useRef<Node>({ x: 0, y: 0, radius: 0, phase: 0 })
@@ -54,6 +48,7 @@ export function DirectAccessBypass({ className }: { className?: string }) {
 
   const canvasRef = useCanvasAnimation({
     init(_ctx, width, height) {
+      colorsRef.current = resolveThemeColors()
       dims.current = { width, height }
 
       const padding = width * 0.12
@@ -114,7 +109,7 @@ export function DirectAccessBypass({ className }: { className?: string }) {
       ctx.moveTo(mfr.x, mfr.y)
       ctx.lineTo(mid.x, mid.y)
       ctx.lineTo(btm.x, btm.y)
-      ctx.strokeStyle = rgba(colors.dim, 0.15)
+      ctx.strokeStyle = rgba(colorsRef.current.dim, 0.15)
       ctx.lineWidth = 1
       ctx.setLineDash([4, 4])
       ctx.stroke()
@@ -124,7 +119,7 @@ export function DirectAccessBypass({ className }: { className?: string }) {
       ctx.beginPath()
       ctx.moveTo(arc.startX, arc.startY)
       ctx.quadraticCurveTo(controlX, arc.controlY, arc.endX, arc.endY)
-      ctx.strokeStyle = rgba(colors.accent, 0.12)
+      ctx.strokeStyle = rgba(colorsRef.current.accent, 0.12)
       ctx.lineWidth = 8
       ctx.lineCap = "round"
       ctx.stroke()
@@ -133,7 +128,7 @@ export function DirectAccessBypass({ className }: { className?: string }) {
       ctx.beginPath()
       ctx.moveTo(arc.startX, arc.startY)
       ctx.quadraticCurveTo(controlX, arc.controlY, arc.endX, arc.endY)
-      ctx.strokeStyle = rgba(colors.accent, 0.35)
+      ctx.strokeStyle = rgba(colorsRef.current.accent, 0.35)
       ctx.lineWidth = 3
       ctx.stroke()
 
@@ -148,8 +143,8 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         const prevPos = getPointOnArc(prevProgress)
 
         const trailGradient = ctx.createLinearGradient(prevPos.x, prevPos.y, pos.x, pos.y)
-        trailGradient.addColorStop(0, rgba(colors.accent, 0))
-        trailGradient.addColorStop(1, rgba(colors.accent, 0.5 * pulse.intensity))
+        trailGradient.addColorStop(0, rgba(colorsRef.current.accent, 0))
+        trailGradient.addColorStop(1, rgba(colorsRef.current.accent, 0.5 * pulse.intensity))
 
         ctx.beginPath()
         ctx.moveTo(prevPos.x, prevPos.y)
@@ -168,15 +163,15 @@ export function DirectAccessBypass({ className }: { className?: string }) {
           const pt = getPointOnArc(t)
           ctx.lineTo(pt.x, pt.y)
         }
-        ctx.strokeStyle = rgba(colors.accent, 0.25 * pulse.intensity)
+        ctx.strokeStyle = rgba(colorsRef.current.accent, 0.25 * pulse.intensity)
         ctx.lineWidth = 3
         ctx.stroke()
 
         // Glow
         const glowGradient = ctx.createRadialGradient(pos.x, pos.y, 0, pos.x, pos.y, 12)
-        glowGradient.addColorStop(0, rgba(colors.accent, 0.7 * pulse.intensity))
-        glowGradient.addColorStop(0.4, rgba(colors.accent, 0.25 * pulse.intensity))
-        glowGradient.addColorStop(1, rgba(colors.accent, 0))
+        glowGradient.addColorStop(0, rgba(colorsRef.current.accent, 0.7 * pulse.intensity))
+        glowGradient.addColorStop(0.4, rgba(colorsRef.current.accent, 0.25 * pulse.intensity))
+        glowGradient.addColorStop(1, rgba(colorsRef.current.accent, 0))
         ctx.fillStyle = glowGradient
         ctx.beginPath()
         ctx.arc(pos.x, pos.y, 12, 0, Math.PI * 2)
@@ -185,7 +180,7 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Core
         ctx.beginPath()
         ctx.arc(pos.x, pos.y, 4, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(colors.accent, pulse.intensity)
+        ctx.fillStyle = rgba(colorsRef.current.accent, pulse.intensity)
         ctx.fill()
       }
 
@@ -197,8 +192,8 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Subtle glow (dimmed)
         const glowRadius = radius * 2
         const gradient = ctx.createRadialGradient(mid.x, mid.y, 0, mid.x, mid.y, glowRadius)
-        gradient.addColorStop(0, rgba(colors.dim, 0.1))
-        gradient.addColorStop(1, rgba(colors.dim, 0))
+        gradient.addColorStop(0, rgba(colorsRef.current.dim, 0.1))
+        gradient.addColorStop(1, rgba(colorsRef.current.dim, 0))
         ctx.fillStyle = gradient
         ctx.beginPath()
         ctx.arc(mid.x, mid.y, glowRadius, 0, Math.PI * 2)
@@ -207,13 +202,13 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Core (dimmed)
         ctx.beginPath()
         ctx.arc(mid.x, mid.y, radius, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(colors.dim, 0.3)
+        ctx.fillStyle = rgba(colorsRef.current.dim, 0.3)
         ctx.fill()
 
         // Dashed ring (bypassed indicator)
         ctx.beginPath()
         ctx.arc(mid.x, mid.y, radius * 1.4, 0, Math.PI * 2)
-        ctx.strokeStyle = rgba(colors.dim, 0.2)
+        ctx.strokeStyle = rgba(colorsRef.current.dim, 0.2)
         ctx.lineWidth = 1
         ctx.setLineDash([3, 3])
         ctx.stroke()
@@ -221,10 +216,10 @@ export function DirectAccessBypass({ className }: { className?: string }) {
 
         // Label
         const fontSize = Math.max(7, Math.min(w, h) * 0.025)
-        ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(500, fontSize)
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
-        ctx.fillStyle = rgba(colors.dim, 0.4)
+        ctx.fillStyle = rgba(colorsRef.current.dim, 0.4)
         ctx.fillText("MIDDLEMAN", mid.x, mid.y + radius + fontSize * 1.3)
       }
 
@@ -236,8 +231,8 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Glow
         const glowRadius = radius * 2.2
         const gradient = ctx.createRadialGradient(mfr.x, mfr.y, 0, mfr.x, mfr.y, glowRadius)
-        gradient.addColorStop(0, rgba(colors.base, 0.15))
-        gradient.addColorStop(1, rgba(colors.base, 0))
+        gradient.addColorStop(0, rgba(colorsRef.current.base, 0.15))
+        gradient.addColorStop(1, rgba(colorsRef.current.base, 0))
         ctx.fillStyle = gradient
         ctx.beginPath()
         ctx.arc(mfr.x, mfr.y, glowRadius, 0, Math.PI * 2)
@@ -246,15 +241,15 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Core
         ctx.beginPath()
         ctx.arc(mfr.x, mfr.y, radius, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(colors.base, 0.65)
+        ctx.fillStyle = rgba(colorsRef.current.base, 0.65)
         ctx.fill()
 
         // Label
         const fontSize = Math.max(8, Math.min(w, h) * 0.028)
-        ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(500, fontSize)
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
-        ctx.fillStyle = rgba(colors.base, 0.55)
+        ctx.fillStyle = rgba(colorsRef.current.base, 0.55)
         ctx.fillText("MANUFACTURER", mfr.x, mfr.y + radius + fontSize * 1.3)
       }
 
@@ -266,9 +261,9 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Outer glow
         const glowRadius = radius * 2.8
         const gradient = ctx.createRadialGradient(btm.x, btm.y, 0, btm.x, btm.y, glowRadius)
-        gradient.addColorStop(0, rgba(colors.accent, 0.22))
-        gradient.addColorStop(0.4, rgba(colors.accent, 0.08))
-        gradient.addColorStop(1, rgba(colors.accent, 0))
+        gradient.addColorStop(0, rgba(colorsRef.current.accent, 0.22))
+        gradient.addColorStop(0.4, rgba(colorsRef.current.accent, 0.08))
+        gradient.addColorStop(1, rgba(colorsRef.current.accent, 0))
         ctx.fillStyle = gradient
         ctx.beginPath()
         ctx.arc(btm.x, btm.y, glowRadius, 0, Math.PI * 2)
@@ -277,22 +272,22 @@ export function DirectAccessBypass({ className }: { className?: string }) {
         // Ring
         ctx.beginPath()
         ctx.arc(btm.x, btm.y, radius * 1.25, 0, Math.PI * 2)
-        ctx.strokeStyle = rgba(colors.accent, 0.35)
+        ctx.strokeStyle = rgba(colorsRef.current.accent, 0.35)
         ctx.lineWidth = 1.5
         ctx.stroke()
 
         // Core
         ctx.beginPath()
         ctx.arc(btm.x, btm.y, radius, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(colors.accent, 0.9)
+        ctx.fillStyle = rgba(colorsRef.current.accent, 0.9)
         ctx.fill()
 
         // Label
         const fontSize = Math.max(8, Math.min(w, h) * 0.028)
-        ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(500, fontSize)
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
-        ctx.fillStyle = rgba(colors.accent, 0.85)
+        ctx.fillStyle = rgba(colorsRef.current.accent, 0.85)
         ctx.fillText("BITMERN", btm.x, btm.y + radius + fontSize * 1.3)
       }
     },

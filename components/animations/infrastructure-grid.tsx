@@ -2,14 +2,12 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { lerp, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { lerp, resolveThemeColors, rgba } from "@/lib/animation-utils"
 
 // --- Config: identical to Webflow source ---
 const CONFIG = {
   dotSpacing: 50,
   dotRadius: 1.5,
-  baseColor: { r: 160, g: 170, b: 185 },
-  activeColor: ANIM_COLORS.accent,
   baseDotOpacity: 0.45,
   activeDotOpacity: 0.95,
   sweepSpeed: 0.18,
@@ -102,21 +100,25 @@ function calculateDotIntensityFromSweep(dot: Dot, sweep: Sweep, w: number, h: nu
   return 0
 }
 
-function lerpColor(intensity: number) {
-  return {
-    r: Math.round(lerp(CONFIG.baseColor.r, CONFIG.activeColor.r, intensity)),
-    g: Math.round(lerp(CONFIG.baseColor.g, CONFIG.activeColor.g, intensity)),
-    b: Math.round(lerp(CONFIG.baseColor.b, CONFIG.activeColor.b, intensity)),
-  }
-}
-
 // --- Component ---
 export function InfrastructureGrid({ className }: { className?: string }) {
   const dotsRef = useRef<Dot[]>([])
   const signalsRef = useRef<Signal[]>([])
   const sweepsRef = useRef<Sweep[]>([])
+  const colorsRef = useRef(resolveThemeColors())
+
+  function lerpColor(intensity: number) {
+    const c = colorsRef.current
+    return {
+      r: Math.round(lerp(c.dim.r, c.accent.r, intensity)),
+      g: Math.round(lerp(c.dim.g, c.accent.g, intensity)),
+      b: Math.round(lerp(c.dim.b, c.accent.b, intensity)),
+    }
+  }
 
   const init = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number) => {
+    colorsRef.current = resolveThemeColors()
+
     // Build dot grid
     const dots: Dot[] = []
     const cols = Math.ceil(w / CONFIG.dotSpacing) + 2
@@ -255,8 +257,8 @@ export function InfrastructureGrid({ className }: { className?: string }) {
         const trailY = signal.fromY + dy * trailProgress
 
         const gradient = ctx.createLinearGradient(trailX, trailY, currentX, currentY)
-        gradient.addColorStop(0, rgba(CONFIG.activeColor, 0))
-        gradient.addColorStop(1, rgba(CONFIG.activeColor, CONFIG.signalOpacity * 0.6))
+        gradient.addColorStop(0, rgba(colorsRef.current.accent, 0))
+        gradient.addColorStop(1, rgba(colorsRef.current.accent, CONFIG.signalOpacity * 0.6))
         ctx.beginPath()
         ctx.moveTo(trailX, trailY)
         ctx.lineTo(currentX, currentY)
@@ -266,7 +268,7 @@ export function InfrastructureGrid({ className }: { className?: string }) {
 
         ctx.beginPath()
         ctx.arc(currentX, currentY, CONFIG.signalRadius, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(CONFIG.activeColor, CONFIG.signalOpacity)
+        ctx.fillStyle = rgba(colorsRef.current.accent, CONFIG.signalOpacity)
         ctx.fill()
       }
 
@@ -295,9 +297,9 @@ export function InfrastructureGrid({ className }: { className?: string }) {
         const glowRadius = CONFIG.sweepWidth * 1.2
 
         const glow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowRadius)
-        glow.addColorStop(0, "rgba(242, 174, 46, 0.025)")
-        glow.addColorStop(0.5, "rgba(242, 174, 46, 0.01)")
-        glow.addColorStop(1, "rgba(242, 174, 46, 0)")
+        glow.addColorStop(0, rgba(colorsRef.current.accent, 0.025))
+        glow.addColorStop(0.5, rgba(colorsRef.current.accent, 0.01))
+        glow.addColorStop(1, rgba(colorsRef.current.accent, 0))
         ctx.fillStyle = glow
         ctx.fillRect(0, 0, w, h)
       }

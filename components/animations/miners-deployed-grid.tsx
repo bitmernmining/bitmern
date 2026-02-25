@@ -2,14 +2,10 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeOutCubic, resolveThemeColors, rgba } from "@/lib/animation-utils"
 
-// --- Config: identical to Webflow source ---
-const COLORS = {
-  base: ANIM_COLORS.base,
-  accent: ANIM_COLORS.accent,
-  dim: ANIM_COLORS.dim,
-} as const
+// --- Theme-aware colors (re-resolved on mount/resize) ---
+let COLORS = resolveThemeColors()
 
 // --- Types ---
 interface GridSlot {
@@ -85,6 +81,7 @@ export function MinersDeployedGrid({ className }: { className?: string }) {
 
   const init = useCallback(
     (_ctx: CanvasRenderingContext2D, w: number, h: number) => {
+      COLORS = resolveThemeColors()
       gridSlotsRef.current = initGrid(w, h)
       incomingNodesRef.current = []
       activeNodesRef.current = []

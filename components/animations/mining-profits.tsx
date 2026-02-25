@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeOutCubic, resolveThemeColors, getCanvasFont, rgba } from "@/lib/animation-utils"
 
 // ---------- Types ----------
 
@@ -62,6 +62,8 @@ const PROFIT_VALUES = [
 // ---------- Component ----------
 
 export function MiningProfitsAnimation({ className }: { className?: string }) {
+  const colorsRef = useRef(resolveThemeColors())
+
   const stateRef = useRef({
     particles: [] as Particle[],
     profitNumbers: [] as ProfitNumber[],
@@ -113,6 +115,8 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
 
   const canvasRef = useCanvasAnimation({
     init(_ctx, w, h) {
+      colorsRef.current = resolveThemeColors()
+
       const s = stateRef.current
       s.w = w
       s.h = h
@@ -199,7 +203,7 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
       ctx.clearRect(0, 0, w, h)
 
       // Grid
-      ctx.strokeStyle = rgba(ANIM_COLORS.base, CONFIG.gridOpacity)
+      ctx.strokeStyle = rgba(colorsRef.current.base, CONFIG.gridOpacity)
       ctx.lineWidth = 1
       for (let x = CONFIG.gridSpacing; x < w; x += CONFIG.gridSpacing) {
         ctx.beginPath()
@@ -224,9 +228,9 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
           pulse.y,
           pulse.radius,
         )
-        grad.addColorStop(0, rgba(ANIM_COLORS.success, pulse.opacity * 0.3))
-        grad.addColorStop(0.45, rgba(ANIM_COLORS.accent, pulse.opacity * 0.12))
-        grad.addColorStop(1, rgba(ANIM_COLORS.accent, 0))
+        grad.addColorStop(0, rgba(colorsRef.current.success, pulse.opacity * 0.3))
+        grad.addColorStop(0.45, rgba(colorsRef.current.accent, pulse.opacity * 0.12))
+        grad.addColorStop(1, rgba(colorsRef.current.accent, 0))
         ctx.fillStyle = grad
         ctx.beginPath()
         ctx.arc(pulse.x, pulse.y, pulse.radius, 0, Math.PI * 2)
@@ -234,7 +238,7 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
 
         // Center glow
         if (pulse.opacity > 0.08) {
-          ctx.fillStyle = rgba(ANIM_COLORS.success, pulse.opacity * 0.7)
+          ctx.fillStyle = rgba(colorsRef.current.success, pulse.opacity * 0.7)
           ctx.beginPath()
           ctx.arc(pulse.x, pulse.y, 3.5, 0, Math.PI * 2)
           ctx.fill()
@@ -245,10 +249,10 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
       for (const pn of s.profitNumbers) {
         if (pn.opacity < 0.03) continue
         const fontSize = Math.max(9, Math.min(w, h) * 0.025)
-        ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(500, fontSize)
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
-        ctx.fillStyle = rgba(ANIM_COLORS.success, pn.opacity)
+        ctx.fillStyle = rgba(colorsRef.current.success, pn.opacity)
         ctx.fillText(`${pn.value} BTC`, pn.x, pn.y)
       }
 
@@ -260,9 +264,9 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
           ctx.translate(p.x, p.y)
           const scale = p.size / 11
           ctx.scale(scale, scale)
-          ctx.shadowColor = rgba(ANIM_COLORS.accent, p.opacity * 0.35)
+          ctx.shadowColor = rgba(colorsRef.current.accent, p.opacity * 0.35)
           ctx.shadowBlur = 6
-          ctx.fillStyle = rgba(ANIM_COLORS.accent, p.opacity)
+          ctx.fillStyle = rgba(colorsRef.current.accent, p.opacity)
           ctx.font = "bold 18px Arial"
           ctx.textAlign = "center"
           ctx.textBaseline = "middle"
@@ -271,9 +275,9 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
         } else {
           // Dot with radial gradient
           const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size)
-          grad.addColorStop(0, rgba(ANIM_COLORS.accent, p.opacity * 0.85))
-          grad.addColorStop(0.5, rgba(ANIM_COLORS.accent, p.opacity * 0.35))
-          grad.addColorStop(1, rgba(ANIM_COLORS.accent, 0))
+          grad.addColorStop(0, rgba(colorsRef.current.accent, p.opacity * 0.85))
+          grad.addColorStop(0.5, rgba(colorsRef.current.accent, p.opacity * 0.35))
+          grad.addColorStop(1, rgba(colorsRef.current.accent, 0))
           ctx.fillStyle = grad
           ctx.beginPath()
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)

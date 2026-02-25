@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutSine, smoothstep, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeInOutSine, smoothstep, resolveThemeColors, rgba } from "@/lib/animation-utils"
 
 // --- Config: identical to Webflow source ---
 const CHANNEL_COUNT = 5
@@ -39,11 +39,8 @@ const LINE_WIDTH_FLOW = 2.5
 const BASE_LINE_OPACITY = 0.12
 const END_NODE_OPACITY = 0.25
 
-const colors = {
-  accent: ANIM_COLORS.accent,
-  base: ANIM_COLORS.base,
-  dim: { r: 100, g: 108, b: 120 }, // Webflow uses slightly different dim
-}
+// --- Theme-aware colors (re-resolved on mount/resize) ---
+let colors = resolveThemeColors()
 
 interface Channel {
   y: number
@@ -58,6 +55,7 @@ export function MWChannelFlow({ className }: { className?: string }) {
   const channelsRef = useRef<Channel[]>([])
 
   const init = useCallback((_ctx: CanvasRenderingContext2D, _w: number, h: number) => {
+    colors = resolveThemeColors()
     const channels: Channel[] = []
     const padding = h * PADDING_RATIO
     const spacing = (h - padding * 2) / (CHANNEL_COUNT - 1)

@@ -2,13 +2,10 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeInOutCubic, resolveThemeColors, getCanvasFont, rgba, type AnimColors } from "@/lib/animation-utils"
 
-// --- Config: identical to Webflow source ---
-const COLORS = {
-  base: ANIM_COLORS.base,
-  accent: ANIM_COLORS.accent,
-}
+// Module-level — initial resolve (SSR-safe fallback)
+let COLORS: AnimColors = resolveThemeColors()
 
 const PULSE_SPEED = 0.0004
 const MAX_CONCURRENT_PULSES = 2
@@ -76,6 +73,7 @@ export function DeployShipPaths({ className }: { className?: string }) {
 
   const init = useCallback(
     (_ctx: CanvasRenderingContext2D, w: number, h: number) => {
+      COLORS = resolveThemeColors()
       sizeRef.current = { w, h }
       const nodeRadius = Math.min(w, h) * 0.04
 
@@ -265,7 +263,7 @@ export function DeployShipPaths({ className }: { className?: string }) {
         const fontSize = Math.max(8, Math.min(w, h) * 0.028)
         const smallFont = Math.max(7, Math.min(w, h) * 0.022)
 
-        ctx.font = `600 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(600, fontSize)
         ctx.textAlign = "center"
         ctx.fillStyle =
           dest.active > 0.3
@@ -273,7 +271,7 @@ export function DeployShipPaths({ className }: { className?: string }) {
             : rgba(COLORS.base, 0.6)
         ctx.fillText(dest.label, dest.x, dest.y + radius + fontSize * 1.2)
 
-        ctx.font = `400 ${smallFont}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(400, smallFont)
         ctx.fillStyle = rgba(COLORS.base, 0.4)
         ctx.fillText(
           dest.sublabel,
@@ -310,7 +308,7 @@ export function DeployShipPaths({ className }: { className?: string }) {
 
       // Origin label
       const fontSize = Math.max(8, Math.min(w, h) * 0.028)
-      ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+      ctx.font = getCanvasFont(500, fontSize)
       ctx.textAlign = "center"
       ctx.fillStyle = rgba(COLORS.accent, 0.8)
       ctx.fillText("BITMERN", origin.x, origin.y + oRadius + fontSize * 1.3)

@@ -2,14 +2,10 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeInOutCubic, resolveThemeColors, getCanvasFont, rgba, type AnimColors } from "@/lib/animation-utils"
 
-// --- Config: identical to Webflow source ---
-const COLORS = {
-  base: ANIM_COLORS.base,
-  accent: ANIM_COLORS.accent,
-  dim: { r: 100, g: 108, b: 120 },
-} as const
+// Module-level — initial resolve (SSR-safe fallback)
+let COLORS: AnimColors = resolveThemeColors()
 
 const CYCLE_MS = 5000
 /** 0–0.75: line fills, 0.75–0.9: hold, 0.9–1: fade out */
@@ -40,6 +36,7 @@ export function LogisticsTimeline({ className }: { className?: string }) {
 
   const init = useCallback(
     (_ctx: CanvasRenderingContext2D, w: number, h: number) => {
+      COLORS = resolveThemeColors()
       const y = h * 0.5
       const startX = w * 0.1
       const endX = w * 0.9
@@ -157,7 +154,7 @@ export function LogisticsTimeline({ className }: { className?: string }) {
         ctx.fill()
 
         // Label
-        ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+        ctx.font = getCanvasFont(500, fontSize)
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
         if (cp.active > 0.5) {

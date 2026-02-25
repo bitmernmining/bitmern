@@ -2,9 +2,11 @@
 
 import { useRef } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, lerp, rgba, ANIM_COLORS } from "@/lib/animation-utils"
+import { easeInOutCubic, lerp, rgba, resolveThemeColors, getCanvasFont } from "@/lib/animation-utils"
 
 // --- Webflow-identical config ---
+
+let COLORS = resolveThemeColors()
 
 const SOURCE_COLORS = [
   { r: 242, g: 174, b: 46 },
@@ -369,7 +371,7 @@ function drawBezierPath(
   ctx.beginPath()
   ctx.moveTo(path.from.x, path.from.y)
   ctx.bezierCurveTo(path.cp1x, path.cp1y, path.cp2x, path.cp2y, path.to.x, path.to.y)
-  ctx.strokeStyle = rgba(ANIM_COLORS.dim, alpha)
+  ctx.strokeStyle = rgba(COLORS.dim, alpha)
   ctx.lineWidth = 1
   ctx.stroke()
 }
@@ -382,18 +384,18 @@ function drawLabel(
   h: number
 ) {
   const fontSize = Math.max(10, Math.min(w, h) * 0.032)
-  ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", "Fira Code", monospace`
+  ctx.font = getCanvasFont(500, fontSize)
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
 
   if (isCenter) {
-    ctx.shadowColor = rgba(ANIM_COLORS.accent, 0.3)
+    ctx.shadowColor = rgba(COLORS.accent, 0.3)
     ctx.shadowBlur = 8
-    ctx.fillStyle = rgba(ANIM_COLORS.accent, 0.9)
+    ctx.fillStyle = rgba(COLORS.accent, 0.9)
   } else {
     ctx.shadowColor = "transparent"
     ctx.shadowBlur = 0
-    ctx.fillStyle = rgba(ANIM_COLORS.base, 0.5)
+    ctx.fillStyle = rgba(COLORS.base, 0.5)
   }
 
   ctx.fillText(label.text, label.x, label.y)
@@ -417,9 +419,9 @@ function drawNode(
   if (isHub) {
     const glowRadius = currentRadius * 3.2
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius)
-    gradient.addColorStop(0, rgba(ANIM_COLORS.accent, 0.18))
-    gradient.addColorStop(0.35, rgba(ANIM_COLORS.accent, 0.08))
-    gradient.addColorStop(1, rgba(ANIM_COLORS.accent, 0))
+    gradient.addColorStop(0, rgba(COLORS.accent, 0.18))
+    gradient.addColorStop(0.35, rgba(COLORS.accent, 0.08))
+    gradient.addColorStop(1, rgba(COLORS.accent, 0))
     ctx.fillStyle = gradient
     ctx.beginPath()
     ctx.arc(x, y, glowRadius, 0, Math.PI * 2)
@@ -427,16 +429,16 @@ function drawNode(
 
     ctx.beginPath()
     ctx.arc(x, y, currentRadius * 1.25, 0, Math.PI * 2)
-    ctx.strokeStyle = rgba(ANIM_COLORS.accent, 0.3)
+    ctx.strokeStyle = rgba(COLORS.accent, 0.3)
     ctx.lineWidth = 1.5
     ctx.stroke()
 
     ctx.beginPath()
     ctx.arc(x, y, currentRadius, 0, Math.PI * 2)
-    ctx.fillStyle = rgba(ANIM_COLORS.accent, 0.9)
+    ctx.fillStyle = rgba(COLORS.accent, 0.9)
     ctx.fill()
   } else if (isSource) {
-    const col = SOURCE_COLORS[colorIndex] || ANIM_COLORS.accent
+    const col = SOURCE_COLORS[colorIndex] || COLORS.accent
     const glowRadius = currentRadius * 2.2
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius)
     gradient.addColorStop(0, rgba(col, 0.15))
@@ -453,7 +455,7 @@ function drawNode(
   } else {
     ctx.beginPath()
     ctx.arc(x, y, currentRadius, 0, Math.PI * 2)
-    ctx.fillStyle = rgba(ANIM_COLORS.base, 0.4)
+    ctx.fillStyle = rgba(COLORS.base, 0.4)
     ctx.fill()
   }
 }
@@ -463,7 +465,7 @@ function drawSignal(ctx: CanvasRenderingContext2D, signal: Signal) {
 
   const easedProgress = easeInOutCubic(Math.min(signal.progress, 1))
   const pos = getPointOnBezier(signal.path, easedProgress)
-  const col = SOURCE_COLORS[signal.sourceIndex] || ANIM_COLORS.accent
+  const col = SOURCE_COLORS[signal.sourceIndex] || COLORS.accent
 
   // Trail
   if (signal.trail.length > 1) {
@@ -513,7 +515,7 @@ function drawHubParticle(
 
   const x = hub.x + Math.cos(particle.angle) * particle.radius
   const y = hub.y + Math.sin(particle.angle) * particle.radius
-  const col = SOURCE_COLORS[particle.sourceIndex] || ANIM_COLORS.accent
+  const col = SOURCE_COLORS[particle.sourceIndex] || COLORS.accent
 
   const gradient = ctx.createRadialGradient(x, y, 0, x, y, 7)
   gradient.addColorStop(0, rgba(col, 0.7 * alpha))
@@ -533,7 +535,7 @@ function drawHubParticle(
 function drawActivePath(ctx: CanvasRenderingContext2D, signal: Signal) {
   if (signal.progress >= 1) return
 
-  const col = SOURCE_COLORS[signal.sourceIndex] || ANIM_COLORS.accent
+  const col = SOURCE_COLORS[signal.sourceIndex] || COLORS.accent
   const easedProgress = easeInOutCubic(signal.progress)
 
   ctx.beginPath()
@@ -621,9 +623,9 @@ function render(
       )
       glowGradient.addColorStop(
         0,
-        rgba(ANIM_COLORS.accent, 0.2 * activeIntensity)
+        rgba(COLORS.accent, 0.2 * activeIntensity)
       )
-      glowGradient.addColorStop(1, rgba(ANIM_COLORS.accent, 0))
+      glowGradient.addColorStop(1, rgba(COLORS.accent, 0))
       ctx.fillStyle = glowGradient
       ctx.beginPath()
       ctx.arc(dest.x, dest.y, radius * 3, 0, Math.PI * 2)
@@ -633,8 +635,8 @@ function render(
     ctx.beginPath()
     ctx.arc(dest.x, dest.y, radius, 0, Math.PI * 2)
     ctx.fillStyle = isActive
-      ? rgba(ANIM_COLORS.accent, alpha)
-      : rgba(ANIM_COLORS.base, alpha)
+      ? rgba(COLORS.accent, alpha)
+      : rgba(COLORS.base, alpha)
     ctx.fill()
   }
 
@@ -658,6 +660,7 @@ export function SupplyChainFlow({ className }: { className?: string }) {
 
   const canvasRef = useCanvasAnimation({
     init(_ctx, w, h) {
+      COLORS = resolveThemeColors()
       initNetwork(state.current, w, h)
     },
     draw(ctx, w, h, delta) {

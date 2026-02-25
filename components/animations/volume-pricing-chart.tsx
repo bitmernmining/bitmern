@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeInOutCubic, resolveThemeColors, getCanvasFont, rgba, type AnimColors } from "@/lib/animation-utils"
 
 // --- Config: identical to Webflow source ---
 const CYCLE_MS = 6000
@@ -12,12 +12,15 @@ const BAR_RADIUS = 6
 const VOL_GRADIENT = { top: 0.9, bottom: 0.6 }
 const COST_GRADIENT = { top: 0.5, bottom: 0.3 }
 
+// Module-level — initial resolve (SSR-safe fallback)
+let COLORS: AnimColors = resolveThemeColors()
+
 // --- Component ---
 export function VolumePricingChart({ className }: { className?: string }) {
   const globalTimeRef = useRef(0)
 
   const init = useCallback((_ctx: CanvasRenderingContext2D, _w: number, _h: number) => {
-    // No persistent state to set up — this animation is purely time-driven
+    COLORS = resolveThemeColors()
   }, [])
 
   const draw = useCallback(
@@ -55,8 +58,8 @@ export function VolumePricingChart({ className }: { className?: string }) {
 
       // --- Volume bar ---
       const volGrad = ctx.createLinearGradient(volumeX, barY - volumeHeight, volumeX, barY)
-      volGrad.addColorStop(0, rgba(ANIM_COLORS.accent, VOL_GRADIENT.top))
-      volGrad.addColorStop(1, rgba(ANIM_COLORS.accent, VOL_GRADIENT.bottom))
+      volGrad.addColorStop(0, rgba(COLORS.accent, VOL_GRADIENT.top))
+      volGrad.addColorStop(1, rgba(COLORS.accent, VOL_GRADIENT.bottom))
       ctx.fillStyle = volGrad
       ctx.beginPath()
       ctx.roundRect(volumeX, barY - volumeHeight, barWidth, volumeHeight, BAR_RADIUS)
@@ -64,8 +67,8 @@ export function VolumePricingChart({ className }: { className?: string }) {
 
       // --- Cost bar ---
       const costGrad = ctx.createLinearGradient(costX, barY - costHeight, costX, barY)
-      costGrad.addColorStop(0, rgba(ANIM_COLORS.base, COST_GRADIENT.top))
-      costGrad.addColorStop(1, rgba(ANIM_COLORS.base, COST_GRADIENT.bottom))
+      costGrad.addColorStop(0, rgba(COLORS.base, COST_GRADIENT.top))
+      costGrad.addColorStop(1, rgba(COLORS.base, COST_GRADIENT.bottom))
       ctx.fillStyle = costGrad
       ctx.beginPath()
       ctx.roundRect(costX, barY - costHeight, barWidth, costHeight, BAR_RADIUS)
@@ -73,14 +76,14 @@ export function VolumePricingChart({ className }: { className?: string }) {
 
       // --- Labels ---
       const fontSize = Math.max(9, Math.min(w, h) * 0.032)
-      ctx.font = `500 ${fontSize}px "JetBrains Mono", "SF Mono", monospace`
+      ctx.font = getCanvasFont(500, fontSize)
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
 
-      ctx.fillStyle = rgba(ANIM_COLORS.accent, 0.8)
+      ctx.fillStyle = rgba(COLORS.accent, 0.8)
       ctx.fillText("VOLUME", volumeX + barWidth * 0.5, barY + fontSize * 1.5)
 
-      ctx.fillStyle = rgba(ANIM_COLORS.base, 0.5)
+      ctx.fillStyle = rgba(COLORS.base, 0.5)
       ctx.fillText("COST/UNIT", costX + barWidth * 0.5, barY + fontSize * 1.5)
     },
     []

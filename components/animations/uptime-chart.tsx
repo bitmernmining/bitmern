@@ -2,14 +2,10 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, ANIM_COLORS, rgba } from "@/lib/animation-utils"
+import { easeInOutCubic, resolveThemeColors, rgba } from "@/lib/animation-utils"
 
-// --- Config: identical to Webflow source ---
-const COLORS = {
-  base:   ANIM_COLORS.base,
-  accent: ANIM_COLORS.accent,
-  dim:    { r: 100, g: 108, b: 120 },
-} as const
+// --- Theme-aware colors (re-resolved on mount/resize) ---
+let COLORS = resolveThemeColors()
 
 const GRID = {
   horizontalLines: 5,
@@ -102,6 +98,7 @@ export function UptimeChart({ className }: { className?: string }) {
 
   const canvasRef = useCanvasAnimation({
     init(_ctx, width, height) {
+      COLORS = resolveThemeColors()
       // Graph area with padding (10% of smallest dimension)
       const padding = Math.min(width, height) * 0.1
       graphAreaRef.current = {
