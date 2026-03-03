@@ -6,6 +6,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
+import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
 import { useSection, reducedStagger, fadeUp, reducedFade } from "@/lib/motion"
 
 // Faster stagger for large grids (unique to team page)
@@ -31,7 +33,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Giannis Andreou",
     title: "Founder & CEO",
-    photo: "/team/giannis.avif",
+    photo: "/team/giannis-new.avif",
     bio: "Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern Mining into a $10M+ business in under two years, with facilities spanning Ethiopia, the United States, and an expansion pipeline into the Nordics. Leads company strategy, investor relations, and facility development.",
     linkedin: "https://linkedin.com/in/giannisandreou",
     email: "GiannisAndreou@bitmern.com",
@@ -39,7 +41,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Paschalis Pietris",
     title: "Vice President",
-    photo: "/team/pashalis.avif",
+    photo: "/team/paschalis-new.avif",
     bio: "Oversees day-to-day operations across all facilities and manages strategic partnerships. Ensures operational excellence from hardware procurement through deployment and ongoing performance optimization.",
     linkedin: "https://linkedin.com/in/paschalispietris",
     email: "P.pashalis@bitmernmining.com",
@@ -47,7 +49,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Georgia Manuel",
     title: "Chief Marketing Officer",
-    photo: null,
+    photo: "/team/georgia.avif",
     bio: "Drives Bitmern\u2019s brand strategy, content marketing, and demand generation across all channels. Responsible for building the company\u2019s presence at major industry events including Blockchain Life.",
     linkedin: "https://linkedin.com/in/georgiamanuel",
     email: "Georgia.m@bitmern.com",
@@ -55,7 +57,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Andreas Stirmpou",
     title: "CTO",
-    photo: "/team/andreas.webp",
+    photo: "/team/andreas-new.avif",
     bio: "Leads all technology development including the SuperApp monitoring platform, Bitmern Solo pool infrastructure, and shop.bitmernmining.com. Manages firmware optimization, API development, and the technical architecture powering 176+ PH/s of hashrate.",
     linkedin: "https://linkedin.com/in/andreasstirmpou",
     email: "Andreas.S@bitmern.com",
@@ -151,10 +153,92 @@ function getInitials(name: string): string {
     .slice(0, 2)
 }
 
+/** First N members are "leadership" and get the larger card treatment */
+const LEADERSHIP_COUNT = 3
+
 // ---------------------------------------------------------------------------
 // Components
 // ---------------------------------------------------------------------------
 
+/** Leadership card — large photo with gradient overlay, used for top members */
+function LeadershipCard({ member }: { member: TeamMember }) {
+  return (
+    <div className="card-surface group flex flex-col overflow-hidden rounded-lg border border-border/60">
+      {/* Photo area — tall aspect ratio */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-foreground/5">
+        {member.photo ? (
+          <>
+            <Image
+              src={member.photo}
+              alt={member.name}
+              fill
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              quality={90}
+            />
+            {/* Gradient overlay for text readability */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            {/* Name overlay at bottom of photo */}
+            <div className="absolute inset-x-0 bottom-0 p-5">
+              <h3 className="text-lg font-medium text-white">{member.name}</h3>
+              <p className="font-mono text-xs uppercase tracking-wide text-white/70">
+                {member.title}
+              </p>
+            </div>
+          </>
+        ) : (
+          <div className="flex size-full items-center justify-center">
+            <span className="font-heading text-4xl font-medium text-foreground/20">
+              {getInitials(member.name)}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* Bio + links */}
+      <div className="flex flex-1 flex-col p-6">
+        {/* Show name/title below if no photo (fallback) */}
+        {!member.photo && (
+          <div className="mb-3">
+            <h3 className="text-base">{member.name}</h3>
+            <p className="font-mono text-xs uppercase tracking-wide text-foreground/50">
+              {member.title}
+            </p>
+          </div>
+        )}
+        <p className="flex-1 text-sm leading-relaxed text-foreground/60">
+          {member.bio}
+        </p>
+
+        {(member.linkedin || member.email) && (
+          <div className="mt-4 flex items-center gap-2 border-t border-border/30 pt-4">
+            {member.linkedin && (
+              <a
+                href={member.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
+                aria-label={`${member.name} on LinkedIn`}
+              >
+                <Linkedin className="size-4" />
+              </a>
+            )}
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                className="ml-auto font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
+              >
+                {member.email}
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/** Standard card for non-leadership team members */
 function MemberCard({ member }: { member: TeamMember }) {
   return (
     <div className="card-surface flex flex-col rounded-lg border border-border/60">
@@ -226,8 +310,13 @@ function HeroSection() {
   const { ref, inView, cVariants, chVariants } = useSection(0.3)
 
   return (
-    <section ref={ref}>
-      <div className="padding-global">
+    <section ref={ref} className="relative overflow-hidden">
+      {/* Subtle canvas background */}
+      <div className="pointer-events-none absolute inset-0 opacity-[0.07]">
+        <InfrastructureGrid />
+      </div>
+
+      <div className="padding-global relative">
         <div className="container-large">
           <div className="padding-section-large is-hero">
             <div className="max-width-large">
@@ -267,6 +356,9 @@ function CoreTeamSection() {
   const prefersReduced = useReducedMotion()
   const cVariants = prefersReduced ? reducedStagger : gridStagger
 
+  const leadership = coreTeam.slice(0, LEADERSHIP_COUNT)
+  const rest = coreTeam.slice(LEADERSHIP_COUNT)
+
   return (
     <section ref={ref} className="section-elevated">
       <div className="padding-global">
@@ -285,11 +377,11 @@ function CoreTeamSection() {
 
               <div className="spacer-large" />
 
-              {/* Leadership — first 2 members get wider cards */}
-              <div className="grid gap-6 md:grid-cols-2">
-                {coreTeam.slice(0, 2).map((member) => (
+              {/* Leadership — top members get tall photo cards */}
+              <div className="grid gap-6 md:grid-cols-3">
+                {leadership.map((member) => (
                   <motion.div key={member.name} variants={chVariants}>
-                    <MemberCard member={member} />
+                    <LeadershipCard member={member} />
                   </motion.div>
                 ))}
               </div>
@@ -298,7 +390,7 @@ function CoreTeamSection() {
 
               {/* Rest of the team */}
               <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {coreTeam.slice(2).map((member) => (
+                {rest.map((member) => (
                   <motion.div key={member.name} variants={chVariants}>
                     <MemberCard member={member} />
                   </motion.div>
@@ -373,58 +465,6 @@ function AmbassadorsSection() {
   )
 }
 
-function JoinSection() {
-  const { ref, inView, cVariants, chVariants } = useSection(0.3)
-
-  return (
-    <section ref={ref} className="section-elevated">
-      <div className="padding-global">
-        <div className="container-large">
-          <div className="padding-section-large">
-            <div className="max-width-large mx-auto text-align-center">
-              <motion.div
-                variants={cVariants}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-              >
-                <motion.h2 variants={chVariants}>
-                  Join the Bitmern Team
-                </motion.h2>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={chVariants}
-                  className="text-lg leading-relaxed text-foreground/70"
-                >
-                  We&rsquo;re growing fast and hiring across DevOps,
-                  Engineering, Product Management, Data Analytics, and Customer
-                  Success. We also welcome strategic partners and investors.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={chVariants}
-                  className="flex flex-wrap items-center justify-center gap-3"
-                >
-                  <Button size="lg" asChild>
-                    <a href="mailto:careers@bitmernmining.com">
-                      Email Careers
-                      <ArrowRight className="size-4" />
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a href="mailto:info@bitmernmining.com">
-                      Contact Us
-                    </a>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
@@ -435,7 +475,14 @@ export function TeamPage() {
       <HeroSection />
       <CoreTeamSection />
       <AmbassadorsSection />
-      <JoinSection />
+      <SectionCTA
+        tag="Careers"
+        heading="Join the Bitmern Team"
+        description="We're growing fast and hiring across DevOps, Engineering, Product Management, Data Analytics, and Customer Success. We also welcome strategic partners and investors."
+        primaryCTA={{ label: "Email Careers", href: "mailto:careers@bitmernmining.com" }}
+        secondaryCTA={{ label: "Contact Us", href: "mailto:info@bitmernmining.com" }}
+        variant="dark"
+      />
     </>
   )
 }
