@@ -171,68 +171,66 @@ export function InstitutionalPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Hero — Dark Authoritative with Facility Background */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref} className="section-dark relative min-h-[65vh] overflow-hidden flex items-center">
-        {/* Facility photo background */}
-        <div className="absolute inset-0">
-          <Image
-            src="/facilities/addis-ababa.webp"
-            alt="Bitmern Mining facility — Addis Ababa"
-            fill
-            className="object-cover"
-            sizes="100vw"
-            quality={85}
-            priority
-          />
-        </div>
-
-        {/* Heavy overlay for text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
-
-        {/* Content */}
-        <div className="relative z-10 padding-global w-full">
+      <section ref={hero.ref}>
+        <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-large">
               <motion.div
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Institutional Mining</Tag>
+                {/* Text */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>Institutional Mining</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h1 variants={hero.chVariants}>
+                    Bitcoin Mining Infrastructure for Serious Capital
+                  </motion.h1>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/60"
+                  >
+                    Designed for Family Offices, High-Net-Worth Individuals, and
+                    Institutional Investors seeking yield, transparency, and
+                    long-term exposure to digital infrastructure.
+                  </motion.p>
+                  <div className="spacer-medium" />
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Request Fund Materials</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Private Consultation</a>
+                    </Button>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-sm text-foreground/40"
+                  >
+                    For Accredited &amp; Institutional Investors Only
+                  </motion.p>
+                </div>
+
+                {/* Photo */}
+                <motion.div variants={hero.chVariants} className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg hidden lg:block">
+                  <Image
+                    src="/facilities/addis-ababa.webp"
+                    alt="Bitmern Mining facility — Addis Ababa"
+                    fill
+                    className="object-cover"
+                    sizes="50vw"
+                    priority
+                  />
                 </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  Bitcoin Mining Infrastructure for Serious Capital
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed opacity-70"
-                >
-                  Designed for Family Offices, High-Net-Worth Individuals, and
-                  Institutional Investors seeking yield, transparency, and
-                  long-term exposure to digital infrastructure.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Request Fund Materials</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Private Consultation</a>
-                  </Button>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-sm opacity-40"
-                >
-                  For Accredited &amp; Institutional Investors Only
-                </motion.p>
               </motion.div>
             </div>
           </div>

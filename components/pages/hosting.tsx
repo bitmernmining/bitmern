@@ -166,58 +166,59 @@ export function HostingPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Hero — Dark section with facility photo background */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref} className="section-dark relative min-h-[60vh] flex items-center overflow-hidden">
-        {/* Background photo */}
-        <Image
-          src="/facilities/missouri.jpeg"
-          alt="Bitmern Mining Missouri facility"
-          fill
-          className="object-cover"
-          sizes="100vw"
-          quality={85}
-          priority
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-
-        {/* Content */}
-        <div className="relative z-10 padding-global w-full">
+      <section ref={hero.ref}>
+        <div className="padding-global">
           <div className="container-large">
-            <div className="py-20 lg:py-28">
+            <div className="padding-section-large">
               <motion.div
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>ASIC Hosting</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  Your Hardware, Our Facilities, Industry-Leading Uptime
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-white/70"
-                >
-                  Deploy your ASICs at our US and international facilities with
-                  sub-$0.06/kWh power, 97% uptime, and real-time monitoring
-                  through our SuperApp dashboard. You retain full ownership
-                  &mdash; we handle power, cooling, maintenance, and security.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get a Hosting Quote</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/facilities">View Our Facilities</Link>
-                  </Button>
+                {/* Text */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>ASIC Hosting</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h1 variants={hero.chVariants}>
+                    Your Hardware, Our Facilities, Industry-Leading Uptime
+                  </motion.h1>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/60"
+                  >
+                    Deploy your ASICs at our US and international facilities with
+                    sub-$0.06/kWh power, 97% uptime, and real-time monitoring
+                    through our SuperApp dashboard. You retain full ownership
+                    &mdash; we handle power, cooling, maintenance, and security.
+                  </motion.p>
+                  <div className="spacer-medium" />
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Get a Hosting Quote</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <Link href="/facilities">View Our Facilities</Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Photo */}
+                <motion.div variants={hero.chVariants} className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg hidden lg:block">
+                  <Image
+                    src="/facilities/missouri.jpeg"
+                    alt="Bitmern Mining Missouri facility"
+                    fill
+                    className="object-cover"
+                    sizes="50vw"
+                    priority
+                  />
                 </motion.div>
               </motion.div>
             </div>

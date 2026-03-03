@@ -13,7 +13,6 @@ import {
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
-import { ImageSection } from "@/components/ui/image-section"
 import { SectionCTA } from "@/components/ui/section-cta"
 import Link from "next/link"
 import { useSection } from "@/lib/motion"
@@ -86,51 +85,65 @@ export function ExpansionPage() {
       {/* --------------------------------------------------------------- */}
       {/* Hero — Dark with Finland facility background                     */}
       {/* --------------------------------------------------------------- */}
-      <ImageSection
-        src="/facilities/finland.webp"
-        alt="Bitmern Finland mining facility"
-        overlay="gradient"
-        className="min-h-[60vh] flex items-center section-dark"
-      >
-        <div className="padding-section-large" ref={hero.ref}>
-          <motion.div
-            variants={hero.cVariants}
-            initial="hidden"
-            animate={hero.inView ? "visible" : "hidden"}
-            className="mx-auto max-w-3xl text-align-center"
-          >
-            <motion.div variants={hero.chVariants}>
-              <Tag>Expansion</Tag>
-            </motion.div>
-            <div className="spacer-xsmall" />
-            <motion.h1 variants={hero.chVariants} className="text-white">
-              Building the Next Generation of Mining Infrastructure
-            </motion.h1>
-            <div className="spacer-small" />
-            <motion.p
-              variants={hero.chVariants}
-              className="text-[1.125rem] leading-relaxed text-white/70"
-            >
-              From our roots in Greece and Ethiopia to a global network
-              spanning three continents, Bitmern is scaling aggressively. Our
-              expansion pipeline includes Nordic facilities and the 500 MW
-              OriginSpark partnership.
-            </motion.p>
-            <div className="spacer-medium" />
-            <motion.div
-              variants={hero.chVariants}
-              className="flex flex-wrap items-center justify-center gap-4"
-            >
-              <Button size="lg" asChild>
-                <Link href="/contact">Reserve Your Spot</Link>
-              </Button>
-              <Button variant="secondary" size="lg" asChild>
-                <Link href="/facilities">View Current Facilities</Link>
-              </Button>
-            </motion.div>
-          </motion.div>
+      <section ref={hero.ref}>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-large">
+              <motion.div
+                variants={hero.cVariants}
+                initial="hidden"
+                animate={hero.inView ? "visible" : "hidden"}
+                className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center"
+              >
+                {/* Text */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>Expansion</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h1 variants={hero.chVariants}>
+                    Building the Next Generation of Mining Infrastructure
+                  </motion.h1>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/60"
+                  >
+                    From our roots in Greece and Ethiopia to a global network
+                    spanning three continents, Bitmern is scaling aggressively. Our
+                    expansion pipeline includes Nordic facilities and the 500 MW
+                    OriginSpark partnership.
+                  </motion.p>
+                  <div className="spacer-medium" />
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Reserve Your Spot</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <Link href="/facilities">View Current Facilities</Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Photo */}
+                <motion.div variants={hero.chVariants} className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg hidden lg:block">
+                  <Image
+                    src="/facilities/finland.webp"
+                    alt="Bitmern Finland mining facility"
+                    fill
+                    className="object-cover"
+                    sizes="50vw"
+                    priority
+                  />
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
         </div>
-      </ImageSection>
+      </section>
 
       {/* --------------------------------------------------------------- */}
       {/* Finland                                                          */}

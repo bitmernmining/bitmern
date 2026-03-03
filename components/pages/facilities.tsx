@@ -282,7 +282,7 @@ export function FacilitiesPage() {
       {/* --------------------------------------------------------------- */}
       {/* Hero — Split Layout with Photo */}
       {/* --------------------------------------------------------------- */}
-      <section ref={hero.ref} className="section-dark">
+      <section ref={hero.ref}>
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-large">
