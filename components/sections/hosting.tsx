@@ -11,6 +11,7 @@ import {
 } from "@/lib/motion"
 import { KeyRound, BarChart3, Zap, Settings } from "lucide-react"
 import { ChevronRight } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
@@ -85,6 +86,25 @@ export function Hosting() {
                 animate={isInView ? "visible" : "hidden"}
                 className="flex flex-col items-start justify-between lg:row-span-2 lg:min-h-full"
               >
+                {/* Facility photo */}
+                <motion.div
+                  variants={chVariants}
+                  className="relative mb-8 aspect-[4/3] w-full overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src="/facilities/missouri.jpeg"
+                    alt="Bitmern Mining facility in Missouri"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                  {/* Live Facility badge */}
+                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-md bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">
+                    <span className="badge-pulse relative inline-block size-2 rounded-full bg-emerald-500" data-variant="success" />
+                    Live Facility
+                  </div>
+                </motion.div>
+
                 {/* Top */}
                 <div>
                   <motion.div variants={chVariants}>
