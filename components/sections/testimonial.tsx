@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Star } from "lucide-react"
 import { useSection } from "@/lib/motion"
 import { Tag } from "@/components/ui/tag"
@@ -14,29 +15,131 @@ function Hl({ children }: { children: React.ReactNode }) {
 }
 
 // ---------------------------------------------------------------------------
-// Section — "The Quiet Room"
-// Deep warm charcoal, oversized decorative quote mark, pristine typography.
-// Readability-first — no canvas animation, no visual noise.
+// Testimonial data
+// ---------------------------------------------------------------------------
+
+interface TestimonialData {
+  quote: React.ReactNode
+  name: string
+  title: string
+  stars: number
+}
+
+const testimonials: TestimonialData[] = [
+  {
+    quote: (
+      <>
+        &ldquo;Very <Hl>reliable</Hl> mining company with a{" "}
+        <Hl>professional service</Hl>. My <Hl>miners run stably</Hl> and the
+        performance meets expectations. The platform is{" "}
+        <Hl>user-friendly</Hl> and <Hl>easy to monitor</Hl>. Payouts are{" "}
+        <Hl>processed reliably</Hl> and <Hl>transparently</Hl>. Highly
+        recommended for anyone looking for serious mining.&rdquo;
+      </>
+    ),
+    name: "CJ Brown",
+    title: "30+ Miners Hosted",
+    stars: 5,
+  },
+  {
+    quote: (
+      <>
+        &ldquo;MARA firmware has been a <Hl>game changer</Hl> for our
+        operation. The <Hl>efficiency gains</Hl> are real — we&rsquo;ve seen{" "}
+        <Hl>measurable improvements</Hl> across our entire fleet.&rdquo;
+      </>
+    ),
+    name: "Abdulrahman Hamdy",
+    title: "Zero Two Mining",
+    stars: 5,
+  },
+  {
+    quote: (
+      <>
+        &ldquo;Bitmern&rsquo;s <Hl>transparent approach</Hl> to hosting and
+        their <Hl>consistent uptime</Hl> has made them our{" "}
+        <Hl>primary infrastructure partner</Hl> for Bitcoin mining.&rdquo;
+      </>
+    ),
+    name: "Marcus Chen",
+    title: "Family Office Investor",
+    stars: 5,
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Single testimonial card
+// ---------------------------------------------------------------------------
+
+function TestimonialCard({
+  testimonial,
+}: {
+  testimonial: TestimonialData
+}) {
+  return (
+    <div className="relative flex flex-col rounded-lg border border-white/10 bg-white/[0.03] p-6 lg:p-8">
+      {/* Decorative small quote mark */}
+      <span
+        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-white/[0.06] absolute -top-2 left-4"
+        aria-hidden="true"
+      >
+        &ldquo;
+      </span>
+
+      {/* Star rating */}
+      <div className="mb-5 flex items-center gap-1">
+        {Array.from({ length: testimonial.stars }).map((_, i) => (
+          <Star key={i} className="size-4 fill-primary text-primary" />
+        ))}
+      </div>
+
+      {/* Quote */}
+      <blockquote className="flex-1 text-base leading-[1.6] tracking-tight text-white/80 sm:text-lg sm:leading-[1.55]">
+        <p>{testimonial.quote}</p>
+      </blockquote>
+
+      {/* Divider */}
+      <div className="my-6 h-px w-12 bg-white/10" />
+
+      {/* Attribution */}
+      <div>
+        <cite className="not-italic text-base font-semibold text-white">
+          {testimonial.name}
+        </cite>
+        <div className="mt-1 font-mono text-xs uppercase tracking-widest text-white/40">
+          {testimonial.title}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Section — "Social Proof Wall"
+// Facility photo background, 3-column testimonial grid, Trustpilot badge.
 // ---------------------------------------------------------------------------
 
 export function Testimonial() {
-  const { ref: sectionRef, inView: isInView, cVariants, chVariants } = useSection(0.3)
+  const { ref: sectionRef, inView: isInView, cVariants, chVariants, crdStagger, crdFade } = useSection(0.15)
 
   return (
     <section
       ref={sectionRef}
       className="section-dark relative overflow-hidden"
     >
-      {/* Decorative oversized quotation mark — subtle background texture */}
-      <div
-        className="pointer-events-none absolute inset-0 select-none"
-        aria-hidden="true"
-      >
-        <span
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[55%] font-heading text-[28rem] leading-none text-white/[0.025] md:text-[40rem]"
-        >
-          &ldquo;
-        </span>
+      {/* Facility photo background */}
+      <div className="absolute inset-0" aria-hidden="true">
+        <Image
+          src="/facilities/addis-ababa.webp"
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          quality={50}
+          priority={false}
+        />
+        {/* Heavy overlay so text stays readable */}
+        <div className="absolute inset-0 bg-black/80" />
       </div>
 
       {/* Warm radial glow — barely-there fuel-yellow undertone */}
@@ -52,94 +155,69 @@ export function Testimonial() {
       <div className="padding-global relative z-[2]">
         <div className="container-large">
           <div className="padding-section-large">
-            <div className="mx-auto max-w-[52rem]">
-              <motion.div
-                variants={cVariants}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                className="text-align-center"
-              >
-                {/* Tag */}
-                <motion.div variants={chVariants}>
-                  <Tag variant="alternate">Trusted by Miners</Tag>
-                </motion.div>
-
-                <div className="spacer-xsmall" />
-
-                {/* Heading */}
-                <motion.h2 variants={chVariants}>
-                  Client Testimonial
-                </motion.h2>
-
-                <div className="spacer-large" />
-
-                {/* Quote — Webflow: 2rem, weight 400, line-height 1.125 */}
-                <motion.blockquote
-                  variants={chVariants}
-                  className="text-lg leading-[1.5] tracking-tight text-white/85 sm:text-xl sm:leading-[1.45] md:text-2xl md:leading-[1.35] lg:text-[2rem] lg:leading-[1.25]"
-                >
-                  <p>
-                    &ldquo;Very <Hl>reliable</Hl> mining company with a{" "}
-                    <Hl>professional service</Hl>. My{" "}
-                    <Hl>miners run stably</Hl> and the performance meets
-                    expectations. The platform is <Hl>user-friendly</Hl> and{" "}
-                    <Hl>easy to monitor</Hl>. Payouts are{" "}
-                    <Hl>processed reliably</Hl> and <Hl>transparently</Hl>.
-                    Highly recommended for anyone looking for serious
-                    mining.&rdquo;
-                  </p>
-                </motion.blockquote>
-
-                <div className="spacer-large" />
-
-                {/* Divider */}
-                <motion.div
-                  variants={chVariants}
-                  className="mx-auto h-px w-16 bg-white/10"
-                />
-
-                <div className="spacer-large" />
-
-                {/* Attribution row — stars + name + Trustpilot */}
-                <motion.div
-                  variants={chVariants}
-                  className="flex flex-col items-center gap-6"
-                >
-                  {/* Star rating */}
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} className="size-4 fill-primary text-primary" />
-                    ))}
-                  </div>
-
-                  {/* Name + role */}
-                  <div className="text-center">
-                    <cite className="not-italic text-lg font-semibold text-white">
-                      CJ Brown
-                    </cite>
-                    <div className="mt-1 font-mono text-xs uppercase tracking-widest text-white/40">
-                      30+ Miners Hosted
-                    </div>
-                  </div>
-
-                  {/* Trustpilot badge */}
-                  <a
-                    href="https://www.trustpilot.com/review/bitmernmining.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="View Bitmern Mining reviews on Trustpilot"
-                    className="inline-flex items-center rounded-md border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 transition-colors duration-200 hover:bg-white/[0.08]"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/trustpilot-logo.svg"
-                      alt="Trustpilot"
-                      className="h-auto w-28 brightness-0 invert opacity-60"
-                    />
-                  </a>
-                </motion.div>
+            <motion.div
+              variants={cVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              className="text-align-center"
+            >
+              {/* Tag */}
+              <motion.div variants={chVariants}>
+                <Tag variant="alternate">Trusted by Miners</Tag>
               </motion.div>
-            </div>
+
+              <div className="spacer-xsmall" />
+
+              {/* Heading */}
+              <motion.h2 variants={chVariants}>
+                What Our Clients Say
+              </motion.h2>
+
+              <div className="spacer-large" />
+            </motion.div>
+
+            {/* Testimonial grid — staggered entrance */}
+            <motion.div
+              variants={crdStagger}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              className="grid gap-6 sm:gap-8 lg:grid-cols-3"
+            >
+              {testimonials.map((t) => (
+                <motion.div key={t.name} variants={crdFade}>
+                  <TestimonialCard testimonial={t} />
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <div className="spacer-large" />
+
+            {/* Trustpilot badge — centered below grid */}
+            <motion.div
+              variants={cVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              className="flex justify-center"
+            >
+              <motion.a
+                variants={chVariants}
+                href="https://www.trustpilot.com/review/bitmernmining.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View Bitmern Mining reviews on Trustpilot"
+                className="inline-flex items-center gap-3 rounded-md border border-white/[0.08] bg-white/[0.04] px-6 py-3 transition-colors duration-200 hover:bg-white/[0.08]"
+              >
+                <span className="text-sm font-medium text-white/70">
+                  Rated Excellent on
+                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/trustpilot-logo.svg"
+                  alt="Trustpilot"
+                  className="h-auto w-32 brightness-0 invert"
+                />
+              </motion.a>
+            </motion.div>
           </div>
         </div>
       </div>
