@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { HeroSlider } from "@/components/hero-slider"
 import { LogoBar } from "@/components/sections/logo-bar"
 import { DeployCapital } from "@/components/sections/deploy-capital"
@@ -9,28 +10,26 @@ import { Hardware } from "@/components/sections/hardware"
 import { ProvenAtScale } from "@/components/sections/proven-at-scale"
 import { Testimonial } from "@/components/sections/testimonial"
 import { FAQ } from "@/components/sections/faq"
-import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative">
-        {/* Background layer — canvas animation */}
+      <section className="section-dark relative">
+        {/* Background — cinematic facility photo */}
         <div className="absolute inset-0 z-0">
-          <InfrastructureGrid />
+          <Image
+            src="/facilities/indiana.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         </div>
 
-        {/* Gradient overlay — fades canvas into page background */}
-        <div
-          className="absolute inset-0 z-[1]"
-          style={{
-            backgroundImage: [
-              "linear-gradient(180deg, color-mix(in oklch, var(--color-background) 70%, transparent) 0%, color-mix(in oklch, var(--color-background) 55%, transparent) 50%, color-mix(in oklch, var(--color-background) 70%, transparent) 100%)",
-              "radial-gradient(circle farthest-corner at 50% 50%, transparent 50%, color-mix(in oklch, var(--color-background) 85%, transparent))",
-            ].join(", "),
-          }}
-        />
+        {/* Gradient overlay — darkens photo for text readability, fades into page bg */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/70 via-black/50 to-background" />
 
         {/* Content */}
         <div className="padding-global relative z-[10]">

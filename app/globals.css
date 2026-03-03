@@ -358,11 +358,13 @@
 
 /* Section elevated background */
 .section-elevated {
-  background: oklch(0.945 0 0);
+  --color-elevated: oklch(0.945 0 0);
+  background: var(--color-elevated);
 }
 
 .dark .section-elevated {
-  background: oklch(0.155 0 0);
+  --color-elevated: oklch(0.155 0 0);
+  background: var(--color-elevated);
 }
 
 /* Section — dark inverted background zone
@@ -379,6 +381,9 @@
   --secondary-foreground: oklch(0.92 0 0);
   --muted: oklch(0.20 0 0);
   --input: oklch(1 0 0 / 0.12);
+  --tag-fill: oklch(0.65 0.12 78);
+  --tag-unfilled: oklch(0.25 0.04 78 / 0.6);
+  --tag-text: oklch(0.85 0.10 78);
   background: var(--background);
   color: var(--foreground);
 }
