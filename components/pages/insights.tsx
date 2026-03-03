@@ -2,114 +2,63 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { BookOpen, Mail, CheckCircle2, Clock } from "lucide-react"
+import { BookOpen, Mail, CheckCircle2, Youtube } from "lucide-react"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { VideoCard } from "@/components/ui/video-card"
+import { SectionCTA } from "@/components/ui/section-cta"
 import { useSection } from "@/lib/motion"
 
 type NewsletterState = "idle" | "submitting" | "success" | "error"
 
 // ---------------------------------------------------------------------------
-// Categories
+// YouTube videos
 // ---------------------------------------------------------------------------
 
-const CATEGORIES = [
-  "All",
-  "Bitcoin Mining",
-  "Hardware Reviews",
-  "Strategy",
-  "Market Analysis",
-  "Guides",
-]
+const YOUTUBE_CHANNEL = "https://www.youtube.com/@BitmernMining"
 
-// ---------------------------------------------------------------------------
-// Articles — from blog + shop blog
-// ---------------------------------------------------------------------------
-
-interface Article {
+interface Video {
   title: string
-  category: string
-  readTime: string
+  thumbnail: string
 }
 
-const ARTICLES: Article[] = [
-  // Main blog
+const VIDEOS: Video[] = [
   {
-    title: "Energy Rich Nations Bitcoin Mining Capacity",
-    category: "Bitcoin Mining",
-    readTime: "5 min",
+    title: "Bitcoin Mining Facility Tour",
+    thumbnail: "/content/yt-facility-tour.jpg",
   },
   {
-    title: "Bitcoin Difficulty Adjustment Equilibrium",
-    category: "Bitcoin Mining",
-    readTime: "5 min",
+    title: "Blockchain Life Forum 2025 Dubai",
+    thumbnail: "/content/yt-blockchain-life.jpg",
   },
   {
-    title: "Bitcoin Mining ROI Cycle",
-    category: "Bitcoin Mining",
-    readTime: "5 min",
+    title: "Best Bitcoin Miners 2025-2026",
+    thumbnail: "/content/yt-best-miners.jpg",
   },
   {
-    title: "Transmission Bottlenecks Bitcoin Mining",
-    category: "Bitcoin Mining",
-    readTime: "5 min",
+    title: "Buying & Selling Used Miners",
+    thumbnail: "/content/yt-used-miners.jpg",
   },
   {
-    title: "Power Market Bitcoin Mining",
-    category: "Bitcoin Mining",
-    readTime: "6 min",
+    title: "Proto RIG Miner Overview",
+    thumbnail: "/content/yt-proto-rig.jpg",
   },
   {
-    title: "Anti-Hype Bitcoin Mining",
-    category: "Bitcoin Mining",
-    readTime: "6 min",
+    title: "Mining Profitability Analysis",
+    thumbnail: "/content/yt-profitability.jpg",
   },
   {
-    title: "Mining Operations Aging",
-    category: "Bitcoin Mining",
-    readTime: "5 min",
+    title: "Bitcoin Mining Secrets",
+    thumbnail: "/content/yt-bitcoin-secrets.avif",
   },
   {
-    title: "Bitmern Solo Pool Now Live",
-    category: "Bitcoin Mining",
-    readTime: "8 min",
-  },
-  // Shop blog (hardware-focused)
-  {
-    title: "Bitcoin Mining in 2026: The Complete Beginners Guide",
-    category: "Guides",
-    readTime: "10 min",
+    title: "$100K Mining Investment Results",
+    thumbnail: "/content/yt-100k-results.avif",
   },
   {
-    title: "Antminer S21 vs S19: Which Should You Buy",
-    category: "Hardware Reviews",
-    readTime: "7 min",
-  },
-  {
-    title: "Which Bitcoin Miner Should You Buy in 2026",
-    category: "Hardware Reviews",
-    readTime: "8 min",
-  },
-  {
-    title: "Best Solo Bitcoin Miners",
-    category: "Hardware Reviews",
-    readTime: "6 min",
-  },
-  {
-    title: "Bitmain Antminer S21 vs S21 Pro: What\u2019s the Difference",
-    category: "Hardware Reviews",
-    readTime: "6 min",
-  },
-  {
-    title: "Hydro Miners Explained",
-    category: "Guides",
-    readTime: "7 min",
-  },
-  {
-    title: "ASIC Miners Profitability and Value",
-    category: "Strategy",
-    readTime: "6 min",
+    title: "Profitable Bitcoin Mining Guide",
+    thumbnail: "/content/yt-profitable-mining.avif",
   },
 ]
 
@@ -119,9 +68,8 @@ const ARTICLES: Article[] = [
 
 export function InsightsPage() {
   const hero = useSection()
-  const categories = useSection()
-  const articles = useSection(0.15)
   const newsletter = useSection()
+  const videos = useSection(0.15)
   const ebook = useSection()
 
   const [nlState, setNlState] = useState<NewsletterState>("idle")
@@ -174,16 +122,6 @@ export function InsightsPage() {
                   operational insights from the Bitmern team. Stay ahead of the
                   curve.
                 </motion.p>
-                <div className="spacer-small" />
-                <motion.div
-                  variants={hero.chVariants}
-                  className="inline-flex items-center gap-2.5 rounded-md border border-primary/30 bg-primary/[0.06] px-4 py-2.5"
-                >
-                  <Clock className="size-4 text-primary shrink-0" strokeWidth={1.5} />
-                  <p className="text-sm text-foreground/70">
-                    Our insights hub is launching soon. Subscribe below to get notified.
-                  </p>
-                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -191,78 +129,9 @@ export function InsightsPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Category Filter Chips */}
-      {/* ----------------------------------------------------------------- */}
-      <section>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-small">
-            <div ref={categories.ref}>
-              <motion.div
-                variants={categories.cVariants}
-                initial="hidden"
-                animate={categories.inView ? "visible" : "hidden"}
-                className="flex flex-wrap gap-2"
-              >
-                {CATEGORIES.map((category, i) => (
-                  <motion.div key={category} variants={categories.chVariants}>
-                    <Tag variant={i === 0 ? "primary" : "muted"}>
-                      {category}
-                    </Tag>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------------------- */}
-      {/* Article Grid */}
+      {/* Newsletter CTA — prominent, near hero */}
       {/* ----------------------------------------------------------------- */}
       <section className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-medium" ref={articles.ref}>
-              <motion.div
-                variants={articles.crdStagger}
-                initial="hidden"
-                animate={articles.inView ? "visible" : "hidden"}
-                className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-              >
-                {ARTICLES.map((article) => (
-                  <motion.div
-                    key={article.title}
-                    variants={articles.crdFade}
-                    className="card-surface relative flex flex-col gap-3 rounded-lg border border-border/60 p-6"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Tag variant="muted" size="sm">
-                        {article.category}
-                      </Tag>
-                      <Tag variant="primary" size="sm">
-                        Coming Soon
-                      </Tag>
-                    </div>
-                    <h5 className="font-heading text-[1.1rem] font-normal uppercase leading-tight tracking-tight">
-                      {article.title}
-                    </h5>
-                    <span className="mt-auto font-mono text-xs text-foreground/40">
-                      {article.readTime} read
-                    </span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------------------- */}
-      {/* Newsletter CTA */}
-      {/* ----------------------------------------------------------------- */}
-      <section>
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-medium" ref={newsletter.ref}>
@@ -272,7 +141,15 @@ export function InsightsPage() {
                 animate={newsletter.inView ? "visible" : "hidden"}
                 className="mx-auto max-w-xl text-center"
               >
-                <motion.h2 variants={newsletter.chVariants}>Stay Updated</motion.h2>
+                <motion.div variants={newsletter.chVariants} className="mb-4">
+                  <Mail
+                    className="mx-auto size-10 text-primary"
+                    strokeWidth={1.5}
+                  />
+                </motion.div>
+                <motion.h2 variants={newsletter.chVariants}>
+                  Stay Updated
+                </motion.h2>
                 <div className="spacer-small" />
                 <motion.p
                   variants={newsletter.chVariants}
@@ -293,8 +170,13 @@ export function InsightsPage() {
                       transition={{ duration: 0.3 }}
                       className="flex flex-col items-center gap-3"
                     >
-                      <CheckCircle2 className="size-8 text-primary" strokeWidth={1.5} />
-                      <p className="text-base font-medium">You&rsquo;re subscribed!</p>
+                      <CheckCircle2
+                        className="size-8 text-primary"
+                        strokeWidth={1.5}
+                      />
+                      <p className="text-base font-medium">
+                        You&rsquo;re subscribed!
+                      </p>
                     </motion.div>
                   ) : (
                     <motion.div
@@ -325,7 +207,9 @@ export function InsightsPage() {
                           isLoading={nlState === "submitting"}
                           disabled={nlState === "submitting"}
                         >
-                          {nlState === "submitting" ? "Subscribing..." : "Subscribe"}
+                          {nlState === "submitting"
+                            ? "Subscribing..."
+                            : "Subscribe"}
                         </Button>
                       </motion.form>
                       {nlState === "error" && (
@@ -337,6 +221,72 @@ export function InsightsPage() {
                   )}
                 </AnimatePresence>
               </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Video Grid */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={videos.ref}>
+              <motion.div
+                variants={videos.cVariants}
+                initial="hidden"
+                animate={videos.inView ? "visible" : "hidden"}
+                className="mb-10"
+              >
+                <motion.div
+                  variants={videos.chVariants}
+                  className="flex items-center gap-3"
+                >
+                  <Youtube
+                    className="size-6 text-primary"
+                    strokeWidth={1.5}
+                  />
+                  <h2>Latest Videos</h2>
+                </motion.div>
+                <div className="spacer-xsmall" />
+                <motion.p
+                  variants={videos.chVariants}
+                  className="text-foreground/60"
+                >
+                  Deep dives, facility tours, and hardware reviews from the
+                  Bitmern YouTube channel.
+                </motion.p>
+              </motion.div>
+
+              <motion.div
+                variants={videos.crdStagger}
+                initial="hidden"
+                animate={videos.inView ? "visible" : "hidden"}
+                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+              >
+                {VIDEOS.map((video) => (
+                  <motion.div key={video.title} variants={videos.crdFade}>
+                    <VideoCard
+                      thumbnail={video.thumbnail}
+                      title={video.title}
+                      href={YOUTUBE_CHANNEL}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <div className="mt-8 text-center">
+                <Button variant="secondary" size="lg" asChild>
+                  <a
+                    href={YOUTUBE_CHANNEL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View All on YouTube &rarr;
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -398,6 +348,17 @@ export function InsightsPage() {
           </div>
         </div>
       </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Bottom CTA */}
+      {/* ----------------------------------------------------------------- */}
+      <SectionCTA
+        variant="dark"
+        heading="Start Mining With Bitmern"
+        description="Whether you're looking for hosting, hardware, or expert guidance — we're here to help you mine smarter."
+        primaryCTA={{ label: "Get Started", href: "/contact" }}
+        secondaryCTA={{ label: "Explore Solutions", href: "/hosting" }}
+      />
     </>
   )
 }

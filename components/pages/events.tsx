@@ -2,19 +2,36 @@
 
 import { motion } from "framer-motion"
 import { CalendarDays, MapPin, Globe, Building2 } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import { useSection } from "@/lib/motion"
 
 // ---------------------------------------------------------------------------
-// Past events
+// Past events data
 // ---------------------------------------------------------------------------
 
 const PAST_EVENTS = [
-  "Blockchain Life Forum 2026, Dubai \u2014 Keynote participation, networking",
-  "Industry conferences and mining expos across Europe and the Middle East",
-  "Facility tours for institutional clients and partners",
+  {
+    title: "Blockchain Life Forum 2025, Dubai",
+    description:
+      "Keynote participation, networking with industry leaders, and showcasing Bitmern\u2019s hosting infrastructure to 15,000+ attendees.",
+    image: "/content/yt-blockchain-life.jpg",
+  },
+  {
+    title: "Facility Tours \u2014 US & Ethiopia",
+    description:
+      "On-site walkthroughs for institutional clients and partners across our Indiana, North Dakota, Missouri, and Ethiopia facilities.",
+    image: "/content/yt-facility-tour.jpg",
+  },
+  {
+    title: "Industry Conferences & Mining Expos",
+    description:
+      "Active participation in blockchain conferences and mining expos across Europe and the Middle East.",
+    image: "/content/btc-mining-at-scale.png",
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -27,7 +44,6 @@ export function EventsPage() {
   const summits = useSection()
   const past = useSection()
   const tours = useSection()
-  const cta = useSection()
 
   return (
     <>
@@ -179,6 +195,20 @@ export function EventsPage() {
                     </Button>
                   </motion.div>
                 </div>
+
+                {/* Right column — event image */}
+                <motion.div
+                  variants={summits.chVariants}
+                  className="relative aspect-[16/9] overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src="/content/yt-blockchain-life.jpg"
+                    alt="Bitmern team at Blockchain Life conference"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -207,23 +237,40 @@ export function EventsPage() {
                 variants={past.crdStagger}
                 initial="hidden"
                 animate={past.inView ? "visible" : "hidden"}
-                className="flex flex-col gap-4"
+                className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
               >
                 {PAST_EVENTS.map((event) => (
                   <motion.div
-                    key={event}
+                    key={event.title}
                     variants={past.crdFade}
-                    className="card-surface flex items-start gap-4 rounded-lg border border-border/60 p-6"
+                    className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60"
                   >
-                    <div className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded bg-foreground/5">
-                      <CalendarDays
-                        className="size-4 text-foreground/50"
-                        strokeWidth={1.5}
+                    <div className="relative aspect-[16/9]">
+                      <Image
+                        src={event.image}
+                        alt={event.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
-                    <p className="text-base leading-relaxed text-foreground/70">
-                      {event}
-                    </p>
+                    <div className="flex flex-col gap-2 p-6">
+                      <div className="flex items-center gap-2">
+                        <CalendarDays
+                          className="size-4 text-foreground/50"
+                          strokeWidth={1.5}
+                        />
+                        <span className="font-mono text-xs text-foreground/50">
+                          Past Event
+                        </span>
+                      </div>
+                      <h4 className="font-heading text-[1.1rem] font-normal uppercase leading-tight tracking-tight">
+                        {event.title}
+                      </h4>
+                      <p className="text-sm leading-relaxed text-foreground/60">
+                        {event.description}
+                      </p>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -272,6 +319,20 @@ export function EventsPage() {
                     </Button>
                   </motion.div>
                 </div>
+
+                {/* Right column — facility tour image */}
+                <motion.div
+                  variants={tours.chVariants}
+                  className="relative aspect-[16/9] overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src="/content/yt-facility-tour.jpg"
+                    alt="Bitmern mining facility tour"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -281,44 +342,13 @@ export function EventsPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Bottom CTA */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref} className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl text-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  Let&rsquo;s Meet
-                </motion.h2>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Whether it&rsquo;s at a conference, a facility tour, or a
-                  private consultation &mdash; we&rsquo;d love to connect.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Book a Meeting</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/about">Learn About Us</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        variant="dark"
+        heading="Let's Meet"
+        description="Whether it's at a conference, a facility tour, or a private consultation — we'd love to connect."
+        primaryCTA={{ label: "Book a Meeting", href: "/contact" }}
+        secondaryCTA={{ label: "Learn About Us", href: "/about" }}
+      />
     </>
   )
 }
