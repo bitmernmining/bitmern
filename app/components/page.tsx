@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +29,16 @@ import {
   MinersDeployedGrid,
   MWChannelFlow,
   UptimeChart,
+  FacilityGlobe,
 } from "@/components/animations";
+
+export const metadata: Metadata = {
+  title: "Component Library — Bitmern Mining",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 const colorTokens = [
   { name: "background", var: "var(--background)" },
@@ -434,6 +444,14 @@ export default function ComponentsPage() {
       {/* Canvas Animations */}
       <Section title="Animations" description="Webflow canvas animations — 1:1 port with IntersectionObserver + reduced-motion optimization">
         <div className="space-y-8">
+          {/* Facility Globe */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">3D globe — mining facilities</p>
+            <div className="relative rounded-lg border bg-card overflow-hidden">
+              <FacilityGlobe />
+            </div>
+          </div>
+
           {/* Hero */}
           <div className="space-y-2">
             <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">hero — infrastructure grid</p>
