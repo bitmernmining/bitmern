@@ -157,10 +157,10 @@ export function TechnologyPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Request Access</a>
+                    <Link href="/contact">Request Access</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">See a Demo</a>
+                    <Link href="/mara-firmware">Explore MARA Firmware</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -314,6 +314,16 @@ export function TechnologyPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
+      {/* Mid-page CTA */}
+      {/* --------------------------------------------------------------- */}
+      <section className="padding-global">
+        <div className="container-large text-center py-16">
+          <h3 className="text-xl font-semibold mb-4">Ready to get started?</h3>
+          <Button asChild size="lg"><Link href="/contact">Contact Us</Link></Button>
+        </div>
+      </section>
+
+      {/* --------------------------------------------------------------- */}
       {/* MARA Firmware */}
       {/* --------------------------------------------------------------- */}
       <section ref={firmware.ref}>
@@ -460,10 +470,10 @@ export function TechnologyPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Get Started</a>
+                    <Link href="/contact">Get Started</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/hosting">View Hosting Plans</a>
+                    <Link href="/hosting">View Hosting Plans</Link>
                   </Button>
                 </motion.div>
               </motion.div>

@@ -11,6 +11,7 @@ import {
 } from "@/lib/motion"
 import { KeyRound, BarChart3, Zap, Settings } from "lucide-react"
 import { ChevronRight } from "lucide-react"
+import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 
@@ -127,13 +128,13 @@ export function Hosting() {
                     className="flex flex-wrap items-center gap-4"
                   >
                     <Button size="lg" asChild>
-                      <a href="/hosting">View Hosting Plans</a>
+                      <Link href="/hosting">View Hosting Plans</Link>
                     </Button>
                     <Button variant="link" size="lg" className="gap-2" asChild>
-                      <a href="/facilities">
+                      <Link href="/facilities">
                         View Facilities
                         <ChevronRight className="size-4" />
-                      </a>
+                      </Link>
                     </Button>
                   </motion.div>
                 </div>

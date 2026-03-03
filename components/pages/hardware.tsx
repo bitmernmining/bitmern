@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
@@ -188,7 +189,7 @@ export function HardwarePage() {
                     </a>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">Get a Bulk Quote</a>
+                    <Link href="/contact">Get a Bulk Quote</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -459,7 +460,7 @@ export function HardwarePage() {
 
                 <motion.div variants={bulk.chVariants}>
                   <Button size="lg" asChild>
-                    <a href="/contact">Contact Sales for Bulk Pricing</a>
+                    <Link href="/contact">Contact Sales for Bulk Pricing</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -514,7 +515,7 @@ export function HardwarePage() {
                     </a>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">Get a Custom Quote</a>
+                    <Link href="/contact">Get a Custom Quote</Link>
                   </Button>
                 </motion.div>
               </motion.div>

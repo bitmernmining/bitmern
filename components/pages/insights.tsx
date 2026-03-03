@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { BookOpen, Download, CheckCircle2 } from "lucide-react"
+import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection } from "@/lib/motion"
@@ -389,10 +390,10 @@ export function InsightsPage() {
                   </div>
                   <motion.div variants={ebook.chVariants}>
                     <Button size="lg" asChild>
-                      <a href="/contact">
+                      <Link href="/contact">
                         <Download className="size-4" strokeWidth={1.5} />
                         Download Free eBook
-                      </a>
+                      </Link>
                     </Button>
                   </motion.div>
                 </div>

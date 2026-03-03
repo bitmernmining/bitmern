@@ -5,6 +5,7 @@ import { cva } from "class-variance-authority"
 import { ChevronDownIcon } from "lucide-react"
 import { NavigationMenu as NavigationMenuPrimitive } from "radix-ui"
 import { motion } from "framer-motion"
+import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 
@@ -68,13 +69,13 @@ function NavigationMenuItem({
 const navigationMenuTriggerStyle = cva(
   [
     "group inline-flex items-center justify-center gap-2",
-    "px-4 py-6 text-sm font-medium",
+    "px-4 py-6 text-base font-medium",
     "transition-colors duration-200",
     "outline-none cursor-pointer select-none",
-    "hover:text-foreground",
+    "hover:text-[var(--nav-hover)]",
     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
     "disabled:pointer-events-none disabled:opacity-50",
-    "data-[state=open]:text-foreground",
+    "data-[state=open]:text-[var(--nav-hover)]",
   ].join(" ")
 )
 
@@ -130,7 +131,7 @@ function NavigationMenuContent({
         "data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out",
         "data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52",
         "data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52",
-        "top-0 left-0 w-full md:absolute md:w-auto",
+        "top-0 left-0 w-full lg:absolute lg:w-auto",
         className
       )}
       {...props}
@@ -145,13 +146,13 @@ function NavigationMenuViewport({
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Viewport>) {
   return (
-    <div className="absolute top-full -left-px -right-px isolate z-50 -translate-y-[6px]">
+    <div className="absolute top-full left-0 right-0 isolate z-50 pt-2">
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top bg-card text-card-foreground",
+          "origin-top bg-background/95 text-foreground backdrop-blur-xl",
           "relative w-full overflow-hidden",
-          "rounded-b-lg border border-t-0 border-border",
+          "rounded-xl border border-border/40",
           "h-[var(--radix-navigation-menu-viewport-height)]",
           "transition-[height] duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
           // Open: fade + scale in. Close: fade + scale out.
@@ -169,19 +170,44 @@ function NavigationMenuViewport({
 
 function NavigationMenuLink({
   className,
+  href,
+  children,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
+  const linkClasses = cn(
+    "group/link flex flex-col items-start py-2 no-underline outline-none rounded-md px-3 -mx-3",
+    "transition-all duration-200",
+    "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:rounded-md",
+    className
+  )
+
+  // Internal routes use Next.js Link for client-side navigation
+  if (href && href.startsWith("/")) {
+    // Destructure Radix-specific props that conflict with Next.js Link
+    const { active, onSelect, ...htmlProps } = props
+    return (
+      <NavigationMenuPrimitive.Link active={active} onSelect={onSelect} asChild>
+        <Link
+          href={href}
+          data-slot="navigation-menu-link"
+          className={linkClasses}
+          {...htmlProps}
+        >
+          {children}
+        </Link>
+      </NavigationMenuPrimitive.Link>
+    )
+  }
+
   return (
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
-      className={cn(
-        "group/link flex flex-col items-start py-2 no-underline outline-none",
-        "transition-all duration-200",
-        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:rounded-md",
-        className
-      )}
+      href={href}
+      className={linkClasses}
       {...props}
-    />
+    >
+      {children}
+    </NavigationMenuPrimitive.Link>
   )
 }
 

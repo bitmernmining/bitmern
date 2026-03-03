@@ -13,7 +13,7 @@ const SLIDES = [
     headline: "Bitcoin Mining Infrastructure for Serious Capital",
     body: "Mining infrastructure built for investors who expect more than a rack and a handshake. Transparent operations, institutional-grade reporting, and a leadership team with deep Bitcoin expertise and a track record of delivering for serious capital.",
     primaryCta: { label: "Get Started", href: "/contact" },
-    secondaryCta: { label: "Get a Quote", href: "/contact" },
+    secondaryCta: { label: "Explore Facilities", href: "/facilities" },
   },
   {
     tag: "Global Colocation Infrastructure",
@@ -34,7 +34,7 @@ const SLIDES = [
     headline: "Source ASIC Miners at Institutional Pricing",
     body: "Leverage our direct relationships with Bitmain, MicroBT, and Canaan for priority allocation and volume pricing on the latest-generation miners. We handle logistics, import, and deployment at our facilities or yours.",
     primaryCta: { label: "Shop Miners", href: "https://shop.bitmernmining.com", external: true },
-    secondaryCta: { label: "Get a Quote", href: "/contact" },
+    secondaryCta: { label: "Browse Hardware", href: "/hardware" },
   },
 ] as const
 

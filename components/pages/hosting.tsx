@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Zap, Shield, Monitor, Wrench, Check } from "lucide-react"
+import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import {
@@ -196,10 +197,10 @@ export function HostingPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Get a Hosting Quote</a>
+                    <Link href="/contact">Get a Hosting Quote</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/facilities">View Our Facilities</a>
+                    <Link href="/facilities">View Our Facilities</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -326,6 +327,16 @@ export function HostingPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
+      {/* Mid-page CTA */}
+      {/* ----------------------------------------------------------------- */}
+      <section className="padding-global">
+        <div className="container-large text-center py-16">
+          <h3 className="text-xl font-semibold mb-4">Ready to get started?</h3>
+          <Button asChild size="lg"><Link href="/contact">Contact Us</Link></Button>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
       {/* Pricing */}
       {/* ----------------------------------------------------------------- */}
       <section ref={pricing.ref} className="section-elevated">
@@ -406,7 +417,7 @@ export function HostingPage() {
                 <div className="spacer-small" />
                 <motion.div variants={pricing.chVariants}>
                   <Button size="lg" asChild>
-                    <a href="/contact">Get a Custom Quote</a>
+                    <Link href="/contact">Get a Custom Quote</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -632,7 +643,7 @@ export function HostingPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Get a Hosting Quote</a>
+                    <Link href="/contact">Get a Hosting Quote</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
                     <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>

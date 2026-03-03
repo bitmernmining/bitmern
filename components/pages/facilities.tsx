@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Zap, Shield, Wrench, MapPin, Check } from "lucide-react"
+import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection } from "@/lib/motion"
@@ -205,10 +206,10 @@ export function FacilitiesPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Get a Hosting Quote</a>
+                    <Link href="/contact">Get a Hosting Quote</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">Schedule a Tour</a>
+                    <Link href="/about">Learn About Us</Link>
                   </Button>
                 </motion.div>
               </motion.div>
@@ -441,7 +442,7 @@ export function FacilitiesPage() {
                   className="flex flex-wrap items-center justify-center gap-4"
                 >
                   <Button size="lg" asChild>
-                    <a href="/contact">Get a Hosting Quote</a>
+                    <Link href="/contact">Get a Hosting Quote</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
                     <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>

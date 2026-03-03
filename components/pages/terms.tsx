@@ -2,7 +2,7 @@ export function TermsContent() {
   return (
     <>
       {/* Hero */}
-      <div className="padding-global">
+      <div id="top" className="padding-global">
         <div className="container-large">
           <div className="padding-section-large">
             <div className="max-width-large">
@@ -234,7 +234,7 @@ export function TermsContent() {
 
                 <div className="mt-16 border-t border-border/40 pt-8">
                   <a
-                    href="#"
+                    href="#top"
                     className="inline-flex items-center gap-1.5 text-sm text-foreground/50 hover:text-foreground transition-colors duration-200"
                   >
                     &uarr; Back to top

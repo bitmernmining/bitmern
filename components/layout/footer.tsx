@@ -94,7 +94,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="section-dark">
+    <footer className="section-dark" aria-label="Site footer">
       <div className="padding-global">
         <div className="container-large">
           {/* Newsletter row */}
@@ -188,6 +188,22 @@ export function Footer() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          {/* Contact info */}
+          <div className="flex flex-col gap-2 py-6 text-sm opacity-50">
+            <p>Address available upon request</p>
+            {/* TODO: Add real phone number */}
+            <p>Phone available upon request</p>
+            <p>
+              Email:{" "}
+              <a
+                href="mailto:info@bitmernmining.com"
+                className="underline underline-offset-2 transition-opacity duration-200 hover:opacity-80"
+              >
+                info@bitmernmining.com
+              </a>
+            </p>
           </div>
 
           {/* Social links */}

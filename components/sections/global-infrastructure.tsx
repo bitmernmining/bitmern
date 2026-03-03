@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { EASE, useSection, useCountUp } from "@/lib/motion"
+import Link from "next/link"
 import { FacilityGlobe } from "@/components/animations/facility-globe"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
@@ -103,10 +104,10 @@ export function GlobalInfrastructure() {
                   className="flex flex-wrap gap-3"
                 >
                   <Button size="lg" asChild>
-                    <a href="/facilities">View Our Facilities</a>
+                    <Link href="/facilities">View Our Facilities</Link>
                   </Button>
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">Start Mining</a>
+                    <Link href="/contact">Start Mining</Link>
                   </Button>
                 </motion.div>
               </motion.div>

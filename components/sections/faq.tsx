@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Tag } from "@/components/ui/tag"
 
@@ -137,7 +138,7 @@ export function FAQ() {
                 </p>
                 <div className="mt-6">
                   <Button variant="secondary" size="lg" asChild>
-                    <a href="/contact">Contact Us</a>
+                    <Link href="/contact">Contact Us</Link>
                   </Button>
                 </div>
               </motion.div>
