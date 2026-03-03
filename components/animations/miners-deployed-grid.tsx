@@ -44,6 +44,8 @@ export function MinersDeployedGrid({ className }: { className?: string }) {
   const incomingNodesRef = useRef<IncomingNode[]>([])
   const activeNodesRef = useRef<ActiveNode[]>([])
   const globalTimeRef = useRef(0)
+  // Gradient cache — avoids createRadialGradient per node per frame
+  const glowCacheRef = useRef<Map<ActiveNode, { gradient: CanvasGradient; radius: number; alpha: number }>>(new Map())
 
   const initGrid = useCallback((w: number, h: number) => {
     const slots: GridSlot[] = []
@@ -86,6 +88,7 @@ export function MinersDeployedGrid({ className }: { className?: string }) {
       incomingNodesRef.current = []
       activeNodesRef.current = []
       globalTimeRef.current = 0
+      glowCacheRef.current.clear()
     },
     [initGrid]
   )
@@ -195,6 +198,10 @@ export function MinersDeployedGrid({ className }: { className?: string }) {
       }
       activeNodes = activeNodes.filter((n) => !n.fading || n.intensity > 0)
       activeNodesRef.current = activeNodes
+      // Prune stale gradient cache entries for removed nodes
+      for (const key of glowCacheRef.current.keys()) {
+        if (!activeNodes.includes(key)) glowCacheRef.current.delete(key)
+      }
 
       // --- Render ---
       ctx.clearRect(0, 0, w, h)
@@ -210,20 +217,27 @@ export function MinersDeployedGrid({ className }: { className?: string }) {
       }
 
       // Settled nodes
+      const glowCache = glowCacheRef.current
       for (const node of activeNodes) {
         const pulse = Math.sin(node.phase) * 0.15 + 0.85
         const radius = nodeRadius * pulse
         const alpha = node.intensity
-
-        // Glow
         const glowRadius = radius * 2.5
-        const glow = ctx.createRadialGradient(
-          node.x, node.y, 0,
-          node.x, node.y, glowRadius
-        )
-        glow.addColorStop(0, rgba(COLORS.accent, 0.2 * alpha))
-        glow.addColorStop(0.5, rgba(COLORS.accent, 0.05 * alpha))
-        glow.addColorStop(1, rgba(COLORS.accent, 0))
+
+        // Glow — cache gradient per node, recreate only when radius or alpha shift significantly
+        const cached = glowCache.get(node)
+        const alphaKey = Math.round(alpha * 20) // quantize to ~5% steps
+        const radiusKey = Math.round(glowRadius * 2)
+        let glow: CanvasGradient
+        if (cached && Math.round(cached.radius * 2) === radiusKey && Math.round(cached.alpha * 20) === alphaKey) {
+          glow = cached.gradient
+        } else {
+          glow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowRadius)
+          glow.addColorStop(0, rgba(COLORS.accent, 0.2 * alpha))
+          glow.addColorStop(0.5, rgba(COLORS.accent, 0.05 * alpha))
+          glow.addColorStop(1, rgba(COLORS.accent, 0))
+          glowCache.set(node, { gradient: glow, radius: glowRadius, alpha })
+        }
         ctx.fillStyle = glow
         ctx.beginPath()
         ctx.arc(node.x, node.y, glowRadius, 0, Math.PI * 2)

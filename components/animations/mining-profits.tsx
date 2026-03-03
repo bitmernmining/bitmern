@@ -202,21 +202,19 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
 
       ctx.clearRect(0, 0, w, h)
 
-      // Grid
-      ctx.strokeStyle = rgba(colorsRef.current.base, CONFIG.gridOpacity)
-      ctx.lineWidth = 1
+      // Grid — batched into single path to minimize draw calls
+      ctx.beginPath()
       for (let x = CONFIG.gridSpacing; x < w; x += CONFIG.gridSpacing) {
-        ctx.beginPath()
         ctx.moveTo(x, 0)
         ctx.lineTo(x, h)
-        ctx.stroke()
       }
       for (let y = CONFIG.gridSpacing; y < h; y += CONFIG.gridSpacing) {
-        ctx.beginPath()
         ctx.moveTo(0, y)
         ctx.lineTo(w, y)
-        ctx.stroke()
       }
+      ctx.strokeStyle = rgba(colorsRef.current.base, CONFIG.gridOpacity)
+      ctx.lineWidth = 1
+      ctx.stroke()
 
       // Pulses
       for (const pulse of s.pulses) {
@@ -259,13 +257,21 @@ export function MiningProfitsAnimation({ className }: { className?: string }) {
       // Particles
       for (const p of s.particles) {
         if (p.type === "btc") {
-          // BTC symbol with glow
+          // BTC symbol with radial gradient glow (replaces expensive shadowBlur)
+          const glowRadius = p.size * 1.8
+          const btcGlow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glowRadius)
+          btcGlow.addColorStop(0, rgba(colorsRef.current.accent, p.opacity * 0.35))
+          btcGlow.addColorStop(0.5, rgba(colorsRef.current.accent, p.opacity * 0.1))
+          btcGlow.addColorStop(1, rgba(colorsRef.current.accent, 0))
+          ctx.fillStyle = btcGlow
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, glowRadius, 0, Math.PI * 2)
+          ctx.fill()
+
           ctx.save()
           ctx.translate(p.x, p.y)
           const scale = p.size / 11
           ctx.scale(scale, scale)
-          ctx.shadowColor = rgba(colorsRef.current.accent, p.opacity * 0.35)
-          ctx.shadowBlur = 6
           ctx.fillStyle = rgba(colorsRef.current.accent, p.opacity)
           ctx.font = "bold 18px Arial"
           ctx.textAlign = "center"

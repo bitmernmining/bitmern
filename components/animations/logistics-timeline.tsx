@@ -42,6 +42,10 @@ export function LogisticsTimeline({ className }: { className?: string }) {
       const endX = w * 0.9
       const totalWidth = endX - startX
 
+      // Clear gradient cache on resize
+      const stateWithCache = stateRef.current as LogisticsState & { _glowCache?: Map<number, { gradient: CanvasGradient; alphaKey: number }> }
+      if (stateWithCache._glowCache) stateWithCache._glowCache.clear()
+
       stateRef.current.checkpoints = LABELS.map((label, i) => ({
         x: startX + totalWidth * LABEL_POSITIONS[i],
         y,
@@ -124,6 +128,12 @@ export function LogisticsTimeline({ className }: { className?: string }) {
       const nodeRadius = Math.min(w, h) * 0.035
       const fontSize = Math.max(7, Math.min(w, h) * 0.025)
 
+      // Cache checkpoint glow gradients — positions are static, only alpha changes
+      // Quantize alpha to 10% steps to avoid per-frame recreation
+      const cpGlowCache = (stateRef.current as LogisticsState & { _glowCache?: Map<number, { gradient: CanvasGradient; alphaKey: number }> })
+      if (!cpGlowCache._glowCache) cpGlowCache._glowCache = new Map()
+      const glowMap = cpGlowCache._glowCache
+
       checkpoints.forEach((cp, i) => {
         const isLast = i === checkpoints.length - 1
         const radius = nodeRadius * (isLast ? 1.2 : 1)
@@ -131,12 +141,17 @@ export function LogisticsTimeline({ className }: { className?: string }) {
         // Radial glow when active
         if (cp.active > 0) {
           const glowRadius = radius * 2.5
-          const gradient = ctx.createRadialGradient(
-            cp.x, cp.y, 0,
-            cp.x, cp.y, glowRadius
-          )
-          gradient.addColorStop(0, rgba(COLORS.accent, 0.2 * cp.active))
-          gradient.addColorStop(1, rgba(COLORS.accent, 0))
+          const alphaKey = Math.round(cp.active * 10)
+          const cached = glowMap.get(i)
+          let gradient: CanvasGradient
+          if (cached && cached.alphaKey === alphaKey) {
+            gradient = cached.gradient
+          } else {
+            gradient = ctx.createRadialGradient(cp.x, cp.y, 0, cp.x, cp.y, glowRadius)
+            gradient.addColorStop(0, rgba(COLORS.accent, 0.2 * cp.active))
+            gradient.addColorStop(1, rgba(COLORS.accent, 0))
+            glowMap.set(i, { gradient, alphaKey })
+          }
           ctx.fillStyle = gradient
           ctx.beginPath()
           ctx.arc(cp.x, cp.y, glowRadius, 0, Math.PI * 2)

@@ -114,6 +114,9 @@ export function MWChannelFlow({ className }: { className?: string }) {
 }
 
 // --- Draw a single channel ---
+// NOTE: gradient caching is not practical here — trail gradient coordinates
+// (clampedStart/clampedEnd) and dot position (dotX) change every frame.
+// The gradient count is bounded by CHANNEL_COUNT (5), so allocation cost is low.
 function drawChannel(
   ctx: CanvasRenderingContext2D,
   ch: Channel,

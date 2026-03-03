@@ -363,6 +363,10 @@ function update(s: AnimState, dt: number) {
 }
 
 // --- Draw helpers ---
+// NOTE: Gradient caching opportunity — drawNode creates radial gradients per
+// source/hub/destination per frame. Positions are static but pulse phases vary.
+// Quantizing pulsePhase to 10% steps and caching per node index would reduce
+// allocations. Signal/particle gradients move continuously and aren't cacheable.
 
 function drawBezierPath(
   ctx: CanvasRenderingContext2D,
@@ -390,18 +394,23 @@ function drawLabel(
   ctx.textBaseline = "middle"
 
   if (isCenter) {
-    ctx.shadowColor = rgba(COLORS.accent, 0.3)
-    ctx.shadowBlur = 8
+    // Soft glow behind label — radial gradient instead of expensive shadowBlur
+    const glowRadius = fontSize * 2.5
+    const labelGlow = ctx.createRadialGradient(label.x, label.y, 0, label.x, label.y, glowRadius)
+    labelGlow.addColorStop(0, rgba(COLORS.accent, 0.2))
+    labelGlow.addColorStop(0.5, rgba(COLORS.accent, 0.06))
+    labelGlow.addColorStop(1, rgba(COLORS.accent, 0))
+    ctx.fillStyle = labelGlow
+    ctx.beginPath()
+    ctx.arc(label.x, label.y, glowRadius, 0, Math.PI * 2)
+    ctx.fill()
+
     ctx.fillStyle = rgba(COLORS.accent, 0.9)
   } else {
-    ctx.shadowColor = "transparent"
-    ctx.shadowBlur = 0
     ctx.fillStyle = rgba(COLORS.base, 0.5)
   }
 
   ctx.fillText(label.text, label.x, label.y)
-  ctx.shadowColor = "transparent"
-  ctx.shadowBlur = 0
 }
 
 function drawNode(

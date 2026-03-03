@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
+import { resolveThemeColors, rgba } from "@/lib/animation-utils"
 
 // ---------------------------------------------------------------------------
 // Facility data
@@ -266,19 +267,30 @@ export function FacilityGlobe({ className }: { className?: string }) {
     Promise.all([
       import("globe.gl"),
       import("topojson-client"),
-      fetch("https://unpkg.com/world-atlas@2/countries-110m.json").then((r) => r.json()),
+      fetch("/data/countries-110m.json").then((r) => r.json()),
     ]).then(([GlobeModule, topojsonLib, countries]) => {
       if (destroyed) return
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const Globe = (GlobeModule as any).default || GlobeModule
 
-      // Ocean texture — warm cream
+      // Resolve theme colors for globe surfaces
+      const themeColors = resolveThemeColors()
+      const capHex = rgba(themeColors.dim, 0.15)     // polygon cap — very subtle
+      const sideHex = rgba(themeColors.base, 0.25)    // polygon side (extrusion)
+      const strokeHex = rgba(themeColors.base, 0.18)  // polygon border
+      const atmosphereHex = rgba(themeColors.dim, 0.5)
+
+      // Read background color from CSS for ocean/globe surface
+      const bgCss = getComputedStyle(document.documentElement).getPropertyValue("--background").trim()
+      const surfaceColor = bgCss || "#ffffff"
+
+      // Ocean texture
       const waterCanvas = document.createElement("canvas")
       waterCanvas.width = 4
       waterCanvas.height = 4
       const wCtx = waterCanvas.getContext("2d")!
-      wCtx.fillStyle = "#ffffff"
+      wCtx.fillStyle = surfaceColor
       wCtx.fillRect(0, 0, 4, 4)
       const waterTexture = waterCanvas.toDataURL()
 
@@ -287,7 +299,7 @@ export function FacilityGlobe({ className }: { className?: string }) {
         .height(container.offsetHeight)
         .backgroundColor("rgba(0,0,0,0)")
         .showAtmosphere(true)
-        .atmosphereColor("#e8e8e8")
+        .atmosphereColor(atmosphereHex)
         .atmosphereAltitude(0.05)
         .showGlobe(true)
         .globeImageUrl(waterTexture)
@@ -295,9 +307,9 @@ export function FacilityGlobe({ className }: { className?: string }) {
         // Countries
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .polygonsData((topojsonLib as any).feature(countries, countries.objects.countries).features)
-        .polygonCapColor(() => "#fefefe")
-        .polygonSideColor(() => "#e0dbd3")
-        .polygonStrokeColor(() => "#d4cfc7")
+        .polygonCapColor(() => capHex)
+        .polygonSideColor(() => sideHex)
+        .polygonStrokeColor(() => strokeHex)
         .polygonAltitude(0.012)
 
         // Arcs — start empty
@@ -359,10 +371,10 @@ export function FacilityGlobe({ className }: { className?: string }) {
         .labelAltitude((d: { mw: number }) => getBarHeight(d.mw) + 0.015)
         .labelResolution(2)(container)
 
-      // Make globe surface flat white — no 3D shading
+      // Make globe surface flat — no 3D shading, use theme background
       const globeMat = globe.globeMaterial()
-      globeMat.color.set("#ffffff")
-      globeMat.emissive.set("#ffffff")
+      globeMat.color.set(surfaceColor)
+      globeMat.emissive.set(surfaceColor)
       globeMat.emissiveIntensity = 1
       globeMat.shininess = 0
 

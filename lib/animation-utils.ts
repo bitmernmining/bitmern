@@ -130,6 +130,12 @@ export function invalidateColorCache(): void {
   _cacheIsDark = null
 }
 
+// Auto-invalidate when system theme changes
+if (typeof window !== "undefined" && typeof matchMedia === "function") {
+  const mql = matchMedia("(prefers-color-scheme: dark)")
+  mql.addEventListener("change", () => invalidateColorCache())
+}
+
 /**
  * Get the canvas-compatible font family string.
  * Reads the computed font from the document so it matches next/font loaded faces.
