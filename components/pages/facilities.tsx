@@ -84,7 +84,7 @@ const FACILITIES: Facility[] = [
     status: "Available Now",
     power: "3 MW",
     rate: "$0.055/kWh",
-    uptime: "99.3%",
+    uptime: "97%",
     features: [
       "Lowest electricity rate in our network \u2014 $0.055/kWh",
       "Clean hydroelectric power",
@@ -149,13 +149,13 @@ function statusBadge(status: FacilityStatus) {
     case "Available Now":
       return (
         <Tag variant="success" size="sm">
-          Operational
+          Available
         </Tag>
       )
     case "Full Capacity":
       return (
-        <Tag variant="primary" size="sm">
-          Operational
+        <Tag variant="muted" size="sm">
+          At Capacity
         </Tag>
       )
     case "Coming Soon":
@@ -306,7 +306,7 @@ export function FacilitiesPage() {
                     variants={hero.chVariants}
                     className="text-[1.125rem] leading-relaxed text-foreground/70"
                   >
-                    31.5+ MW across four continents. Every facility is selected
+                    31.5+ MW across three continents. Every facility is selected
                     for low-cost power, stable regulatory environments, and
                     optimal climate conditions. Redundant power feeds, industrial
                     cooling, 24/7 security, and on-site technicians at every
@@ -415,8 +415,8 @@ export function FacilitiesPage() {
               <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Countries</p>
             </div>
             <div>
-              <p className="font-heading text-4xl font-bold lg:text-5xl">99.3%</p>
-              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Best-Site Uptime</p>
+              <p className="font-heading text-4xl font-bold lg:text-5xl">97%</p>
+              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Uptime Guarantee</p>
             </div>
           </div>
         </div>

@@ -3,8 +3,6 @@
 import { motion } from "framer-motion"
 import { EASE, useSection, useCountUp } from "@/lib/motion"
 import Link from "next/link"
-import Image from "next/image"
-import { ArrowRight } from "lucide-react"
 import { FacilityGlobe } from "@/components/animations/facility-globe"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
@@ -15,16 +13,8 @@ import { Button } from "@/components/ui/button"
 
 const STATS = [
   { value: 31.5, suffix: "+", unit: "MW", label: "Total Capacity" },
-  { value: 7, suffix: "", unit: "", label: "Global Facilities" },
+  { value: 5, suffix: "", unit: "", label: "Global Facilities" },
   { value: 3, suffix: "", unit: "", label: "Continents" },
-] as const
-
-const FACILITIES = [
-  { src: "/facilities/indiana.webp", label: "Indiana, USA" },
-  { src: "/facilities/north-dakota.webp", label: "North Dakota, USA" },
-  { src: "/facilities/missouri.jpeg", label: "Missouri, USA" },
-  { src: "/facilities/addis-ababa.webp", label: "Addis Ababa, Ethiopia" },
-  { src: "/facilities/finland.webp", label: "Finland" },
 ] as const
 
 function StatCounter({ stat }: { stat: (typeof STATS)[number] }) {
@@ -134,39 +124,6 @@ export function GlobalInfrastructure() {
               </motion.div>
             </div>
 
-            {/* Facility photo strip */}
-            <motion.div
-              className="mt-12"
-              initial={{ opacity: 0, y: 24 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: EASE }}
-            >
-              <div className="flex flex-wrap items-start justify-center gap-3 lg:flex-nowrap lg:justify-start">
-                {FACILITIES.map((facility) => (
-                  <div key={facility.label} className="flex w-28 flex-col gap-1.5 lg:w-36">
-                    <div className="relative aspect-[3/2] overflow-hidden rounded-md">
-                      <Image
-                        src={facility.src}
-                        alt={facility.label}
-                        fill
-                        className="object-cover"
-                        sizes="(min-width: 1024px) 144px, 112px"
-                      />
-                    </div>
-                    <span className="text-xs text-foreground/50">
-                      {facility.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/facilities"
-                className="mt-4 inline-flex items-center gap-1 text-sm text-foreground/50 transition-colors duration-200 hover:text-foreground/80"
-              >
-                View all facilities
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-            </motion.div>
           </div>
         </div>
       </div>

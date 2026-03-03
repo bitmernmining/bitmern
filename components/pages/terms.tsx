@@ -101,8 +101,8 @@ export function TermsContent() {
                   <li>You retain full ownership of all hosted equipment</li>
                   <li>Equipment removal requires 30 days written notice</li>
                   <li>
-                    Bitmern maintains 97% uptime target (99.3% for Ethiopia) but
-                    does not guarantee uninterrupted service
+                    Bitmern maintains a 97% uptime target but does not guarantee
+                    uninterrupted service
                   </li>
                   <li>
                     Bitmern is not liable for losses due to power outages, network

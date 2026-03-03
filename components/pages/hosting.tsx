@@ -95,7 +95,7 @@ const FACILITIES = [
     name: "Addis Ababa, Ethiopia",
     power: "3 MW",
     rate: "$0.055/kWh",
-    uptime: "99.3%",
+    uptime: "97%",
     status: "Available" as const,
   },
   {
@@ -479,7 +479,7 @@ export function HostingPage() {
                 animate={facilities.inView ? "visible" : "hidden"}
               >
                 <motion.h2 variants={facilities.chVariants}>
-                  Seven Facilities, Four Continents
+                  Five Facilities, Three Continents
                 </motion.h2>
                 <div className="spacer-large" />
 

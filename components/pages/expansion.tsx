@@ -112,7 +112,7 @@ export function ExpansionPage() {
               className="text-[1.125rem] leading-relaxed text-white/70"
             >
               From our roots in Greece and Ethiopia to a global network
-              spanning four continents, Bitmern is scaling aggressively. Our
+              spanning three continents, Bitmern is scaling aggressively. Our
               expansion pipeline includes Nordic facilities and the 500 MW
               OriginSpark partnership.
             </motion.p>

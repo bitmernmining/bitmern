@@ -78,7 +78,7 @@ const values = [
     icon: Globe,
     title: "Global Diversification",
     description:
-      "Seven facilities across four continents means no single point of failure. Geographic diversification protects against regulatory shifts, power disruptions, and climate risk.",
+      "Five facilities across three continents means no single point of failure. Geographic diversification protects against regulatory shifts, power disruptions, and climate risk.",
   },
 ]
 
@@ -364,7 +364,7 @@ function WhatWeDoSection() {
                 variants={header.chVariants}
                 className="text-[1.125rem] leading-relaxed text-foreground/70"
               >
-                Today, Bitmern Mining operates across four continents with
+                Today, Bitmern Mining operates across three continents with
                 31.5+ MW of power capacity and 176+ PH/s of hashrate under
                 management. Our ecosystem covers every stage of the mining
                 journey.

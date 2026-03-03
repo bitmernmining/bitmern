@@ -9,7 +9,7 @@
 
 **Tag:** Leadership
 **Heading:** The Team Behind Bitmern Mining
-**Body:** From designing resilient global infrastructure to delivering best-in-class customer support across four continents — every team member brings specialized knowledge and deep Bitcoin expertise.
+**Body:** From designing resilient global infrastructure to delivering best-in-class customer support across three continents — every team member brings specialized knowledge and deep Bitcoin expertise.
 
 ---
 

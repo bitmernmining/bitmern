@@ -338,7 +338,7 @@ function HeroSection() {
                   className="text-lg leading-relaxed text-foreground/70"
                 >
                   From designing resilient global infrastructure to delivering
-                  best-in-class customer support across four continents &mdash;
+                  best-in-class customer support across three continents &mdash;
                   every team member brings specialized knowledge and deep
                   Bitcoin expertise.
                 </motion.p>
