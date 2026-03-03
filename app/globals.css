@@ -607,6 +607,16 @@
   .spacer-xxhuge  { padding-top: 5rem; }
 }
 
+/* Marquee — infinite horizontal scroll for partner logos */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+}
+
 /* Respect user motion preferences — scoped to CSS animations only.
    Framer Motion handles its own reduced-motion via useReducedMotion(). */
 @media (prefers-reduced-motion: reduce) {
@@ -615,7 +625,8 @@
   .device-float-alt,
   .text-shimmer,
   .badge-pulse::after,
-  .gradient-border {
+  .gradient-border,
+  .animate-marquee {
     animation: none !important;
   }
   * {

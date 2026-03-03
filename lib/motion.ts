@@ -45,6 +45,24 @@ export const cardFade = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
 }
 
+/** Slide from left — enters from -40px horizontally */
+export const slideFromLeft = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+}
+
+/** Slide from right — enters from +40px horizontally */
+export const slideFromRight = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: EASE } },
+}
+
+/** Scale in — enters from 92% scale */
+export const scaleIn = {
+  hidden: { opacity: 0, scale: 0.92 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE } },
+}
+
 // ---------------------------------------------------------------------------
 // Stiff spring — responsive, no overshoot. For buttons, cards, interactive.
 // ---------------------------------------------------------------------------
