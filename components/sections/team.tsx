@@ -55,7 +55,7 @@ const TEAM = [
   {
     name: "Andreas Stirmpou",
     title: "CTO",
-    image: "/team/andreas.png",
+    image: "/team/andreas.webp",
     linkedin: "#",
     twitter: "#",
   },

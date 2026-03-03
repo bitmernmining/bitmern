@@ -168,7 +168,7 @@ export function Calculator() {
                 className="group/laptop relative z-[1] mx-[8%] mb-[8%] w-full transition-transform duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:scale-[1.02]"
               >
                 <Image
-                  src="/calculator-laptop.png"
+                  src="/calculator-laptop.webp"
                   alt="Bitmern mining calculator on laptop"
                   width={2000}
                   height={1333}
@@ -183,7 +183,7 @@ export function Calculator() {
                 className="device-float absolute bottom-[8%] left-[5%] z-[2] w-[24%] transition-transform duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:scale-[1.05]"
               >
                 <Image
-                  src="/calculator-phone.png"
+                  src="/calculator-phone.webp"
                   alt="Bitmern calculator on mobile"
                   width={504}
                   height={1008}

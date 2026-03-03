@@ -55,7 +55,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Andreas Stirmpou",
     title: "CTO",
-    photo: "/team/andreas.png",
+    photo: "/team/andreas.webp",
     bio: "Leads all technology development including the SuperApp monitoring platform, Bitmern Solo pool infrastructure, and shop.bitmernmining.com. Manages firmware optimization, API development, and the technical architecture powering 176+ PH/s of hashrate.",
     linkedin: "https://linkedin.com/in/andreasstirmpou",
     email: "Andreas.S@bitmern.com",
