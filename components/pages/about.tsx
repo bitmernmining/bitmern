@@ -14,7 +14,10 @@ import {
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
 import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
+import { ImageSection } from "@/components/ui/image-section"
+import { SectionCTA } from "@/components/ui/section-cta"
 import { useSection } from "@/lib/motion"
 
 // ---------------------------------------------------------------------------
@@ -90,11 +93,15 @@ const milestones = [
     title: "First Facility",
     milestone:
       "First facility operational \u2014 Addis Ababa, Ethiopia (3 MW).",
+    image: "/facilities/addis-ababa.webp",
+    imageAlt: "Bitmern facility in Addis Ababa, Ethiopia",
   },
   {
     year: "2023",
     title: "US Expansion",
     milestone: "Indiana facility comes online \u2014 20 MW flagship site.",
+    image: "/facilities/indiana.webp",
+    imageAlt: "Bitmern flagship facility in Indiana, USA",
   },
   {
     year: "2024",
@@ -113,6 +120,26 @@ const milestones = [
     title: "Ecosystem Launch",
     milestone:
       "Bitmern Solo pool launch. Finland expansion pipeline. shop.bitmernmining.com live.",
+    image: "/facilities/finland.webp",
+    imageAlt: "Bitmern expansion site in Finland",
+  },
+]
+
+const teamMembers = [
+  {
+    name: "Giannis Andreou",
+    title: "Founder & CEO",
+    image: "/team/giannis-new.avif",
+  },
+  {
+    name: "Paschalis Andreou",
+    title: "VP of Operations",
+    image: "/team/paschalis-new.avif",
+  },
+  {
+    name: "Andreas Andreou",
+    title: "CTO",
+    image: "/team/andreas-new.avif",
   },
 ]
 
@@ -248,8 +275,21 @@ function OriginSection() {
                 </motion.p>
               </div>
 
-              {/* Right — pull-quote card */}
+              {/* Right — facility photo + pull-quote card */}
               <motion.div variants={chVariants} className="lg:mt-16">
+                {/* Facility photo */}
+                <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-lg">
+                  <Image
+                    src="/facilities/indiana.webp"
+                    alt="Bitmern flagship facility in Indiana, USA"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    quality={85}
+                  />
+                </div>
+
+                {/* Pull-quote card */}
                 <div className="card-surface rounded-lg border border-border/60 p-8">
                   <div className="mb-4 inline-flex items-center justify-center rounded-md bg-primary p-2 text-primary-foreground">
                     <Zap className="size-6" strokeWidth={1.5} />
@@ -458,12 +498,89 @@ function ValuesSection() {
   )
 }
 
+function TeamPreviewSection() {
+  const { ref, inView, cVariants, chVariants } = useSection()
+
+  return (
+    <section ref={ref}>
+      <div className="padding-global">
+        <div className="container-large">
+          <div className="padding-section-large">
+            <motion.div
+              variants={cVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="mx-auto max-w-[42rem] text-align-center"
+            >
+              <motion.div variants={chVariants}>
+                <Tag>Leadership</Tag>
+              </motion.div>
+              <div className="spacer-xsmall" />
+              <motion.h2 variants={chVariants}>
+                The Team Behind the Hash
+              </motion.h2>
+              <div className="spacer-small" />
+              <motion.p
+                variants={chVariants}
+                className="text-lg leading-relaxed text-foreground/70"
+              >
+                Founded and operated by the Andreou family — a team that
+                combines deep industry expertise with an operator-first
+                mentality.
+              </motion.p>
+
+              <div className="spacer-large" />
+
+              {/* Team headshots */}
+              <motion.div
+                variants={chVariants}
+                className="flex flex-wrap items-start justify-center gap-10"
+              >
+                {teamMembers.map((member) => (
+                  <div key={member.name} className="flex flex-col items-center">
+                    <div className="relative mb-4 h-20 w-20 overflow-hidden rounded-full border-2 border-border/60">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="80px"
+                      />
+                    </div>
+                    <p className="font-heading text-sm font-medium text-foreground">
+                      {member.name}
+                    </p>
+                    <p className="font-mono text-xs text-foreground/50">
+                      {member.title}
+                    </p>
+                  </div>
+                ))}
+              </motion.div>
+
+              <div className="spacer-medium" />
+
+              <motion.div variants={chVariants}>
+                <Button variant="secondary" size="sm" asChild>
+                  <Link href="/team">
+                    Meet the Full Team
+                    <ArrowRight className="ml-1 size-4" />
+                  </Link>
+                </Button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function TimelineSection() {
   const header = useSection()
   const cards = useSection(0.1)
 
   return (
-    <section ref={header.ref}>
+    <section ref={header.ref} className="section-elevated">
       <div className="padding-global">
         <div className="container-large">
           <div className="padding-section-large">
@@ -475,7 +592,7 @@ function TimelineSection() {
               className="mx-auto max-w-[48rem] text-align-center"
             >
               <motion.div variants={header.chVariants}>
-                <Tag>Milestones</Tag>
+                <Tag variant="muted">Milestones</Tag>
               </motion.div>
               <div className="spacer-xsmall" />
               <motion.h2 variants={header.chVariants}>
@@ -505,88 +622,44 @@ function TimelineSection() {
                 <motion.div
                   key={item.year}
                   variants={cards.crdFade}
-                  className="card-surface group flex flex-col rounded-lg border border-border/60 p-6 transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:border-primary/40"
+                  className="card-surface group flex flex-col overflow-hidden rounded-lg border border-border/60 transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:border-primary/40"
                 >
-                  {/* Year */}
-                  <div className="mb-4 font-heading text-[2.5rem] font-bold leading-none text-primary">
-                    {item.year}
+                  {/* Facility photo if available */}
+                  {item.image && (
+                    <div className="relative aspect-[16/9] w-full">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt ?? ""}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        quality={80}
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex flex-1 flex-col p-6">
+                    {/* Year */}
+                    <div className="mb-4 font-heading text-[2.5rem] font-bold leading-none text-primary">
+                      {item.year}
+                    </div>
+
+                    {/* Divider */}
+                    <div className="mb-4 h-px w-12 bg-border transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:bg-primary/60" />
+
+                    {/* Title */}
+                    <h3 className="mb-2 font-heading text-[1rem] font-medium uppercase tracking-tight text-foreground">
+                      {item.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-sm leading-relaxed text-foreground/60">
+                      {item.milestone}
+                    </p>
                   </div>
-
-                  {/* Divider */}
-                  <div className="mb-4 h-px w-12 bg-border transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:bg-primary/60" />
-
-                  {/* Title */}
-                  <h3 className="mb-2 font-heading text-[1rem] font-medium uppercase tracking-tight text-foreground">
-                    {item.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm leading-relaxed text-foreground/60">
-                    {item.milestone}
-                  </p>
                 </motion.div>
               ))}
             </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function CTASection() {
-  const { ref, inView, cVariants, chVariants } = useSection(0.3)
-
-  return (
-    <section ref={ref} className="section-elevated">
-      <div className="padding-global">
-        <div className="container-large">
-          <div className="padding-section-large">
-            <div className="mx-auto max-w-[48rem] text-align-center">
-              <motion.div
-                variants={cVariants}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-              >
-                <motion.div variants={chVariants}>
-                  <Tag variant="muted">Get Started</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h2 variants={chVariants}>
-                  Ready to Start Mining?
-                </motion.h2>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={chVariants}
-                  className="text-lg leading-relaxed text-foreground/70"
-                >
-                  Whether you&rsquo;re deploying your first miner or scaling
-                  an institutional portfolio, we have the infrastructure and
-                  expertise to match.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={chVariants}
-                  className="flex flex-wrap items-center justify-center gap-3"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">
-                      Get Started
-                      <ArrowRight className="size-4" />
-                    </Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link
-                      href="https://calendly.com/bitmernmining"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Book a Strategy Call
-                    </Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
           </div>
         </div>
       </div>
@@ -603,10 +676,40 @@ export function AboutPage() {
     <>
       <HeroSection />
       <OriginSection />
+
+      {/* Full-bleed photo break between Origin and What We Do */}
+      <ImageSection
+        src="/facilities/addis-ababa.webp"
+        alt="Bitmern mining facility in Addis Ababa, Ethiopia"
+        overlay="gradient"
+        className="min-h-[360px] lg:min-h-[480px]"
+      >
+        <div className="flex min-h-[360px] items-center justify-center lg:min-h-[480px]">
+          <blockquote className="mx-auto max-w-[40rem] text-center">
+            <p className="font-heading text-2xl font-normal uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
+              &ldquo;Building the infrastructure that powers the next era of
+              sound money.&rdquo;
+            </p>
+            <footer className="mt-4 font-mono text-sm text-white/60">
+              Bitmern Mining &mdash; Est. 2021
+            </footer>
+          </blockquote>
+        </div>
+      </ImageSection>
+
       <WhatWeDoSection />
       <ValuesSection />
+      <TeamPreviewSection />
       <TimelineSection />
-      <CTASection />
+
+      <SectionCTA
+        variant="dark"
+        tag="Get Started"
+        heading="Ready to Start Mining?"
+        description="Whether you're deploying your first miner or scaling an institutional portfolio, we have the infrastructure and expertise to match."
+        primaryCTA={{ label: "Get Started", href: "/contact" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+      />
     </>
   )
 }
