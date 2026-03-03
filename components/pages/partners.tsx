@@ -1,10 +1,22 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Link from "next/link"
+import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
-import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import { useSection } from "@/lib/motion"
+
+// ---------------------------------------------------------------------------
+// Logo map — partners with available logo assets
+// ---------------------------------------------------------------------------
+
+const PARTNER_LOGOS: Record<string, string> = {
+  Bitmain: "/partners/bitmain.avif",
+  Canaan: "/partners/avalon.avif",
+  ViaBTC: "/partners/viabtc.avif",
+  CoinEx: "/partners/coinex.avif",
+  Auradine: "/partners/auradine.webp",
+}
 
 // ---------------------------------------------------------------------------
 // Data
@@ -68,6 +80,24 @@ const ECOSYSTEM_PARTNERS = [
 ]
 
 // ---------------------------------------------------------------------------
+// Shared: Partner Logo
+// ---------------------------------------------------------------------------
+
+function PartnerLogo({ name, className = "h-10 w-auto" }: { name: string; className?: string }) {
+  const src = PARTNER_LOGOS[name]
+  if (!src) return null
+  return (
+    <Image
+      src={src}
+      alt={`${name} logo`}
+      width={160}
+      height={40}
+      className={`${className} object-contain`}
+    />
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -76,14 +106,13 @@ export function PartnersPage() {
   const strategic = useSection()
   const hardware = useSection()
   const ecosystem = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
       {/* Hero */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref}>
+      <section ref={hero.ref} className="section-elevated">
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-large">
@@ -119,7 +148,7 @@ export function PartnersPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Strategic Partners */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={strategic.ref} className="section-elevated">
+      <section ref={strategic.ref}>
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-medium">
@@ -140,28 +169,38 @@ export function PartnersPage() {
                 animate={strategic.inView ? "visible" : "hidden"}
                 className="grid gap-6 lg:grid-cols-2"
               >
-                {STRATEGIC_PARTNERS.map((partner) => (
-                  <motion.div
-                    key={partner.name}
-                    variants={strategic.crdFade}
-                    className="card-surface flex flex-col gap-4 rounded-lg border border-border/60 p-8"
-                  >
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-none tracking-tight">
-                        {partner.name}
-                      </h3>
-                      <Tag variant="muted" size="sm">
-                        {partner.type}
-                      </Tag>
-                    </div>
-                    <p className="font-mono text-sm text-foreground/50">
-                      {partner.relationship}
-                    </p>
-                    <p className="text-base leading-relaxed text-foreground/70">
-                      {partner.description}
-                    </p>
-                  </motion.div>
-                ))}
+                {STRATEGIC_PARTNERS.map((partner) => {
+                  const hasLogo = !!PARTNER_LOGOS[partner.name]
+                  return (
+                    <motion.div
+                      key={partner.name}
+                      variants={strategic.crdFade}
+                      whileHover={{ y: -3 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className={`card-surface group flex flex-col gap-4 rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                    >
+                      {hasLogo && (
+                        <div className="mb-1">
+                          <PartnerLogo name={partner.name} />
+                        </div>
+                      )}
+                      <div className="flex items-center gap-3">
+                        <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-none tracking-tight">
+                          {partner.name}
+                        </h3>
+                        <Tag variant="muted" size="sm">
+                          {partner.type}
+                        </Tag>
+                      </div>
+                      <p className="font-mono text-sm text-foreground/50">
+                        {partner.relationship}
+                      </p>
+                      <p className="text-base leading-relaxed text-foreground/70">
+                        {partner.description}
+                      </p>
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             </div>
           </div>
@@ -171,7 +210,7 @@ export function PartnersPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Hardware Partners */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hardware.ref}>
+      <section ref={hardware.ref} className="section-elevated">
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-medium">
@@ -192,20 +231,30 @@ export function PartnersPage() {
                 animate={hardware.inView ? "visible" : "hidden"}
                 className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
               >
-                {HARDWARE_PARTNERS.map((partner) => (
-                  <motion.div
-                    key={partner.name}
-                    variants={hardware.crdFade}
-                    className="card-surface rounded-lg border border-border/60 p-6"
-                  >
-                    <h4 className="mb-2 font-heading text-base font-medium uppercase tracking-tight">
-                      {partner.name}
-                    </h4>
-                    <p className="text-sm leading-relaxed text-foreground/60">
-                      {partner.description}
-                    </p>
-                  </motion.div>
-                ))}
+                {HARDWARE_PARTNERS.map((partner) => {
+                  const hasLogo = !!PARTNER_LOGOS[partner.name]
+                  return (
+                    <motion.div
+                      key={partner.name}
+                      variants={hardware.crdFade}
+                      whileHover={{ y: -2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className={`card-surface group rounded-lg border border-border/60 p-6 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                    >
+                      {hasLogo && (
+                        <div className="mb-3">
+                          <PartnerLogo name={partner.name} className="h-8 w-auto" />
+                        </div>
+                      )}
+                      <h4 className="mb-2 font-heading text-base font-medium uppercase tracking-tight">
+                        {partner.name}
+                      </h4>
+                      <p className="text-sm leading-relaxed text-foreground/60">
+                        {partner.description}
+                      </p>
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             </div>
           </div>
@@ -215,7 +264,7 @@ export function PartnersPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Ecosystem Partners */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={ecosystem.ref} className="section-elevated">
+      <section ref={ecosystem.ref}>
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-medium">
@@ -236,20 +285,30 @@ export function PartnersPage() {
                 animate={ecosystem.inView ? "visible" : "hidden"}
                 className="grid gap-6 md:grid-cols-3"
               >
-                {ECOSYSTEM_PARTNERS.map((partner) => (
-                  <motion.div
-                    key={partner.name}
-                    variants={ecosystem.crdFade}
-                    className="card-surface rounded-lg border border-border/60 p-8"
-                  >
-                    <h3 className="mb-4 font-heading text-[1.2rem] font-normal uppercase leading-none tracking-tight">
-                      {partner.name}
-                    </h3>
-                    <p className="text-base leading-relaxed text-foreground/70">
-                      {partner.description}
-                    </p>
-                  </motion.div>
-                ))}
+                {ECOSYSTEM_PARTNERS.map((partner) => {
+                  const hasLogo = !!PARTNER_LOGOS[partner.name]
+                  return (
+                    <motion.div
+                      key={partner.name}
+                      variants={ecosystem.crdFade}
+                      whileHover={{ y: -3 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      className={`card-surface group rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                    >
+                      {hasLogo && (
+                        <div className="mb-4">
+                          <PartnerLogo name={partner.name} />
+                        </div>
+                      )}
+                      <h3 className="mb-4 font-heading text-[1.2rem] font-normal uppercase leading-none tracking-tight">
+                        {partner.name}
+                      </h3>
+                      <p className="text-base leading-relaxed text-foreground/70">
+                        {partner.description}
+                      </p>
+                    </motion.div>
+                  )
+                })}
               </motion.div>
             </div>
           </div>
@@ -259,40 +318,13 @@ export function PartnersPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Become a Partner CTA */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl text-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  Partner With Bitmern
-                </motion.h2>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  We&rsquo;re always looking for strategic partners &mdash;
-                  hardware manufacturers, energy providers, institutional
-                  investors, and technology companies. If you can help us mine
-                  more Bitcoin, more efficiently, we want to talk.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div variants={cta.chVariants}>
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Contact Our Partnerships Team &rarr;</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        variant="dark"
+        tag="Partner With Us"
+        heading="Become a Bitmern Partner"
+        description="We're always looking for strategic partners — hardware manufacturers, energy providers, institutional investors, and technology companies. If you can help us mine more Bitcoin, more efficiently, we want to talk."
+        primaryCTA={{ label: "Contact Our Team", href: "/contact" }}
+      />
     </>
   )
 }
