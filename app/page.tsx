@@ -1,7 +1,4 @@
-import Image from "next/image"
-import Link from "next/link"
 import { HeroSlider } from "@/components/hero-slider"
-import { ImageSection } from "@/components/ui/image-section"
 import { LogoBar } from "@/components/sections/logo-bar"
 import { DeployCapital } from "@/components/sections/deploy-capital"
 import { GlobalInfrastructure } from "@/components/sections/global-infrastructure"
@@ -13,26 +10,28 @@ import { ProvenAtScale } from "@/components/sections/proven-at-scale"
 import { Testimonial } from "@/components/sections/testimonial"
 import { FAQ } from "@/components/sections/faq"
 import { SectionCTA } from "@/components/ui/section-cta"
+import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="section-dark relative">
-        {/* Background — cinematic facility photo */}
+      <section className="relative">
+        {/* Background — abstract canvas animation */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/facilities/indiana.webp"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+          <InfrastructureGrid />
         </div>
 
-        {/* Gradient overlay — darkens photo for text readability, fades into page bg */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/70 via-black/50 to-background" />
+        {/* Gradient overlay — let more canvas show through */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            backgroundImage: [
+              "linear-gradient(180deg, color-mix(in oklch, var(--color-background) 50%, transparent) 0%, color-mix(in oklch, var(--color-background) 30%, transparent) 50%, color-mix(in oklch, var(--color-background) 60%, transparent) 100%)",
+              "radial-gradient(circle farthest-corner at 50% 50%, transparent 40%, color-mix(in oklch, var(--color-background) 80%, transparent))",
+            ].join(", "),
+          }}
+        />
 
         {/* Content */}
         <div className="padding-global relative z-[10]">
@@ -53,33 +52,6 @@ export default function Home() {
 
       {/* Comparison — Beyond ETFs */}
       <Comparison />
-
-      {/* Full-bleed facility photo break */}
-      <ImageSection
-        src="/facilities/north-dakota.webp"
-        alt="Bitmern Mining facility in North Dakota"
-        overlay="gradient"
-        parallax
-        className="py-24 lg:py-32"
-      >
-        <div className="text-center text-white">
-          <p className="text-sm font-mono uppercase tracking-widest text-white/60 mb-4">Global Mining Infrastructure</p>
-          <p className="text-4xl lg:text-5xl xl:text-6xl font-bold font-heading mb-6">
-            7 Facilities. 3 Continents. 31.5+ MW.
-          </p>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto mb-8">
-            Purpose-built mining infrastructure delivering institutional-grade performance across North America, Africa, and Europe.
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link href="/facilities" className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-semibold text-sm hover:opacity-90 transition-opacity">
-              Explore Facilities
-            </Link>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-white/10 text-white font-semibold text-sm hover:bg-white/20 transition-colors backdrop-blur-sm">
-              Get in Touch
-            </Link>
-          </div>
-        </div>
-      </ImageSection>
 
       {/* Hosting — Your Hardware, Our Facilities */}
       <Hosting />
