@@ -78,34 +78,15 @@ export function Hosting() {
         <div className="container-large">
           <div className="padding-section-medium">
             {/* Main grid: .5fr 1fr, 5rem col gap, 4rem row gap — exact Webflow values */}
-            <div className="grid items-start gap-10 lg:grid-cols-[0.5fr_1fr] lg:gap-x-20 lg:gap-y-16">
-              {/* Left column — tag + heading top, body + CTAs bottom */}
+            <div className="grid items-start gap-10 lg:grid-cols-[0.6fr_1fr] lg:gap-x-20 lg:gap-y-16">
+              {/* Left column — tag + heading + body + photo + CTAs */}
               <motion.div
                 variants={cVariants}
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
-                className="flex flex-col items-start justify-between lg:row-span-2 lg:min-h-full"
+                className="flex flex-col items-start lg:row-span-2"
               >
-                {/* Facility photo */}
-                <motion.div
-                  variants={chVariants}
-                  className="relative mb-8 aspect-[4/3] w-full overflow-hidden rounded-lg"
-                >
-                  <Image
-                    src="/facilities/missouri.jpeg"
-                    alt="Bitmern Mining facility in Missouri"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                  />
-                  {/* Live Facility badge */}
-                  <div className="absolute bottom-3 left-3 flex items-center gap-2 rounded-md bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">
-                    <span className="badge-pulse relative inline-block size-2 rounded-full bg-emerald-500" data-variant="success" />
-                    Live Facility
-                  </div>
-                </motion.div>
-
-                {/* Top */}
+                {/* Tag + Heading */}
                 <div>
                   <motion.div variants={chVariants}>
                     <Tag>Hosting</Tag>
@@ -118,46 +99,61 @@ export function Hosting() {
                   </motion.h2>
                 </div>
 
-                {/* Bottom — pushed down by space-between */}
-                <div className="mt-auto pt-10 lg:pt-0">
-                  <motion.p
-                    variants={chVariants}
-                    className="text-lg leading-relaxed text-foreground/70"
-                  >
-                    Colocate your ASICs at our facilities with sub-$0.06/kWh
-                    power, 97% uptime guarantees, and real-time monitoring
-                    through our SuperApp dashboard.{" "}
-                    <strong className="text-foreground">
-                      You retain full ownership
-                    </strong>{" "}
-                    while{" "}
-                    <strong className="text-foreground">
-                      we handle power
-                    </strong>
-                    ,{" "}
-                    <strong className="text-foreground">cooling</strong>,{" "}
-                    <strong className="text-foreground">maintenance</strong>,
-                    and{" "}
-                    <strong className="text-foreground">security</strong>.
-                  </motion.p>
+                {/* Body text */}
+                <motion.p
+                  variants={chVariants}
+                  className="mt-6 text-lg leading-relaxed text-foreground/70"
+                >
+                  Colocate your ASICs at our facilities with sub-$0.06/kWh
+                  power, 97% uptime guarantees, and real-time monitoring
+                  through our SuperApp dashboard.{" "}
+                  <strong className="text-foreground">
+                    You retain full ownership
+                  </strong>{" "}
+                  while{" "}
+                  <strong className="text-foreground">
+                    we handle power
+                  </strong>
+                  ,{" "}
+                  <strong className="text-foreground">cooling</strong>,{" "}
+                  <strong className="text-foreground">maintenance</strong>,
+                  and{" "}
+                  <strong className="text-foreground">security</strong>.
+                </motion.p>
 
-                  <div className="spacer-medium" />
+                {/* Facility photo */}
+                <motion.div
+                  variants={chVariants}
+                  className="relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src="/facilities/missouri.jpeg"
+                    alt="Bitmern Mining facility in Missouri"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                  {/* Location badge */}
+                  <div className="absolute bottom-3 left-3 rounded-md bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">
+                    Missouri, USA
+                  </div>
+                </motion.div>
 
-                  <motion.div
-                    variants={chVariants}
-                    className="flex flex-wrap items-center gap-4"
-                  >
-                    <Button size="lg" asChild>
-                      <Link href="/hosting">View Hosting Plans</Link>
-                    </Button>
-                    <Button variant="link" size="lg" className="gap-2" asChild>
-                      <Link href="/facilities">
-                        View Facilities
-                        <ChevronRight className="size-4" />
-                      </Link>
-                    </Button>
-                  </motion.div>
-                </div>
+                {/* CTAs */}
+                <motion.div
+                  variants={chVariants}
+                  className="mt-8 flex flex-wrap items-center gap-4"
+                >
+                  <Button size="lg" asChild>
+                    <Link href="/hosting">View Hosting Plans</Link>
+                  </Button>
+                  <Button variant="link" size="lg" className="gap-2" asChild>
+                    <Link href="/facilities">
+                      View Facilities
+                      <ChevronRight className="size-4" />
+                    </Link>
+                  </Button>
+                </motion.div>
               </motion.div>
 
               {/* Right column — 2x2 feature card grid */}
