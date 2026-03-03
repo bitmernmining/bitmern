@@ -1,11 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import { ArrowRight } from "lucide-react"
-import { useSection } from "@/lib/motion"
+import { useSection, slideFromLeft, slideFromRight } from "@/lib/motion"
 
 // ---------------------------------------------------------------------------
 // Data
@@ -19,6 +21,7 @@ const FEATURED_MINERS = [
       "Modular, tool-free upgrades in 90 seconds. 9 hashboards, immersion-ready.",
     price: "$9,490",
     estimate: "~$42/day est.",
+    image: "/hardware/antminer-s21-plus.webp",
   },
   {
     name: "Antminer S23",
@@ -26,6 +29,7 @@ const FEATURED_MINERS = [
     description: "Bitmain's latest generation flagship. Air-cooled.",
     price: "€7,299",
     estimate: "Top efficiency",
+    image: "/hardware/antminer-s21-plus.webp",
   },
   {
     name: "Bitdeer SealMiner A3 Pro",
@@ -33,6 +37,7 @@ const FEATURED_MINERS = [
     description: "US-competitive alternative with strong efficiency.",
     price: "€4,899",
     estimate: null,
+    image: "/hardware/antminer-s21-plus.webp",
   },
   {
     name: "Antminer S21 Pro",
@@ -40,6 +45,7 @@ const FEATURED_MINERS = [
     description: "Proven workhorse, high availability.",
     price: "$3,245",
     estimate: "~$14/day est.",
+    image: "/hardware/antminer-s21-pro.avif",
   },
   {
     name: "Avalon A15 Pro 221T",
@@ -47,6 +53,7 @@ const FEATURED_MINERS = [
     description: "Canaan's latest generation, strong value.",
     price: "$3,190",
     estimate: "~$13/day est.",
+    image: "/hardware/avalon-a15pro.webp",
   },
   {
     name: "Auradine Teraflux AT2880",
@@ -54,6 +61,7 @@ const FEATURED_MINERS = [
     description: "USA-engineered, EnergyTune auto-optimization.",
     price: "$3,490",
     estimate: "~$16/day est.",
+    image: "/hardware/antminer-s21-plus.webp",
   },
 ]
 
@@ -105,20 +113,38 @@ const ADVANTAGES = [
   },
 ]
 
-const BRANDS = [
-  "Bitmain",
-  "Canaan",
-  "Bitdeer",
-  "Auradine",
-  "Proto",
-  "21 Energy",
-  "Goldshell",
-  "ElphaPex",
-  "VolcMiner",
-  "iBeLink",
-  "Jasminer",
-  "Innosilicon",
+type Brand = {
+  name: string
+  logo?: string
+}
+
+const BRANDS: Brand[] = [
+  { name: "Bitmain", logo: "/partners/bitmain.avif" },
+  { name: "Canaan", logo: "/partners/avalon.avif" },
+  { name: "Bitdeer" },
+  { name: "Auradine", logo: "/partners/auradine.webp" },
+  { name: "Proto" },
+  { name: "21 Energy" },
+  { name: "Goldshell" },
+  { name: "ElphaPex" },
+  { name: "VolcMiner" },
+  { name: "iBeLink" },
+  { name: "Jasminer" },
+  { name: "Innosilicon" },
 ]
+
+// ---------------------------------------------------------------------------
+// Float animation for hero product image
+// ---------------------------------------------------------------------------
+
+const floatAnimation = {
+  y: [0, -8, 0],
+  transition: {
+    duration: 4,
+    repeat: Infinity,
+    ease: "easeInOut" as const,
+  },
+}
 
 // ---------------------------------------------------------------------------
 // Component
@@ -131,12 +157,11 @@ export function HardwarePage() {
   const advantage = useSection()
   const brands = useSection()
   const bulk = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero                                                              */}
+      {/* Hero — Split Layout                                               */}
       {/* ----------------------------------------------------------------- */}
       <section ref={hero.ref}>
         <div className="padding-global">
@@ -146,51 +171,74 @@ export function HardwarePage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-center"
+                className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr]"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Hardware</Tag>
-                </motion.div>
+                {/* Left — Copy */}
+                <div>
+                  <motion.div variants={slideFromLeft}>
+                    <Tag>Hardware</Tag>
+                  </motion.div>
 
-                <div className="spacer-xsmall" />
+                  <div className="spacer-xsmall" />
 
-                <motion.h1
-                  variants={hero.chVariants}
-                  className="text-balance"
-                >
-                  Source ASIC Miners at Institutional Pricing
-                </motion.h1>
+                  <motion.h1
+                    variants={slideFromLeft}
+                    className="text-balance"
+                  >
+                    Source Miners at Institutional Pricing
+                  </motion.h1>
 
-                <div className="spacer-small" />
+                  <div className="spacer-small" />
 
-                <motion.p
-                  variants={hero.chVariants}
-                  className="mx-auto max-w-2xl text-lg leading-relaxed text-foreground/70"
-                >
-                  Leverage our direct relationships with Bitmain, Canaan,
-                  Bitdeer, Auradine, and 13 more manufacturers for priority
-                  allocation and volume pricing. We handle logistics, import,
-                  and deployment at our facilities or yours.
-                </motion.p>
+                  <motion.p
+                    variants={slideFromLeft}
+                    className="max-w-xl text-lg leading-relaxed text-foreground/70"
+                  >
+                    Leverage our direct relationships with Bitmain, Canaan,
+                    Bitdeer, Auradine, and 13 more manufacturers for priority
+                    allocation and volume pricing. We handle logistics, import,
+                    and deployment at our facilities or yours.
+                  </motion.p>
 
-                <div className="spacer-medium" />
+                  <div className="spacer-medium" />
 
+                  <motion.div
+                    variants={slideFromLeft}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <a
+                        href="https://shop.bitmernmining.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Shop All Miners
+                      </a>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <Link href="/contact">Get a Bulk Quote</Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right — Product Photo */}
                 <motion.div
-                  variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  variants={slideFromRight}
+                  className="flex items-center justify-center"
                 >
-                  <Button size="lg" asChild>
-                    <a
-                      href="https://shop.bitmernmining.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Shop All Miners
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/contact">Get a Bulk Quote</Link>
-                  </Button>
+                  <motion.div
+                    animate={floatAnimation}
+                    className="relative w-full max-w-md"
+                  >
+                    <Image
+                      src="/hardware/antminer-s21-plus.webp"
+                      alt="Bitmain Antminer S21+"
+                      width={600}
+                      height={500}
+                      className="h-auto w-full drop-shadow-2xl"
+                      priority
+                    />
+                  </motion.div>
                 </motion.div>
               </motion.div>
             </div>
@@ -199,7 +247,7 @@ export function HardwarePage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Featured Miners                                                   */}
+      {/* Featured Miners — Bento Layout with Product Photos                */}
       {/* ----------------------------------------------------------------- */}
       <section ref={miners.ref} className="section-elevated">
         <div className="padding-global">
@@ -225,53 +273,135 @@ export function HardwarePage() {
 
                 <div className="spacer-large" />
 
+                {/* Featured row — first 2 products, larger cards */}
                 <motion.div
                   variants={miners.crdStagger}
-                  className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                  className="grid gap-6 lg:grid-cols-2"
                 >
-                  {FEATURED_MINERS.map((miner) => (
+                  {FEATURED_MINERS.slice(0, 2).map((miner) => (
                     <motion.div
                       key={miner.name}
                       variants={miners.crdFade}
-                      className="card-surface flex flex-col border border-border/60 rounded-lg p-6"
+                      className="group card-surface flex flex-col overflow-hidden border border-border/60 rounded-lg"
                     >
-                      <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-tight tracking-tight">
-                        {miner.name}
-                      </h3>
+                      {/* Product image */}
+                      <div className="relative aspect-[4/3] bg-foreground/[0.03]">
+                        <Image
+                          src={miner.image}
+                          alt={miner.name}
+                          fill
+                          className="object-contain p-6 transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      </div>
 
-                      <div className="spacer-xxsmall" />
+                      <div className="flex flex-1 flex-col p-6 lg:p-8">
+                        <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-tight tracking-tight">
+                          {miner.name}
+                        </h3>
 
-                      <p className="font-mono text-sm text-foreground/50">
-                        {miner.specs}
-                      </p>
+                        <div className="spacer-xxsmall" />
 
-                      <div className="spacer-xsmall" />
-
-                      <p className="text-sm leading-relaxed text-foreground/60">
-                        {miner.description}
-                      </p>
-
-                      <div className="mt-auto pt-6">
-                        <p className="font-heading text-2xl font-bold text-primary">
-                          {miner.price}
+                        <p className="font-mono text-sm text-foreground/50">
+                          {miner.specs}
                         </p>
-                        {miner.estimate && (
-                          <p className="mt-1 font-mono text-xs text-foreground/50">
-                            {miner.estimate}
+
+                        <div className="spacer-xsmall" />
+
+                        <p className="text-sm leading-relaxed text-foreground/60">
+                          {miner.description}
+                        </p>
+
+                        <div className="mt-auto pt-6">
+                          <p className="font-heading text-2xl font-bold text-primary">
+                            {miner.price}
                           </p>
-                        )}
+                          {miner.estimate && (
+                            <p className="mt-1 font-mono text-xs text-foreground/50">
+                              {miner.estimate}
+                            </p>
+                          )}
 
-                        <div className="spacer-small" />
+                          <div className="spacer-small" />
 
-                        <a
-                          href="https://shop.bitmernmining.com"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
-                        >
-                          View Details
-                          <ArrowRight className="size-3.5" />
-                        </a>
+                          <a
+                            href="https://shop.bitmernmining.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                          >
+                            View Details
+                            <ArrowRight className="size-3.5" />
+                          </a>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                <div className="spacer-medium" />
+
+                {/* Remaining miners — smaller grid */}
+                <motion.div
+                  variants={miners.crdStagger}
+                  className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                >
+                  {FEATURED_MINERS.slice(2).map((miner) => (
+                    <motion.div
+                      key={miner.name}
+                      variants={miners.crdFade}
+                      className="group card-surface flex flex-col overflow-hidden border border-border/60 rounded-lg"
+                    >
+                      {/* Product image */}
+                      <div className="relative aspect-[4/3] bg-foreground/[0.03]">
+                        <Image
+                          src={miner.image}
+                          alt={miner.name}
+                          fill
+                          className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        />
+                      </div>
+
+                      <div className="flex flex-1 flex-col p-5">
+                        <h3 className="font-heading text-[1.1rem] font-normal uppercase leading-tight tracking-tight">
+                          {miner.name}
+                        </h3>
+
+                        <div className="spacer-xxsmall" />
+
+                        <p className="font-mono text-xs text-foreground/50">
+                          {miner.specs}
+                        </p>
+
+                        <div className="spacer-xsmall" />
+
+                        <p className="text-xs leading-relaxed text-foreground/60">
+                          {miner.description}
+                        </p>
+
+                        <div className="mt-auto pt-4">
+                          <p className="font-heading text-xl font-bold text-primary">
+                            {miner.price}
+                          </p>
+                          {miner.estimate && (
+                            <p className="mt-1 font-mono text-xs text-foreground/50">
+                              {miner.estimate}
+                            </p>
+                          )}
+
+                          <div className="spacer-xsmall" />
+
+                          <a
+                            href="https://shop.bitmernmining.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                          >
+                            View Details
+                            <ArrowRight className="size-3.5" />
+                          </a>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
@@ -385,7 +515,7 @@ export function HardwarePage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Brands                                                            */}
+      {/* Manufacturers — Logos + Text                                      */}
       {/* ----------------------------------------------------------------- */}
       <section ref={brands.ref}>
         <div className="padding-global">
@@ -408,16 +538,32 @@ export function HardwarePage() {
 
                 <motion.div
                   variants={brands.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
+                  className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6"
                 >
-                  {BRANDS.map((brand) => (
-                    <span
-                      key={brand}
-                      className="font-mono text-sm uppercase tracking-wide text-foreground/40"
-                    >
-                      {brand}
-                    </span>
-                  ))}
+                  {BRANDS.map((brand) =>
+                    brand.logo ? (
+                      <div
+                        key={brand.name}
+                        className="flex items-center"
+                        title={brand.name}
+                      >
+                        <Image
+                          src={brand.logo}
+                          alt={brand.name}
+                          width={120}
+                          height={32}
+                          className="h-8 w-auto object-contain opacity-60 transition-opacity duration-350 hover:opacity-100"
+                        />
+                      </div>
+                    ) : (
+                      <span
+                        key={brand.name}
+                        className="font-mono text-sm uppercase tracking-wide text-foreground/40"
+                      >
+                        {brand.name}
+                      </span>
+                    ),
+                  )}
                 </motion.div>
               </motion.div>
             </div>
@@ -472,57 +618,14 @@ export function HardwarePage() {
       {/* ----------------------------------------------------------------- */}
       {/* Bottom CTA                                                        */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl text-center"
-              >
-                <motion.h2
-                  variants={cta.chVariants}
-                  className="text-balance"
-                >
-                  Browse the Full Catalog
-                </motion.h2>
-
-                <div className="spacer-small" />
-
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-base leading-relaxed text-foreground/70"
-                >
-                  150+ products across 17 brands. New miners, used miners,
-                  accessories, containers, and cooling solutions.
-                </motion.p>
-
-                <div className="spacer-medium" />
-
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <a
-                      href="https://shop.bitmernmining.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Shop All Miners
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/contact">Get a Custom Quote</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Full Catalog"
+        heading="Browse 150+ Products Across 17 Brands"
+        description="New miners, used miners, accessories, containers, and cooling solutions — all at institutional pricing."
+        primaryCTA={{ label: "Shop All Miners", href: "https://shop.bitmernmining.com" }}
+        secondaryCTA={{ label: "Get a Custom Quote", href: "/contact" }}
+        variant="dark"
+      />
     </>
   )
 }
