@@ -14,7 +14,6 @@ import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection, useCountUp } from "@/lib/motion"
-import { ImageSection } from "@/components/ui/image-section"
 import { SectionCTA } from "@/components/ui/section-cta"
 
 // ---------------------------------------------------------------------------
@@ -338,7 +337,7 @@ export function InstitutionalPage() {
                 </motion.div>
 
                 {/* Proximate disclaimer for compliance */}
-                <p className="mx-auto mt-8 max-w-xl border-l-2 border-primary/40 pl-3 text-left text-sm font-medium text-foreground/70">
+                <p className="mx-auto mt-8 max-w-xl text-left text-sm font-medium text-foreground/50 italic">
                   * Based on historical Bitcoin network performance. Past
                   performance does not guarantee future results. Mining returns
                   are variable and depend on network difficulty, energy costs,
@@ -349,38 +348,6 @@ export function InstitutionalPage() {
           </div>
         </div>
       </section>
-
-      {/* ----------------------------------------------------------------- */}
-      {/* Full-Bleed Photo Break */}
-      {/* ----------------------------------------------------------------- */}
-      <ImageSection
-        src="/facilities/north-dakota.webp"
-        alt="Bitmern Mining facility — North Dakota"
-        overlay="gradient"
-        className="min-h-[40vh]"
-      >
-        <div className="padding-section-medium">
-          <div className="mx-auto max-w-3xl text-center text-white">
-            <p className="font-heading text-2xl font-semibold lg:text-3xl">
-              Multi-site infrastructure across the United States and international jurisdictions
-            </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-8">
-              <div className="text-center">
-                <span className="block font-heading text-4xl font-bold lg:text-5xl">4</span>
-                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Active Facilities</span>
-              </div>
-              <div className="text-center">
-                <span className="block font-heading text-4xl font-bold lg:text-5xl">3</span>
-                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Countries</span>
-              </div>
-              <div className="text-center">
-                <span className="block font-heading text-4xl font-bold lg:text-5xl">97%</span>
-                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Uptime Guarantee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ImageSection>
 
       {/* ----------------------------------------------------------------- */}
       {/* Blocks Fund */}
@@ -511,7 +478,7 @@ export function InstitutionalPage() {
 
                 <motion.ul
                   variants={compliance.chVariants}
-                  className="mx-auto max-w-2xl space-y-6"
+                  className="max-w-2xl space-y-6"
                 >
                   {COMPLIANCE_ITEMS.map((item) => (
                     <li
@@ -585,7 +552,7 @@ export function InstitutionalPage() {
         description="Our team works directly with family offices, funds, and high-net-worth individuals to structure mining investments."
         primaryCTA={{ label: "Book a Call", href: "/contact" }}
         secondaryCTA={{ label: "View Our Facilities", href: "/facilities" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

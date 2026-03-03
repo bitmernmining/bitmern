@@ -7,7 +7,6 @@ import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { SectionCTA } from "@/components/ui/section-cta"
-import { ImageSection } from "@/components/ui/image-section"
 import { FacilityGlobe } from "@/components/animations/facility-globe"
 import { useSection } from "@/lib/motion"
 
@@ -396,33 +395,6 @@ export function FacilitiesPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Full-Bleed Photo Break */}
-      {/* --------------------------------------------------------------- */}
-      <ImageSection
-        src="/facilities/addis-ababa.webp"
-        alt="Bitmern Mining facility in Addis Ababa, Ethiopia"
-        overlay="gradient"
-        className="min-h-[50vh]"
-      >
-        <div className="flex items-center justify-center py-20 lg:py-28">
-          <div className="grid gap-12 text-center text-white sm:grid-cols-3">
-            <div>
-              <p className="font-heading text-4xl font-bold lg:text-5xl">31.5+ MW</p>
-              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Total Capacity</p>
-            </div>
-            <div>
-              <p className="font-heading text-4xl font-bold lg:text-5xl">4</p>
-              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Countries</p>
-            </div>
-            <div>
-              <p className="font-heading text-4xl font-bold lg:text-5xl">97%</p>
-              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Uptime Guarantee</p>
-            </div>
-          </div>
-        </div>
-      </ImageSection>
-
-      {/* --------------------------------------------------------------- */}
       {/* What Every Facility Includes */}
       {/* --------------------------------------------------------------- */}
       <section ref={standard.ref}>
@@ -542,7 +514,7 @@ export function FacilitiesPage() {
         description="We'll help you choose the optimal facility based on your fleet size, budget, and risk profile."
         primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
         secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

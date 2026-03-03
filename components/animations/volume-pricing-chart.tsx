@@ -19,7 +19,7 @@ let COLORS: AnimColors = null as unknown as AnimColors
 export function VolumePricingChart({ className }: { className?: string }) {
   const globalTimeRef = useRef(0)
 
-  const init = useCallback((_ctx: CanvasRenderingContext2D, _w: number, _h: number) => {
+  const init = useCallback(() => {
     COLORS = resolveThemeColors()
   }, [])
 

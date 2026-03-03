@@ -128,7 +128,7 @@ export function DeployCapital() {
               {/* Featured card — spans 2 rows */}
               <motion.div
                 variants={bFeatured}
-                className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60 border-l-2 border-l-primary bg-gradient-to-br from-primary/[0.04] to-transparent lg:row-span-2"
+                className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60 bg-gradient-to-br from-primary/[0.04] to-transparent lg:row-span-2"
               >
                 {/* Card content */}
                 <div className="flex flex-1 flex-col p-8">

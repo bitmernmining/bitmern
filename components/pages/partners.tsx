@@ -177,7 +177,7 @@ export function PartnersPage() {
                       variants={strategic.crdFade}
                       whileHover={{ y: -3 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className={`card-surface group flex flex-col gap-4 rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                      className={`card-surface group flex flex-col gap-4 rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "hover:opacity-90" : ""}`}
                     >
                       {hasLogo && (
                         <div className="mb-1">
@@ -239,7 +239,7 @@ export function PartnersPage() {
                       variants={hardware.crdFade}
                       whileHover={{ y: -2 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className={`card-surface group rounded-lg border border-border/60 p-6 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                      className={`card-surface group rounded-lg border border-border/60 p-6 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "hover:opacity-90" : ""}`}
                     >
                       {hasLogo && (
                         <div className="mb-3">
@@ -293,7 +293,7 @@ export function PartnersPage() {
                       variants={ecosystem.crdFade}
                       whileHover={{ y: -3 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                      className={`card-surface group rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "grayscale hover:grayscale-0" : ""}`}
+                      className={`card-surface group rounded-lg border border-border/60 p-8 transition-shadow duration-350 hover:shadow-md ${hasLogo ? "hover:opacity-90" : ""}`}
                     >
                       {hasLogo && (
                         <div className="mb-4">
@@ -319,7 +319,7 @@ export function PartnersPage() {
       {/* Become a Partner CTA */}
       {/* ----------------------------------------------------------------- */}
       <SectionCTA
-        variant="dark"
+        variant="elevated"
         tag="Partner With Us"
         heading="Become a Bitmern Partner"
         description="We're always looking for strategic partners — hardware manufacturers, energy providers, institutional investors, and technology companies. If you can help us mine more Bitcoin, more efficiently, we want to talk."

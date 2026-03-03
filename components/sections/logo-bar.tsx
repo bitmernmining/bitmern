@@ -34,7 +34,7 @@ export function LogoBar() {
                     alt={partner.name}
                     width={120}
                     height={32}
-                    className="h-8 w-auto opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+                    className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity"
                   />
                 ))}
               </LogoMarquee>

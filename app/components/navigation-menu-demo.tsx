@@ -15,7 +15,6 @@ import {
   Cpu,
   Building2,
   BarChart3,
-  Pickaxe,
   BookOpen,
   Users,
   Phone,

@@ -168,7 +168,7 @@ function DropdownItem({
         ease: [0.25, 0.1, 0.25, 1],
       }}
     >
-      <NavigationMenuLink href={href} className="hover:bg-accent/50 border-l-2 border-transparent hover:border-primary">
+      <NavigationMenuLink href={href} className="hover:bg-accent/50">
         <div className="mb-3">
           <NavigationMenuIconWrapper>
             <Icon className="size-5" />
@@ -315,17 +315,6 @@ export function Navbar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
-                {/* Insights — plain link styled as trigger */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink
-                    href="/insights"
-                    data-active={pathname.startsWith("/insights") ? "true" : undefined}
-                    className={cn(navigationMenuTriggerStyle(), "relative data-[active=true]:text-foreground data-[active=true]:after:content-[''] data-[active=true]:after:absolute data-[active=true]:after:bottom-0 data-[active=true]:after:left-3 data-[active=true]:after:right-3 data-[active=true]:after:h-0.5 data-[active=true]:after:bg-primary data-[active=true]:after:rounded-full")}
-                  >
-                    Insights
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-
                 {/* Contact — plain link */}
                 <NavigationMenuItem>
                   <NavigationMenuLink
@@ -460,14 +449,6 @@ export function Navbar() {
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
-
-                {/* Insights — plain link */}
-                <Link
-                  href="/insights"
-                  className="flex items-center px-3 py-3 text-sm font-semibold transition-colors hover:text-primary"
-                >
-                  Insights
-                </Link>
 
                 {/* Contact — plain link */}
                 <Link

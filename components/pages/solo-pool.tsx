@@ -766,7 +766,7 @@ export function SoloPoolPage() {
         description="Create a free account, point your miner at our stratum, and start submitting shares in minutes."
         primaryCTA={{ label: "Create Free Account", href: "https://app.bitmernsolo.com" }}
         secondaryCTA={{ label: "Read the Docs", href: "https://bitmernsolo.com/docs" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

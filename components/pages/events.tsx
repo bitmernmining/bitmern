@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { CalendarDays, MapPin, Globe, Building2 } from "lucide-react"
+import { CalendarDays, Globe, Building2 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
@@ -40,7 +40,6 @@ const PAST_EVENTS = [
 
 export function EventsPage() {
   const hero = useSection()
-  const upcoming = useSection()
   const summits = useSection()
   const past = useSection()
   const tours = useSection()
@@ -77,73 +76,6 @@ export function EventsPage() {
                   blockchain community. Find us at conferences, summits, and
                   facility tours throughout the year.
                 </motion.p>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------------------- */}
-      {/* Upcoming Events */}
-      {/* ----------------------------------------------------------------- */}
-      <section ref={upcoming.ref} className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-medium">
-              <motion.div
-                variants={upcoming.cVariants}
-                initial="hidden"
-                animate={upcoming.inView ? "visible" : "hidden"}
-                className="mb-12"
-              >
-                <motion.h2 variants={upcoming.chVariants}>Upcoming</motion.h2>
-              </motion.div>
-
-              <motion.div
-                variants={upcoming.crdStagger}
-                initial="hidden"
-                animate={upcoming.inView ? "visible" : "hidden"}
-              >
-                <motion.div
-                  variants={upcoming.crdFade}
-                  className="card-surface rounded-lg border border-border/60 p-8 lg:p-12"
-                >
-                  <div className="grid gap-8 lg:grid-cols-[1fr_auto]">
-                    <div className="flex flex-col gap-5">
-                      <Tag variant="primary" size="sm">
-                        Featured Event
-                      </Tag>
-                      <h3 className="font-heading text-[1.728rem] font-normal uppercase leading-none tracking-tight">
-                        Blockchain Life 2026
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-6 text-foreground/60">
-                        <span className="inline-flex items-center gap-2">
-                          <CalendarDays className="size-4" strokeWidth={1.5} />
-                          <span className="font-mono text-sm">
-                            October 28&ndash;29, 2026
-                          </span>
-                        </span>
-                        <span className="inline-flex items-center gap-2">
-                          <MapPin className="size-4" strokeWidth={1.5} />
-                          <span className="font-mono text-sm">Dubai, UAE</span>
-                        </span>
-                      </div>
-                      <p className="max-w-2xl text-base leading-relaxed text-foreground/70">
-                        The 16th Blockchain Life Forum &mdash; the largest
-                        blockchain conference in the MENA region, gathering
-                        15,000+ attendees. Bitmern&rsquo;s leadership team will
-                        be on-site for meetings, panels, and networking.
-                      </p>
-                    </div>
-                    <div className="flex items-end">
-                      <Button size="lg" asChild>
-                        <Link href="/contact">
-                          Book a Meeting With Us at Blockchain Life
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
-                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -343,7 +275,7 @@ export function EventsPage() {
       {/* Bottom CTA */}
       {/* ----------------------------------------------------------------- */}
       <SectionCTA
-        variant="dark"
+        variant="elevated"
         heading="Let's Meet"
         description="Whether it's at a conference, a facility tour, or a private consultation — we'd love to connect."
         primaryCTA={{ label: "Book a Meeting", href: "/contact" }}

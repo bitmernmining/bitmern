@@ -19,7 +19,7 @@ export function SectionCTA({ tag, heading, description, primaryCTA, secondaryCTA
   const { ref, cVariants, chVariants, inView } = useSection()
 
   const sectionClass = variant === "dark"
-    ? "section-dark"
+    ? "section-elevated"
     : variant === "primary"
     ? "bg-primary text-primary-foreground"
     : "section-elevated"

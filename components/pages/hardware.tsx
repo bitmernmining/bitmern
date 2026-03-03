@@ -624,7 +624,7 @@ export function HardwarePage() {
         description="New miners, used miners, accessories, containers, and cooling solutions — all at institutional pricing."
         primaryCTA={{ label: "Shop All Miners", href: "https://shop.bitmernmining.com" }}
         secondaryCTA={{ label: "Get a Custom Quote", href: "/contact" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

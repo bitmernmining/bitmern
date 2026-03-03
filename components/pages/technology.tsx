@@ -10,7 +10,6 @@ import {
   Settings,
   Smartphone,
   Tablet,
-  Brain,
   ArrowRight,
   Cpu,
 } from "lucide-react"
@@ -44,7 +43,7 @@ const SUPERAPP_FEATURES = [
   {
     icon: Globe,
     title: "Multi-Facility View",
-    body: "Monitor miners across all 7 global locations from a single interface. Compare facility performance side by side.",
+    body: "Monitor miners across all 5 global facilities from a single interface. Compare facility performance side by side.",
   },
   {
     icon: BarChart3,
@@ -210,37 +209,7 @@ export function TechnologyPage() {
                 </motion.h2>
               </motion.div>
 
-              {/* Device Composition — dashboard + mobile overlap */}
               <div className="spacer-large" />
-              <motion.div
-                variants={features.cVariants}
-                initial="hidden"
-                animate={features.inView ? "visible" : "hidden"}
-                className="relative mx-auto max-w-3xl"
-              >
-                <motion.div variants={features.chVariants}>
-                  {/* Main dashboard mockup */}
-                  <Image
-                    src="/mockups/app-dashboard.webp"
-                    alt="Bitmern SuperApp dashboard view"
-                    width={1040}
-                    height={780}
-                    className="rounded-lg shadow-xl"
-                  />
-                  {/* Mobile mockup — overlapping bottom-left */}
-                  <div className="absolute -bottom-6 -left-4 w-[30%] sm:-bottom-8 sm:-left-8 md:-bottom-10 md:-left-12">
-                    <Image
-                      src="/mockups/app-mobile.webp"
-                      alt="Bitmern SuperApp mobile view"
-                      width={400}
-                      height={800}
-                      className="rounded-lg shadow-2xl"
-                    />
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              <div className="spacer-xlarge" />
 
               <motion.div
                 variants={features.crdStagger}
@@ -312,16 +281,16 @@ export function TechnologyPage() {
                 variants={ai.crdStagger}
                 initial="hidden"
                 animate={ai.inView ? "visible" : "hidden"}
-                className="grid gap-8 md:grid-cols-3"
+                className="grid gap-6 md:grid-cols-3"
               >
                 {AI_STEPS.map((step, i) => (
                   <motion.div
                     key={step.num}
                     variants={ai.crdFade}
-                    className="relative"
+                    className="card-surface rounded-lg border border-border/60 p-8"
                   >
-                    <div className="mb-4 flex items-center gap-3">
-                      <span className="font-mono text-4xl font-bold text-primary/30">
+                    <div className="mb-6 flex items-center gap-3">
+                      <span className="font-heading text-[2.5rem] font-bold leading-none text-primary/20">
                         {step.num}
                       </span>
                       {i < AI_STEPS.length - 1 && (
@@ -337,27 +306,6 @@ export function TechnologyPage() {
                   </motion.div>
                 ))}
               </motion.div>
-
-              {/* Stat highlight */}
-              <div className="spacer-large" />
-              <motion.div
-                variants={ai.cVariants}
-                initial="hidden"
-                animate={ai.inView ? "visible" : "hidden"}
-              >
-                <motion.div
-                  variants={ai.chVariants}
-                  className="mx-auto max-w-md rounded-lg border border-primary/20 bg-primary/5 p-8 text-align-center"
-                >
-                  <Brain className="mx-auto mb-4 size-8 text-primary" />
-                  <p className="font-heading text-[2.5rem] font-bold leading-tight text-primary">
-                    25-35%
-                  </p>
-                  <p className="mt-2 font-mono text-sm uppercase tracking-tight text-foreground/60">
-                    Performance Improvement
-                  </p>
-                </motion.div>
-              </motion.div>
             </div>
           </div>
         </div>
@@ -369,7 +317,7 @@ export function TechnologyPage() {
       <SectionCTA
         tag="Bitmern SuperApp"
         heading="Monitor Everything from One Dashboard"
-        primaryCTA={{ label: "Download the App", href: "/contact" }}
+        primaryCTA={{ label: "Request Access", href: "/contact" }}
         variant="elevated"
       />
 
@@ -486,39 +434,6 @@ export function TechnologyPage() {
                 })}
               </motion.div>
 
-              {/* App Store Download Buttons */}
-              <div className="spacer-medium" />
-              <motion.div
-                variants={platforms.cVariants}
-                initial="hidden"
-                animate={platforms.inView ? "visible" : "hidden"}
-                className="flex items-center justify-center gap-3"
-              >
-                <motion.div variants={platforms.chVariants}>
-                  {/* TODO: Replace # with real App Store link */}
-                  <a href="#" target="_blank" rel="noopener noreferrer">
-                    <Image
-                      src="/mockups/app-store.webp"
-                      alt="Download on the App Store"
-                      width={160}
-                      height={48}
-                      className="h-12 w-auto"
-                    />
-                  </a>
-                </motion.div>
-                <motion.div variants={platforms.chVariants}>
-                  {/* TODO: Replace # with real Google Play link */}
-                  <a href="#" target="_blank" rel="noopener noreferrer">
-                    <Image
-                      src="/mockups/google-play.webp"
-                      alt="Get it on Google Play"
-                      width={160}
-                      height={48}
-                      className="h-12 w-auto"
-                    />
-                  </a>
-                </motion.div>
-              </motion.div>
             </div>
           </div>
         </div>
@@ -530,10 +445,10 @@ export function TechnologyPage() {
       <SectionCTA
         tag="Get Started"
         heading="See Your Mining Operation in Real Time"
-        description="Download the SuperApp or log in to the web dashboard to start monitoring."
+        description="Log in to the web dashboard or request app access to start monitoring."
         primaryCTA={{ label: "Get Started", href: "/contact" }}
         secondaryCTA={{ label: "View Hosting Plans", href: "/hosting" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

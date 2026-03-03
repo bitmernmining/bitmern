@@ -19,7 +19,6 @@ import {
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection } from "@/lib/motion"
-import { ImageSection } from "@/components/ui/image-section"
 import { SectionCTA } from "@/components/ui/section-cta"
 
 type FormState = "idle" | "submitting" | "success" | "error"
@@ -58,7 +57,7 @@ const SERVICE_LINKS = [
   {
     icon: Server,
     title: "Hosting Quote",
-    description: "Get pricing for your fleet at any of our 7 facilities",
+    description: "Get pricing for your fleet at any of our 5 facilities",
     href: "/hosting",
   },
   {
@@ -140,7 +139,7 @@ const selectClass =
 // ---------------------------------------------------------------------------
 
 const TRUST_STATS = [
-  { value: "7", label: "Facilities" },
+  { value: "5", label: "Facilities" },
   { value: "97%", label: "Uptime" },
   { value: "1,400+", label: "Miners Deployed" },
 ]
@@ -179,39 +178,39 @@ export function ContactPage() {
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero — Dark with facility photo background */}
+      {/* Hero */}
       {/* ----------------------------------------------------------------- */}
-      <ImageSection
-        src="/facilities/indiana.webp"
-        alt="Bitmern Mining facility in Indiana"
-        overlay="dark"
-      >
-        <div className="padding-section-large" ref={hero.ref}>
-          <motion.div
-            variants={hero.cVariants}
-            initial="hidden"
-            animate={hero.inView ? "visible" : "hidden"}
-            className="max-w-3xl text-white"
-          >
-            <motion.div variants={hero.chVariants}>
-              <Tag>Contact</Tag>
-            </motion.div>
-            <div className="spacer-xsmall" />
-            <motion.h1 variants={hero.chVariants} className="text-white">
-              Let&rsquo;s Talk Mining
-            </motion.h1>
-            <div className="spacer-small" />
-            <motion.p
-              variants={hero.chVariants}
-              className="text-[1.125rem] leading-relaxed text-white/70"
-            >
-              Whether you&rsquo;re deploying your first miner or scaling an
-              institutional portfolio, our team is ready to help. Book a
-              strategy call, request a quote, or reach out directly.
-            </motion.p>
-          </motion.div>
+      <section ref={hero.ref}>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-large">
+              <motion.div
+                variants={hero.cVariants}
+                initial="hidden"
+                animate={hero.inView ? "visible" : "hidden"}
+                className="max-w-3xl"
+              >
+                <motion.div variants={hero.chVariants}>
+                  <Tag>Contact</Tag>
+                </motion.div>
+                <div className="spacer-xsmall" />
+                <motion.h1 variants={hero.chVariants}>
+                  Let&rsquo;s Talk Mining
+                </motion.h1>
+                <div className="spacer-small" />
+                <motion.p
+                  variants={hero.chVariants}
+                  className="text-[1.125rem] leading-relaxed text-foreground/60"
+                >
+                  Whether you&rsquo;re deploying your first miner or scaling an
+                  institutional portfolio, our team is ready to help. Book a
+                  strategy call, request a quote, or reach out directly.
+                </motion.p>
+              </motion.div>
+            </div>
+          </div>
         </div>
-      </ImageSection>
+      </section>
 
       {/* ----------------------------------------------------------------- */}
       {/* Contact Methods */}

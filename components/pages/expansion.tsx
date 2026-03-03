@@ -426,7 +426,7 @@ export function ExpansionPage() {
         description="Reserve your hosting allocation at upcoming facilities. Current clients receive priority access and locked pricing."
         primaryCTA={{ label: "Reserve Your Spot", href: "/contact" }}
         secondaryCTA={{ label: "View Current Facilities", href: "/facilities" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

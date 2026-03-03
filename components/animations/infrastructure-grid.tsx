@@ -4,24 +4,24 @@ import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
 import { lerp, resolveThemeColors, rgba } from "@/lib/animation-utils"
 
-// --- Config: identical to Webflow source ---
+// --- Config: tuned for ambient hero background ---
 const CONFIG = {
-  dotSpacing: 50,
-  dotRadius: 1.5,
-  baseDotOpacity: 0.45,
-  activeDotOpacity: 0.95,
-  sweepSpeed: 0.18,
-  sweepWidth: 200,
-  sweepFadeIn: 70,
-  sweepFadeOut: 100,
-  connectionDistance: 72,
-  connectionOpacity: 0.18,
+  dotSpacing: 70,
+  dotRadius: 1.2,
+  baseDotOpacity: 0.25,
+  activeDotOpacity: 0.55,
+  sweepSpeed: 0.08,
+  sweepWidth: 280,
+  sweepFadeIn: 120,
+  sweepFadeOut: 160,
+  connectionDistance: 95,
+  connectionOpacity: 0.08,
   connectionWidth: 1,
-  signalSpeed: 0.22,
-  signalRadius: 3,
-  signalOpacity: 0.9,
-  signalSpawnRate: 0.01,
-  signalTrailLength: 22,
+  signalSpeed: 0.18,
+  signalRadius: 2,
+  signalOpacity: 0.5,
+  signalSpawnRate: 0.003,
+  signalTrailLength: 16,
 } as const
 
 const DIRECTIONS = [
@@ -41,8 +41,15 @@ interface Dot {
   y: number
   col: number
   row: number
+  idx: number
   intensity: number
   neighbors: Dot[]
+}
+
+// Pre-computed connection pair (avoids indexOf per frame)
+interface Edge {
+  a: Dot
+  b: Dot
 }
 
 interface Signal {
@@ -103,6 +110,7 @@ function calculateDotIntensityFromSweep(dot: Dot, sweep: Sweep, w: number, h: nu
 // --- Component ---
 export function InfrastructureGrid({ className }: { className?: string }) {
   const dotsRef = useRef<Dot[]>([])
+  const edgesRef = useRef<Edge[]>([])
   const signalsRef = useRef<Signal[]>([])
   const sweepsRef = useRef<Sweep[]>([])
   const colorsRef = useRef(resolveThemeColors())
@@ -133,6 +141,7 @@ export function InfrastructureGrid({ className }: { className?: string }) {
           y: row * CONFIG.dotSpacing + offsetY,
           col,
           row,
+          idx: dots.length,
           intensity: 0,
           neighbors: [],
         })
@@ -150,7 +159,23 @@ export function InfrastructureGrid({ className }: { className?: string }) {
       })
     }
 
+    // Pre-compute unique edge pairs (draw each connection once, not twice)
+    const edges: Edge[] = []
+    const seen = new Set<string>()
+    for (const dot of dots) {
+      for (const neighbor of dot.neighbors) {
+        const key = dot.idx < neighbor.idx
+          ? `${dot.idx}:${neighbor.idx}`
+          : `${neighbor.idx}:${dot.idx}`
+        if (!seen.has(key)) {
+          seen.add(key)
+          edges.push({ a: dot, b: neighbor })
+        }
+      }
+    }
+
     dotsRef.current = dots
+    edgesRef.current = edges
     signalsRef.current = []
 
     // Dual sweeps
@@ -226,26 +251,24 @@ export function InfrastructureGrid({ className }: { className?: string }) {
       // --- Render ---
       ctx.clearRect(0, 0, w, h)
 
-      // Connections between active dots
-      for (let i = 0; i < dots.length; i++) {
-        const dot = dots[i]
-        if (dot.intensity < 0.1) continue
-        for (const neighbor of dot.neighbors) {
-          if (neighbor.intensity < 0.1) continue
-          // Only draw once per pair — use index comparison
-          if (dots.indexOf(neighbor) < i) continue
-          const strength = Math.min(dot.intensity, neighbor.intensity)
-          const color = lerpColor(strength)
-          ctx.beginPath()
-          ctx.moveTo(dot.x, dot.y)
-          ctx.lineTo(neighbor.x, neighbor.y)
-          ctx.strokeStyle = rgba(color, CONFIG.connectionOpacity * strength)
-          ctx.lineWidth = CONFIG.connectionWidth
-          ctx.stroke()
-        }
+      // Connections — iterate pre-computed edge pairs (no indexOf, no dupes)
+      const edges = edgesRef.current
+      ctx.lineWidth = CONFIG.connectionWidth
+      for (let i = 0; i < edges.length; i++) {
+        const { a, b } = edges[i]
+        if (a.intensity < 0.1 && b.intensity < 0.1) continue
+        const strength = Math.min(a.intensity, b.intensity)
+        if (strength < 0.05) continue
+        const color = lerpColor(strength)
+        ctx.beginPath()
+        ctx.moveTo(a.x, a.y)
+        ctx.lineTo(b.x, b.y)
+        ctx.strokeStyle = rgba(color, CONFIG.connectionOpacity * strength)
+        ctx.stroke()
       }
 
-      // Signal trails + heads
+      // Signal trails + heads — solid color, no gradient allocation per frame
+      const accentColor = colorsRef.current.accent
       for (const signal of signals) {
         const dx = signal.toX - signal.fromX
         const dy = signal.toY - signal.fromY
@@ -256,19 +279,18 @@ export function InfrastructureGrid({ className }: { className?: string }) {
         const trailX = signal.fromX + dx * trailProgress
         const trailY = signal.fromY + dy * trailProgress
 
-        const gradient = ctx.createLinearGradient(trailX, trailY, currentX, currentY)
-        gradient.addColorStop(0, rgba(colorsRef.current.accent, 0))
-        gradient.addColorStop(1, rgba(colorsRef.current.accent, CONFIG.signalOpacity * 0.6))
+        // Trail line — solid color at reduced opacity (replaces per-frame gradient)
         ctx.beginPath()
         ctx.moveTo(trailX, trailY)
         ctx.lineTo(currentX, currentY)
-        ctx.strokeStyle = gradient
+        ctx.strokeStyle = rgba(accentColor, CONFIG.signalOpacity * 0.35)
         ctx.lineWidth = 2
         ctx.stroke()
 
+        // Head dot
         ctx.beginPath()
         ctx.arc(currentX, currentY, CONFIG.signalRadius, 0, Math.PI * 2)
-        ctx.fillStyle = rgba(colorsRef.current.accent, CONFIG.signalOpacity)
+        ctx.fillStyle = rgba(accentColor, CONFIG.signalOpacity)
         ctx.fill()
       }
 
@@ -284,7 +306,8 @@ export function InfrastructureGrid({ className }: { className?: string }) {
         ctx.fill()
       }
 
-      // Sweep glow
+      // Sweep glow — cheap soft circle (no per-frame radialGradient allocation)
+      ctx.globalCompositeOperation = "lighter"
       for (const sweep of sweeps) {
         const cos = Math.cos(sweep.angle)
         const sin = Math.sin(sweep.angle)
@@ -296,13 +319,12 @@ export function InfrastructureGrid({ className }: { className?: string }) {
         const glowY = centerY + sin * sweepCenterDist
         const glowRadius = CONFIG.sweepWidth * 1.2
 
-        const glow = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, glowRadius)
-        glow.addColorStop(0, rgba(colorsRef.current.accent, 0.025))
-        glow.addColorStop(0.5, rgba(colorsRef.current.accent, 0.01))
-        glow.addColorStop(1, rgba(colorsRef.current.accent, 0))
-        ctx.fillStyle = glow
-        ctx.fillRect(0, 0, w, h)
+        ctx.beginPath()
+        ctx.arc(glowX, glowY, glowRadius, 0, Math.PI * 2)
+        ctx.fillStyle = rgba(accentColor, 0.008)
+        ctx.fill()
       }
+      ctx.globalCompositeOperation = "source-over"
     },
     []
   )

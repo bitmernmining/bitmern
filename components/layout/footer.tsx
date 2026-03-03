@@ -41,15 +41,6 @@ const COLUMNS = [
     ],
   },
   {
-    title: "Insights",
-    links: [
-      { label: "All Articles", href: "/insights" },
-      { label: "Mining Trends", href: "/insights#mining" },
-      { label: "Hardware Reviews", href: "/insights#hardware" },
-      { label: "Strategy Guides", href: "/insights#strategy" },
-    ],
-  },
-  {
     title: "Contact",
     links: [
       { label: "Get Started", href: "/contact" },
@@ -94,7 +85,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="section-dark" aria-label="Site footer">
+    <footer className="section-elevated" aria-label="Site footer">
       <div className="padding-global">
         <div className="container-large">
           {/* Newsletter row */}
@@ -129,7 +120,7 @@ export function Footer() {
                       autoComplete="email"
                       placeholder="Enter your email"
                       disabled={nlState === "submitting"}
-                      className="h-11 min-w-[16rem] rounded-md border border-white/15 bg-white/[0.08] px-4 text-sm text-[var(--foreground)] outline-none placeholder:text-white/30 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all duration-200 disabled:opacity-50"
+                      className="h-11 min-w-[16rem] rounded-md border border-border/60 bg-background/60 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all duration-200 disabled:opacity-50"
                     />
                     <Button
                       type="submit"
@@ -208,13 +199,13 @@ export function Footer() {
 
           {/* Social links */}
           <div className="flex items-center gap-4 py-6">
-            <a href="https://www.linkedin.com/company/bitmern" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-white/[0.08]">
+            <a href="https://www.linkedin.com/company/bitmern" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Linkedin className="size-5" />
             </a>
-            <a href="https://www.instagram.com/bitmernmining" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-white/[0.08]">
+            <a href="https://www.instagram.com/bitmernmining" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Instagram className="size-5" />
             </a>
-            <a href="https://www.youtube.com/@bitmern" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-white/[0.08]">
+            <a href="https://www.youtube.com/@bitmern" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Youtube className="size-5" />
             </a>
           </div>
@@ -230,7 +221,7 @@ export function Footer() {
                 alt="Bitmern Mining"
                 width={136}
                 height={40}
-                className="max-w-[8.5rem] brightness-0 invert"
+                className="max-w-[8.5rem]"
               />
             </Link>
             <p className="text-sm opacity-40">

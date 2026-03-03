@@ -41,7 +41,7 @@ export function VideoCard({ thumbnail, title, youtubeId, href, duration, classNa
     : { onClick: () => youtubeId && setPlaying(true) }
 
   return (
-    <Wrapper {...wrapperProps as any} className={cn("card-surface rounded-lg overflow-hidden group text-left block", className)}>
+    <Wrapper {...(wrapperProps as Record<string, unknown>)} className={cn("card-surface rounded-lg overflow-hidden group text-left block", className)}>
       <div className="relative aspect-video overflow-hidden">
         <Image
           src={thumbnail}

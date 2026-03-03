@@ -543,7 +543,7 @@ export function MaraFirmwarePage() {
         description="Whether you're hosted with Bitmern or running your own facility, MARAFW can optimize your miners. Contact us to get started."
         primaryCTA={{ label: "Get MARAFW on Your Miners", href: "/contact" }}
         secondaryCTA={{ label: "Explore Our Technology", href: "/technology" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

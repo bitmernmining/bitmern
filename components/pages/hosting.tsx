@@ -6,7 +6,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
-import { ImageSection } from "@/components/ui/image-section"
 import { SectionCTA } from "@/components/ui/section-cta"
 import {
   Accordion,
@@ -446,28 +445,6 @@ export function HostingPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Photo Break — North Dakota facility */}
-      {/* ----------------------------------------------------------------- */}
-      <ImageSection
-        src="/facilities/north-dakota.webp"
-        alt="Bitmern Mining North Dakota facility"
-        overlay="gradient"
-        className="min-h-[40vh] flex items-center"
-      >
-        <div className="py-16 lg:py-24 text-center max-w-2xl mx-auto">
-          <p className="font-mono text-sm uppercase tracking-widest text-white/60 mb-4">
-            Across All Facilities
-          </p>
-          <p className="text-4xl lg:text-5xl font-heading font-bold text-white mb-4">
-            31.5 MW Online
-          </p>
-          <p className="text-lg text-white/70 leading-relaxed">
-            Powering thousands of miners across four countries with sub-$0.07/kWh rates and 97%+ uptime.
-          </p>
-        </div>
-      </ImageSection>
-
-      {/* ----------------------------------------------------------------- */}
       {/* Facilities Overview */}
       {/* ----------------------------------------------------------------- */}
       <section ref={facilities.ref}>
@@ -608,18 +585,17 @@ export function HostingPage() {
                   {/* Device mockup — right column */}
                   <motion.div
                     variants={howItWorks.chVariants}
-                    className="relative flex items-center justify-center"
+                    className="hidden lg:flex items-center justify-center"
                   >
-                    <div className="relative w-full max-w-[480px] aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
-                      <Image
-                        src="/mockups/app-dashboard.webp"
-                        alt="Bitmern SuperApp dashboard — real-time miner monitoring"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 1024px) 100vw, 480px"
-                        quality={90}
-                      />
-                    </div>
+                    <Image
+                      src="/mockups/app-dashboard.webp"
+                      alt="Bitmern SuperApp dashboard — real-time miner monitoring"
+                      width={520}
+                      height={390}
+                      className="w-full max-w-[420px]"
+                      sizes="420px"
+                      quality={90}
+                    />
                   </motion.div>
                 </div>
               </motion.div>
@@ -682,7 +658,7 @@ export function HostingPage() {
         description="Get a custom hosting quote based on your fleet size and preferred facility. Current clients get priority access to new facilities and locked pricing."
         primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
         secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
-        variant="dark"
+        variant="elevated"
       />
     </>
   )

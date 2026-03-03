@@ -1,7 +1,6 @@
 "use client"
 
 import { motion } from "framer-motion"
-import Image from "next/image"
 import { Star } from "lucide-react"
 import { useSection } from "@/lib/motion"
 import { Tag } from "@/components/ui/tag"
@@ -64,10 +63,10 @@ function TestimonialCard({
   testimonial: TestimonialData
 }) {
   return (
-    <div className="relative flex flex-col rounded-lg border border-white/10 bg-white/[0.03] p-6 lg:p-8">
+    <div className="card-surface relative flex flex-col rounded-lg border border-border/60 p-6 lg:p-8">
       {/* Decorative small quote mark */}
       <span
-        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-white/[0.15] absolute -top-2 left-4"
+        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-foreground/[0.06] absolute -top-2 left-4"
         aria-hidden="true"
       >
         &ldquo;
@@ -81,19 +80,19 @@ function TestimonialCard({
       </div>
 
       {/* Quote */}
-      <blockquote className="flex-1 text-base leading-[1.6] tracking-tight text-white/80 sm:text-lg sm:leading-[1.55]">
+      <blockquote className="flex-1 text-base leading-[1.6] tracking-tight text-foreground/70 sm:text-lg sm:leading-[1.55]">
         <p>{testimonial.quote}</p>
       </blockquote>
 
       {/* Divider */}
-      <div className="my-6 h-px w-12 bg-white/10" />
+      <div className="my-6 h-px w-12 bg-border" />
 
       {/* Attribution */}
       <div>
-        <cite className="not-italic text-base font-semibold text-white">
+        <cite className="not-italic text-base font-semibold text-foreground">
           {testimonial.name}
         </cite>
-        <div className="mt-1 font-mono text-xs uppercase tracking-widest text-white/40">
+        <div className="mt-1 font-mono text-xs uppercase tracking-widest text-foreground/40">
           {testimonial.title}
         </div>
       </div>
@@ -112,31 +111,8 @@ export function Testimonial() {
   return (
     <section
       ref={sectionRef}
-      className="section-dark relative overflow-hidden"
+      className="relative overflow-hidden"
     >
-      {/* Facility photo background */}
-      <div className="absolute inset-0" aria-hidden="true">
-        <Image
-          src="/facilities/addis-ababa.webp"
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-          quality={75}
-          priority={false}
-        />
-        {/* Heavy overlay so text stays readable */}
-        <div className="absolute inset-0 bg-black/60" />
-      </div>
-
-      {/* Warm radial glow — barely-there fuel-yellow undertone */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, oklch(0.18 0.015 78 / 0.5) 0%, transparent 70%)",
-        }}
-      />
 
       {/* Content */}
       <div className="padding-global relative z-[2]">
@@ -150,7 +126,7 @@ export function Testimonial() {
             >
               {/* Tag */}
               <motion.div variants={chVariants}>
-                <Tag variant="alternate">Trusted by Miners</Tag>
+                <Tag>Trusted by Miners</Tag>
               </motion.div>
 
               <div className="spacer-xsmall" />
@@ -192,16 +168,16 @@ export function Testimonial() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="View Bitmern Mining reviews on Trustpilot"
-                className="inline-flex items-center gap-3 rounded-md border border-white/[0.08] bg-white/[0.04] px-6 py-3 transition-colors duration-200 hover:bg-white/[0.08]"
+                className="inline-flex items-center gap-3 rounded-md border border-border/60 bg-background/60 px-6 py-3 transition-colors duration-200 hover:bg-background"
               >
-                <span className="text-sm font-medium text-white/70">
+                <span className="text-sm font-medium text-foreground/60">
                   Rated Excellent on
                 </span>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/trustpilot-logo.svg"
                   alt="Trustpilot"
-                  className="h-auto w-32 brightness-0 invert"
+                  className="h-auto w-32"
                 />
               </motion.a>
             </motion.div>

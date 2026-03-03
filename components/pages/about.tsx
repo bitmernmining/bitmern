@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
-import { ImageSection } from "@/components/ui/image-section"
 import { SectionCTA } from "@/components/ui/section-cta"
 import { useSection } from "@/lib/motion"
 
@@ -27,7 +26,7 @@ import { useSection } from "@/lib/motion"
 const HERO_STATS = [
   { value: "31.5+", unit: "MW", label: "Power Capacity" },
   { value: "176+", unit: "PH/s", label: "Hashrate Under Management" },
-  { value: "4", unit: "", label: "Continents" },
+  { value: "3", unit: "", label: "Continents" },
   { value: "1,400+", unit: "", label: "Miners Deployed" },
 ]
 
@@ -132,14 +131,14 @@ const teamMembers = [
     image: "/team/giannis-new.avif",
   },
   {
-    name: "Paschalis Andreou",
-    title: "VP of Operations",
+    name: "Paschalis Pietris",
+    title: "Vice President",
     image: "/team/paschalis-new.avif",
   },
   {
-    name: "Andreas Andreou",
-    title: "CTO",
-    image: "/team/andreas-new.avif",
+    name: "Michelle Chikomboya",
+    title: "Chief Financial Officer",
+    image: "/team/michelle.webp",
   },
 ]
 
@@ -524,9 +523,8 @@ function TeamPreviewSection() {
                 variants={chVariants}
                 className="text-lg leading-relaxed text-foreground/70"
               >
-                Founded and operated by the Andreou family — a team that
-                combines deep industry expertise with an operator-first
-                mentality.
+                A leadership team that combines deep industry expertise
+                with an operator-first mentality across three continents.
               </motion.p>
 
               <div className="spacer-large" />
@@ -677,33 +675,13 @@ export function AboutPage() {
       <HeroSection />
       <OriginSection />
 
-      {/* Full-bleed photo break between Origin and What We Do */}
-      <ImageSection
-        src="/facilities/addis-ababa.webp"
-        alt="Bitmern mining facility in Addis Ababa, Ethiopia"
-        overlay="gradient"
-        className="min-h-[360px] lg:min-h-[480px]"
-      >
-        <div className="flex min-h-[360px] items-center justify-center lg:min-h-[480px]">
-          <blockquote className="mx-auto max-w-[40rem] text-center">
-            <p className="font-heading text-2xl font-normal uppercase leading-tight tracking-tight text-white md:text-3xl lg:text-4xl">
-              &ldquo;Building the infrastructure that powers the next era of
-              sound money.&rdquo;
-            </p>
-            <footer className="mt-4 font-mono text-sm text-white/60">
-              Bitmern Mining &mdash; Est. 2021
-            </footer>
-          </blockquote>
-        </div>
-      </ImageSection>
-
       <WhatWeDoSection />
       <ValuesSection />
       <TeamPreviewSection />
       <TimelineSection />
 
       <SectionCTA
-        variant="dark"
+        variant="elevated"
         tag="Get Started"
         heading="Ready to Start Mining?"
         description="Whether you're deploying your first miner or scaling an institutional portfolio, we have the infrastructure and expertise to match."
