@@ -29,12 +29,11 @@ const testimonials: TestimonialData[] = [
   {
     quote: (
       <>
-        &ldquo;Very <Hl>reliable</Hl> mining company with a{" "}
-        <Hl>professional service</Hl>. My <Hl>miners run stably</Hl> and the
-        performance meets expectations. The platform is{" "}
-        <Hl>user-friendly</Hl> and <Hl>easy to monitor</Hl>. Payouts are{" "}
-        <Hl>processed reliably</Hl> and <Hl>transparently</Hl>. Highly
-        recommended for anyone looking for serious mining.&rdquo;
+        &ldquo;Very reliable mining company with a professional service. My{" "}
+        <Hl>miners run stably</Hl> and the performance meets expectations. The
+        platform is user-friendly and easy to monitor. Payouts are{" "}
+        <Hl>processed reliably and transparently</Hl>. Highly recommended for
+        anyone looking for serious mining.&rdquo;
       </>
     ),
     name: "CJ Brown",
@@ -45,24 +44,12 @@ const testimonials: TestimonialData[] = [
     quote: (
       <>
         &ldquo;MARA firmware has been a <Hl>game changer</Hl> for our
-        operation. The <Hl>efficiency gains</Hl> are real — we&rsquo;ve seen{" "}
+        operation. The efficiency gains are real — we&rsquo;ve seen{" "}
         <Hl>measurable improvements</Hl> across our entire fleet.&rdquo;
       </>
     ),
     name: "Abdulrahman Hamdy",
     title: "Zero Two Mining",
-    stars: 5,
-  },
-  {
-    quote: (
-      <>
-        &ldquo;Bitmern&rsquo;s <Hl>transparent approach</Hl> to hosting and
-        their <Hl>consistent uptime</Hl> has made them our{" "}
-        <Hl>primary infrastructure partner</Hl> for Bitcoin mining.&rdquo;
-      </>
-    ),
-    name: "Marcus Chen",
-    title: "Family Office Investor",
     stars: 5,
   },
 ]
@@ -80,7 +67,7 @@ function TestimonialCard({
     <div className="relative flex flex-col rounded-lg border border-white/10 bg-white/[0.03] p-6 lg:p-8">
       {/* Decorative small quote mark */}
       <span
-        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-white/[0.06] absolute -top-2 left-4"
+        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-white/[0.15] absolute -top-2 left-4"
         aria-hidden="true"
       >
         &ldquo;
@@ -135,11 +122,11 @@ export function Testimonial() {
           fill
           className="object-cover object-center"
           sizes="100vw"
-          quality={50}
+          quality={75}
           priority={false}
         />
         {/* Heavy overlay so text stays readable */}
-        <div className="absolute inset-0 bg-black/80" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Warm radial glow — barely-there fuel-yellow undertone */}
@@ -181,7 +168,7 @@ export function Testimonial() {
               variants={crdStagger}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="grid gap-6 sm:gap-8 lg:grid-cols-3"
+              className="grid gap-8 lg:grid-cols-2 max-w-4xl mx-auto"
             >
               {testimonials.map((t) => (
                 <motion.div key={t.name} variants={crdFade}>
