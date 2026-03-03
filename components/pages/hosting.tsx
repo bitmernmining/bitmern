@@ -3,8 +3,11 @@
 import { motion } from "framer-motion"
 import { Zap, Shield, Monitor, Wrench, Check } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { ImageSection } from "@/components/ui/image-section"
+import { SectionCTA } from "@/components/ui/section-cta"
 import {
   Accordion,
   AccordionItem,
@@ -157,17 +160,30 @@ export function HostingPage() {
   const facilities = useSection(0.15)
   const howItWorks = useSection()
   const faq = useSection(0.15)
-  const cta = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Dark section with facility photo background */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref}>
-        <div className="padding-global">
+      <section ref={hero.ref} className="section-dark relative min-h-[60vh] flex items-center overflow-hidden">
+        {/* Background photo */}
+        <Image
+          src="/facilities/missouri.jpeg"
+          alt="Bitmern Mining Missouri facility"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          quality={85}
+          priority
+        />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+
+        {/* Content */}
+        <div className="relative z-10 padding-global w-full">
           <div className="container-large">
-            <div className="padding-section-large">
+            <div className="py-20 lg:py-28">
               <motion.div
                 variants={hero.cVariants}
                 initial="hidden"
@@ -184,7 +200,7 @@ export function HostingPage() {
                 <div className="spacer-small" />
                 <motion.p
                   variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  className="text-[1.125rem] leading-relaxed text-white/70"
                 >
                   Deploy your ASICs at our US and international facilities with
                   sub-$0.06/kWh power, 97% uptime, and real-time monitoring
@@ -329,12 +345,14 @@ export function HostingPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Mid-page CTA */}
       {/* ----------------------------------------------------------------- */}
-      <section className="padding-global">
-        <div className="container-large text-center py-16">
-          <h3 className="text-xl font-semibold mb-4">Ready to get started?</h3>
-          <Button asChild size="lg"><Link href="/contact">Contact Us</Link></Button>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Start Hosting"
+        heading="Ready to Host Your Miners?"
+        description="Get institutional-grade hosting with 97% uptime guarantee."
+        primaryCTA={{ label: "Get a Quote", href: "/contact" }}
+        secondaryCTA={{ label: "View Facilities", href: "/facilities" }}
+        variant="elevated"
+      />
 
       {/* ----------------------------------------------------------------- */}
       {/* Pricing */}
@@ -425,6 +443,28 @@ export function HostingPage() {
           </div>
         </div>
       </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Photo Break — North Dakota facility */}
+      {/* ----------------------------------------------------------------- */}
+      <ImageSection
+        src="/facilities/north-dakota.webp"
+        alt="Bitmern Mining North Dakota facility"
+        overlay="gradient"
+        className="min-h-[40vh] flex items-center"
+      >
+        <div className="py-16 lg:py-24 text-center max-w-2xl mx-auto">
+          <p className="font-mono text-sm uppercase tracking-widest text-white/60 mb-4">
+            Across All Facilities
+          </p>
+          <p className="text-4xl lg:text-5xl font-heading font-bold text-white mb-4">
+            31.5 MW Online
+          </p>
+          <p className="text-lg text-white/70 leading-relaxed">
+            Powering thousands of miners across four countries with sub-$0.07/kWh rates and 97%+ uptime.
+          </p>
+        </div>
+      </ImageSection>
 
       {/* ----------------------------------------------------------------- */}
       {/* Facilities Overview */}
@@ -521,7 +561,7 @@ export function HostingPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* How It Works */}
+      {/* How It Works — 2-column: steps + device mockup */}
       {/* ----------------------------------------------------------------- */}
       <section ref={howItWorks.ref} className="section-elevated">
         <div className="padding-global">
@@ -537,30 +577,50 @@ export function HostingPage() {
                 </motion.h2>
                 <div className="spacer-large" />
 
-                <motion.div
-                  variants={howItWorks.crdStagger}
-                  initial="hidden"
-                  animate={howItWorks.inView ? "visible" : "hidden"}
-                  className="grid gap-8 md:grid-cols-3"
-                >
-                  {STEPS.map((step) => (
-                    <motion.div
-                      key={step.num}
-                      variants={howItWorks.crdFade}
-                      className="relative"
-                    >
-                      <span className="mb-4 block font-mono text-4xl font-bold text-primary/30">
-                        {step.num}
-                      </span>
-                      <h3 className="mb-3 font-heading text-[1.2rem] font-semibold uppercase tracking-tight">
-                        {step.title}
-                      </h3>
-                      <p className="text-base leading-relaxed text-foreground/60">
-                        {step.body}
-                      </p>
-                    </motion.div>
-                  ))}
-                </motion.div>
+                <div className="grid gap-12 lg:grid-cols-2 items-center">
+                  {/* Steps — left column */}
+                  <motion.div
+                    variants={howItWorks.crdStagger}
+                    initial="hidden"
+                    animate={howItWorks.inView ? "visible" : "hidden"}
+                    className="flex flex-col gap-10"
+                  >
+                    {STEPS.map((step) => (
+                      <motion.div
+                        key={step.num}
+                        variants={howItWorks.crdFade}
+                        className="relative"
+                      >
+                        <span className="mb-4 block font-mono text-4xl font-bold text-primary/30">
+                          {step.num}
+                        </span>
+                        <h3 className="mb-3 font-heading text-[1.2rem] font-semibold uppercase tracking-tight">
+                          {step.title}
+                        </h3>
+                        <p className="text-base leading-relaxed text-foreground/60">
+                          {step.body}
+                        </p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* Device mockup — right column */}
+                  <motion.div
+                    variants={howItWorks.chVariants}
+                    className="relative flex items-center justify-center"
+                  >
+                    <div className="relative w-full max-w-[480px] aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
+                      <Image
+                        src="/mockups/app-dashboard.webp"
+                        alt="Bitmern SuperApp dashboard — real-time miner monitoring"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 480px"
+                        quality={90}
+                      />
+                    </div>
+                  </motion.div>
+                </div>
               </motion.div>
             </div>
           </div>
@@ -615,45 +675,14 @@ export function HostingPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Bottom CTA */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref} className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  Ready to Deploy?
-                </motion.h2>
-                <div className="spacer-xsmall" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Get a custom hosting quote based on your fleet size and
-                  preferred facility. Current clients get priority access to new
-                  facilities and locked pricing.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get a Hosting Quote</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Get Started"
+        heading="Ready to Deploy?"
+        description="Get a custom hosting quote based on your fleet size and preferred facility. Current clients get priority access to new facilities and locked pricing."
+        primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+        variant="dark"
+      />
     </>
   )
 }
