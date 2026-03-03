@@ -2,7 +2,6 @@
 
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
-import Image from "next/image"
 import {
   staggerContainer,
   fadeUp,
@@ -88,9 +87,6 @@ export function DeployCapital() {
 
   return (
     <section ref={sectionRef} className="relative">
-      {/* Dot-grid background overlay */}
-      <div className="dot-grid pointer-events-none absolute inset-0" aria-hidden />
-
       <div className="padding-global relative">
         <div className="container-large">
           <div className="padding-section-medium">
@@ -132,24 +128,13 @@ export function DeployCapital() {
               {/* Featured card — spans 2 rows */}
               <motion.div
                 variants={bFeatured}
-                className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60 lg:row-span-2"
+                className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60 border-l-2 border-l-primary bg-gradient-to-br from-primary/[0.04] to-transparent lg:row-span-2"
               >
-                {/* Facility photo header */}
-                <div className="relative aspect-[16/9] w-full overflow-hidden">
-                  <Image
-                    src="/facilities/indiana.webp"
-                    alt="Bitmern mining facility — Indiana"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
-                </div>
-
                 {/* Card content */}
                 <div className="flex flex-1 flex-col p-8">
                   {/* Icon badge */}
-                  <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2 text-primary-foreground">
-                    <featured.icon className="size-6" strokeWidth={1.5} />
+                  <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-3 text-primary-foreground">
+                    <featured.icon className="size-10" strokeWidth={1.5} />
                   </div>
 
                   {/* Title */}
@@ -186,11 +171,11 @@ export function DeployCapital() {
                   <motion.div
                     key={card.title}
                     variants={bCard}
-                    className="card-surface flex flex-col rounded-lg border border-border/60 border-t-2 border-t-primary/20 p-8"
+                    className="card-surface flex flex-col rounded-lg border border-border/60 p-8"
                   >
-                    {/* Icon badge — larger for supporting cards */}
-                    <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2.5 text-primary-foreground">
-                      <Icon className="size-10" strokeWidth={1.5} />
+                    {/* Icon badge */}
+                    <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2 text-primary-foreground">
+                      <Icon className="size-8" strokeWidth={1.5} />
                     </div>
 
                     {/* Title */}
