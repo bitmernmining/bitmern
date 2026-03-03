@@ -20,13 +20,11 @@ interface Facility {
 }
 
 const facilities: Facility[] = [
-  { name: "Hawassa, Ethiopia", lat: 7.0621, lng: 38.4763, mw: 3, kwh: 0.055, status: "Full Capacity", color: "#f2ae2e", active: true, region: "ethiopia" },
-  { name: "Addis Ababa, Ethiopia", lat: 9.032, lng: 38.7469, mw: 3, kwh: 0.055, status: "Full Capacity", color: "#f2ae2e", active: true, region: "ethiopia" },
-  { name: "Indiana, USA", lat: 39.7684, lng: -86.1581, mw: 12, kwh: 0.058, status: "Full Capacity", color: "#f2ae2e", active: true, region: "us" },
+  { name: "Addis Ababa, Ethiopia", lat: 9.032, lng: 38.7469, mw: 3, kwh: 0.055, status: "Available", color: "#10b981", active: true, region: "ethiopia" },
+  { name: "Indiana, USA", lat: 39.7684, lng: -86.1581, mw: 20, kwh: 0.058, status: "Full Capacity", color: "#f2ae2e", active: true, region: "us" },
   { name: "North Dakota, USA", lat: 47.5515, lng: -101.002, mw: 3, kwh: 0.058, status: "Available", color: "#10b981", active: true, region: "us" },
-  { name: "Missouri, USA", lat: 38.5767, lng: -92.1735, mw: 15, kwh: null, status: "Upcoming", color: "#459bf3", active: false, region: "us" },
-  { name: "Texas, USA", lat: 31.9686, lng: -99.9018, mw: 20, kwh: null, status: "Upcoming", color: "#459bf3", active: false, region: "us" },
-  { name: "Norway", lat: 60.472, lng: 8.4689, mw: 4.4, kwh: null, status: "Upcoming", color: "#459bf3", active: false, region: "europe" },
+  { name: "Missouri, USA", lat: 38.5767, lng: -92.1735, mw: 5.5, kwh: 0.0675, status: "Available", color: "#10b981", active: true, region: "us" },
+  { name: "Finland", lat: 60.472, lng: 8.4689, mw: 4.4, kwh: null, status: "Coming Soon", color: "#459bf3", active: false, region: "europe" },
 ]
 
 const maxMW = Math.max(...facilities.map((f) => f.mw))
@@ -122,22 +120,70 @@ export function FacilityGlobe({ className }: { className?: string }) {
   const animatedRef = useRef(false)
   const revealedLabelsRef = useRef<typeof ethiopiaLabels>([])
   const revealedPointsRef = useRef<Facility[]>([])
+  // Track all tour timeouts + rAF IDs for cleanup
+  const tourTimers = useRef<number[]>([])
+  const tourRafs = useRef<number[]>([])
+
+  // Managed setTimeout/rAF that auto-track for cleanup
+  const tour = useCallback(
+    (fn: () => void, delay: number) => {
+      tourTimers.current.push(window.setTimeout(fn, delay))
+    },
+    []
+  )
+  const tourRaf = useCallback(
+    (fn: FrameRequestCallback) => {
+      tourRafs.current.push(requestAnimationFrame(fn))
+    },
+    []
+  )
+
+  function clearTour() {
+    tourTimers.current.forEach((id) => clearTimeout(id))
+    tourRafs.current.forEach((id) => cancelAnimationFrame(id))
+    tourTimers.current = []
+    tourRafs.current = []
+  }
+
+  // Bar rise animation helper — tracks its own rAF for cleanup
+  const animateBarRise = useCallback(
+    (regionPoints: Facility[]) => {
+      const globe = globeRef.current
+      if (!globe) return
+      const duration = 1000
+      const startTime = Date.now()
+      const tick = () => {
+        const t = Math.min((Date.now() - startTime) / duration, 1)
+        const eased = 1 - Math.pow(1 - t, 3)
+        globe.pointAltitude((d: Facility) => {
+          if (regionPoints.includes(d)) return getBarHeight(d.mw) * eased
+          return getBarHeight(d.mw)
+        })
+        if (t < 1) tourRaf(tick)
+      }
+      tourRaf(tick)
+    },
+    [tourRaf]
+  )
 
   const startEntranceAnimation = useCallback(() => {
     const globe = globeRef.current
     const container = containerRef.current
     if (!globe || !container) return
 
+    // Clear any stale timers from a previous run (HMR, re-mount)
+    clearTour()
+
     // Fade in
     container.style.opacity = "1"
 
     let elapsed = 300
 
-    TOUR.forEach((wp, i) => {
+    TOUR.forEach((wp) => {
       const wpStart = elapsed
 
       // Camera move
-      setTimeout(() => {
+      tour(() => {
         globe.pointOfView({ lat: wp.lat, lng: wp.lng, altitude: wp.altitude }, wp.duration)
       }, wpStart)
 
@@ -145,33 +191,17 @@ export function FacilityGlobe({ className }: { className?: string }) {
       const revealTime = wpStart + wp.duration + 200
 
       if (wp.reveal === "ethiopia") {
-        setTimeout(() => {
-          // Add Ethiopia points and animate bars rising
+        tour(() => {
           revealedPointsRef.current = [...revealedPointsRef.current, ...ethiopiaPoints]
           globe.pointsData(revealedPointsRef.current)
+          animateBarRise(ethiopiaPoints)
 
-          // Animate height from 0 to full
-          const duration = 1000
-          const startTime = Date.now()
-          const animateBars = () => {
-            const t = Math.min((Date.now() - startTime) / duration, 1)
-            const eased = 1 - Math.pow(1 - t, 3) // ease-out cubic
-            globe.pointAltitude((d: Facility) => {
-              if (ethiopiaPoints.includes(d)) return getBarHeight(d.mw) * eased
-              return getBarHeight(d.mw)
-            })
-            if (t < 1) requestAnimationFrame(animateBars)
-          }
-          animateBars()
-
-          // Fade in labels slightly after bars start
-          setTimeout(() => {
+          tour(() => {
             revealedLabelsRef.current = [...revealedLabelsRef.current, ...ethiopiaLabels]
             globe.labelsData(revealedLabelsRef.current)
           }, 400)
 
-          // Add rings for active Ethiopia facilities
-          setTimeout(() => {
+          tour(() => {
             globe.ringsData(rings.filter((r) =>
               ethiopiaPoints.some((f) => f.lat === r.lat && f.lng === r.lng)
             ))
@@ -180,32 +210,17 @@ export function FacilityGlobe({ className }: { className?: string }) {
       }
 
       if (wp.reveal === "us") {
-        setTimeout(() => {
-          // Add US points with bar animation
+        tour(() => {
           revealedPointsRef.current = [...revealedPointsRef.current, ...usPoints]
           globe.pointsData(revealedPointsRef.current)
+          animateBarRise(usPoints)
 
-          const duration = 1000
-          const startTime = Date.now()
-          const animateBars = () => {
-            const t = Math.min((Date.now() - startTime) / duration, 1)
-            const eased = 1 - Math.pow(1 - t, 3)
-            globe.pointAltitude((d: Facility) => {
-              if (usPoints.includes(d)) return getBarHeight(d.mw) * eased
-              return getBarHeight(d.mw)
-            })
-            if (t < 1) requestAnimationFrame(animateBars)
-          }
-          animateBars()
-
-          // Labels
-          setTimeout(() => {
+          tour(() => {
             revealedLabelsRef.current = [...revealedLabelsRef.current, ...usLabels]
             globe.labelsData(revealedLabelsRef.current)
           }, 400)
 
-          // Rings for active US facilities
-          setTimeout(() => {
+          tour(() => {
             const activeUS = usPoints.filter((f) => f.active)
             const currentRings = rings.filter((r) =>
               [...ethiopiaPoints, ...activeUS].some((f) => f.lat === r.lat && f.lng === r.lng)
@@ -213,40 +228,22 @@ export function FacilityGlobe({ className }: { className?: string }) {
             globe.ringsData(currentRings)
           }, 600)
 
-          // Arcs start connecting after US reveal
-          setTimeout(() => {
-            globe.arcsData(arcs)
-          }, 800)
+          tour(() => globe.arcsData(arcs), 800)
         }, revealTime)
       }
 
       if (wp.reveal === "europe") {
-        setTimeout(() => {
-          // Add Europe points
+        tour(() => {
           revealedPointsRef.current = [...revealedPointsRef.current, ...europePoints]
           globe.pointsData(revealedPointsRef.current)
+          animateBarRise(europePoints)
 
-          const duration = 1000
-          const startTime = Date.now()
-          const animateBars = () => {
-            const t = Math.min((Date.now() - startTime) / duration, 1)
-            const eased = 1 - Math.pow(1 - t, 3)
-            globe.pointAltitude((d: Facility) => {
-              if (europePoints.includes(d)) return getBarHeight(d.mw) * eased
-              return getBarHeight(d.mw)
-            })
-            if (t < 1) requestAnimationFrame(animateBars)
-          }
-          animateBars()
-
-          // Labels
-          setTimeout(() => {
+          tour(() => {
             revealedLabelsRef.current = [...revealedLabelsRef.current, ...europeLabels]
             globe.labelsData(revealedLabelsRef.current)
           }, 400)
 
-          // All rings
-          setTimeout(() => globe.ringsData(rings), 600)
+          tour(() => globe.ringsData(rings), 600)
         }, revealTime)
       }
 
@@ -254,11 +251,11 @@ export function FacilityGlobe({ className }: { className?: string }) {
     })
 
     // After full tour: start slow rotate
-    setTimeout(() => {
+    tour(() => {
       globe.controls().autoRotate = true
       globe.controls().autoRotateSpeed = 0.3
     }, elapsed + 400)
-  }, [])
+  }, [tour, animateBarRise])
 
   useEffect(() => {
     const container = containerRef.current
@@ -389,12 +386,17 @@ export function FacilityGlobe({ className }: { className?: string }) {
       )
       io.observe(container)
 
-      // Resize
+      // Resize — throttled to avoid layout thrashing
+      let resizeRaf = 0
       const ro = new ResizeObserver(() => {
-        if (globeRef.current) {
-          globeRef.current.width(container.offsetWidth)
-          globeRef.current.height(container.offsetHeight)
-        }
+        if (resizeRaf) return
+        resizeRaf = requestAnimationFrame(() => {
+          resizeRaf = 0
+          if (globeRef.current) {
+            globeRef.current.width(container.offsetWidth)
+            globeRef.current.height(container.offsetHeight)
+          }
+        })
       })
       ro.observe(container)
 
@@ -406,6 +408,7 @@ export function FacilityGlobe({ className }: { className?: string }) {
 
     return () => {
       destroyed = true
+      clearTour()
       const c = container as HTMLDivElement & { _globeCleanup?: () => void }
       c._globeCleanup?.()
       if (globeRef.current) {

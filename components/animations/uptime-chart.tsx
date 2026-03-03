@@ -15,7 +15,7 @@ const GRID = {
 } as const
 
 const LINE = {
-  /** Line end sits at 8% from graph top — 99.8% uptime, not 100% */
+  /** Line end sits at 8% from graph top — 97% uptime, not 100% */
   topOffset: 0.08,
   glowWidth: 6,
   glowOpacity: 0.15,

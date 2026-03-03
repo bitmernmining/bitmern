@@ -1,0 +1,549 @@
+"use client"
+
+import { motion } from "framer-motion"
+import {
+  CalendarDays,
+  Mail,
+  MessageCircle,
+  Server,
+  ShoppingCart,
+  Landmark,
+  Pickaxe,
+  Cpu,
+  Building2,
+  Linkedin,
+  Instagram,
+  Youtube,
+} from "lucide-react"
+import { Tag } from "@/components/ui/tag"
+import { Button } from "@/components/ui/button"
+import { useSection } from "@/lib/motion"
+
+// ---------------------------------------------------------------------------
+// Data
+// ---------------------------------------------------------------------------
+
+const CONTACT_METHODS = [
+  {
+    icon: CalendarDays,
+    title: "Book a Strategy Call",
+    description:
+      "Free 30-minute consultation with our mining experts. We\u2019ll assess your goals, recommend a deployment strategy, and walk you through pricing.",
+    cta: "Book a Call",
+    href: "https://calendly.com/bitmernmining",
+  },
+  {
+    icon: Mail,
+    title: "Email Us",
+    email: "info@bitmernmining.com",
+    description:
+      "For general inquiries, hosting quotes, bulk hardware orders, and partnership proposals. Response within 24 hours.",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp / Telegram",
+    whatsapp: "+971 58 538 2409",
+    telegram: "@BitmernMining",
+    description:
+      "Quick questions and real-time support. Available during business hours.",
+  },
+]
+
+const SERVICE_LINKS = [
+  {
+    icon: Server,
+    title: "Hosting Quote",
+    description: "Get pricing for your fleet at any of our 7 facilities",
+    href: "/hosting",
+  },
+  {
+    icon: ShoppingCart,
+    title: "Hardware Purchase",
+    description: "Browse 150+ miners from 17 brands",
+    href: "https://shop.bitmernmining.com",
+  },
+  {
+    icon: Landmark,
+    title: "Institutional Investment",
+    description: "Blocks Fund materials and private consultation",
+    href: "/institutional",
+  },
+  {
+    icon: Pickaxe,
+    title: "Solo Mining",
+    description: "Get started with Bitmern Solo pool",
+    href: "https://bitmernsolo.com",
+  },
+  {
+    icon: Cpu,
+    title: "MARA Firmware",
+    description: "Upgrade your fleet with MARAFW",
+    href: "/mara-firmware",
+  },
+  {
+    icon: Building2,
+    title: "Facility Tour",
+    description: "Visit any of our active facilities",
+    href: "/facilities",
+  },
+]
+
+const CONTACT_INFO = [
+  { label: "Email", value: "info@bitmernmining.com" },
+  { label: "Phone", value: "+1 (307) 284-2990" },
+  { label: "WhatsApp", value: "+971 58 538 2409" },
+  { label: "Telegram", value: "@BitmernMining" },
+  { label: "Solo Pool Support", value: "support@bitmernsolo.com" },
+]
+
+const SUBJECT_OPTIONS = [
+  "General Inquiry",
+  "Hosting Quote",
+  "Hardware Purchase",
+  "Institutional / Blocks Fund",
+  "Partnership",
+  "Solo Pool Support",
+  "Other",
+]
+
+const BUDGET_OPTIONS = [
+  "<$10K",
+  "$10K\u2013$50K",
+  "$50K\u2013$100K",
+  "$100K\u2013$500K",
+  "$500K+",
+]
+
+const SOCIAL_LINKS = [
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    href: "https://linkedin.com/company/bitmern-mining-group/",
+  },
+  {
+    icon: Instagram,
+    label: "Instagram",
+    href: "https://instagram.com/bitmern_mining",
+  },
+  {
+    icon: Youtube,
+    label: "YouTube",
+    href: "https://youtube.com/@Bitmernmining",
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Shared input styles
+// ---------------------------------------------------------------------------
+
+const inputClass =
+  "h-11 w-full rounded-md border border-border/60 bg-transparent px-4 py-2 text-sm placeholder:text-foreground/40 outline-none transition-colors duration-200 hover:border-border focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
+
+const textareaClass =
+  "min-h-[120px] w-full rounded-md border border-border/60 bg-transparent px-4 py-3 text-sm placeholder:text-foreground/40 outline-none transition-colors duration-200 hover:border-border focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 resize-y"
+
+const selectClass =
+  "h-11 w-full rounded-md border border-border/60 bg-background px-4 py-2 text-sm text-foreground/70 outline-none transition-colors duration-200 hover:border-border focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer appearance-none"
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+export function ContactPage() {
+  const hero = useSection()
+  const methods = useSection()
+  const form = useSection()
+  const services = useSection()
+  const direct = useSection()
+  const social = useSection()
+
+  return (
+    <>
+      {/* ----------------------------------------------------------------- */}
+      {/* Hero */}
+      {/* ----------------------------------------------------------------- */}
+      <section ref={hero.ref}>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-large">
+              <motion.div
+                variants={hero.cVariants}
+                initial="hidden"
+                animate={hero.inView ? "visible" : "hidden"}
+                className="max-w-3xl"
+              >
+                <motion.div variants={hero.chVariants}>
+                  <Tag>Contact</Tag>
+                </motion.div>
+                <div className="spacer-xsmall" />
+                <motion.h1 variants={hero.chVariants}>
+                  Let&rsquo;s Talk Mining
+                </motion.h1>
+                <div className="spacer-small" />
+                <motion.p
+                  variants={hero.chVariants}
+                  className="text-[1.125rem] leading-relaxed text-foreground/70"
+                >
+                  Whether you&rsquo;re deploying your first miner or scaling an
+                  institutional portfolio, our team is ready to help. Book a
+                  strategy call, request a quote, or reach out directly.
+                </motion.p>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Contact Methods */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={methods.ref}>
+              <motion.div
+                variants={methods.crdStagger}
+                initial="hidden"
+                animate={methods.inView ? "visible" : "hidden"}
+                className="grid gap-6 md:grid-cols-3"
+              >
+                {CONTACT_METHODS.map((method) => {
+                  const Icon = method.icon
+                  return (
+                    <motion.div
+                      key={method.title}
+                      variants={methods.crdFade}
+                      className="card-surface flex flex-col gap-4 rounded-lg border border-border/60 p-8"
+                    >
+                      <div className="inline-flex w-fit items-center justify-center rounded bg-primary p-2 text-primary-foreground">
+                        <Icon className="size-6" strokeWidth={1.5} />
+                      </div>
+                      <h3 className="font-heading text-[1.2rem] font-normal uppercase leading-none tracking-tight">
+                        {method.title}
+                      </h3>
+                      {"email" in method && method.email && (
+                        <a
+                          href={`mailto:${method.email}`}
+                          className="font-mono text-sm text-primary hover:underline"
+                        >
+                          {method.email}
+                        </a>
+                      )}
+                      {"whatsapp" in method && method.whatsapp && (
+                        <div className="flex flex-col gap-1 font-mono text-sm text-foreground/60">
+                          <span>WhatsApp: {method.whatsapp}</span>
+                          <span>Telegram: {method.telegram}</span>
+                        </div>
+                      )}
+                      <p className="text-base leading-relaxed text-foreground/70">
+                        {method.description}
+                      </p>
+                      {"cta" in method && method.cta && (
+                        <div className="mt-auto pt-2">
+                          <Button variant="secondary" size="sm" asChild>
+                            <a href={method.href}>{method.cta}</a>
+                          </Button>
+                        </div>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Contact Form */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={form.ref}>
+              <motion.div
+                variants={form.cVariants}
+                initial="hidden"
+                animate={form.inView ? "visible" : "hidden"}
+                className="mx-auto max-w-2xl"
+              >
+                <motion.h2 variants={form.chVariants} className="mb-10">
+                  Send Us a Message
+                </motion.h2>
+
+                <motion.form
+                  variants={form.chVariants}
+                  onSubmit={(e) => e.preventDefault()}
+                  className="flex flex-col gap-5"
+                >
+                  {/* Name */}
+                  <div>
+                    <label
+                      htmlFor="contact-name"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Name <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      placeholder="Your full name"
+                      required
+                      className={inputClass}
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label
+                      htmlFor="contact-email"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Email <span className="text-destructive">*</span>
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      placeholder="you@company.com"
+                      required
+                      className={inputClass}
+                    />
+                  </div>
+
+                  {/* Phone */}
+                  <div>
+                    <label
+                      htmlFor="contact-phone"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Phone{" "}
+                      <span className="text-foreground/40">(optional)</span>
+                    </label>
+                    <input
+                      id="contact-phone"
+                      type="tel"
+                      placeholder="+1 (555) 000-0000"
+                      className={inputClass}
+                    />
+                  </div>
+
+                  {/* Subject */}
+                  <div>
+                    <label
+                      htmlFor="contact-subject"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Subject
+                    </label>
+                    <select id="contact-subject" className={selectClass} defaultValue="">
+                      <option value="" disabled>
+                        Select a topic
+                      </option>
+                      {SUBJECT_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label
+                      htmlFor="contact-message"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Message <span className="text-destructive">*</span>
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      placeholder="Tell us about your project..."
+                      required
+                      className={textareaClass}
+                    />
+                  </div>
+
+                  {/* Budget */}
+                  <div>
+                    <label
+                      htmlFor="contact-budget"
+                      className="mb-2 block text-sm font-medium"
+                    >
+                      Budget Range{" "}
+                      <span className="text-foreground/40">(optional)</span>
+                    </label>
+                    <select id="contact-budget" className={selectClass} defaultValue="">
+                      <option value="" disabled>
+                        Select a range
+                      </option>
+                      {BUDGET_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Submit */}
+                  <div className="pt-2">
+                    <Button type="submit" size="lg">
+                      Send Message
+                    </Button>
+                  </div>
+                </motion.form>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Services Quick Links */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={services.ref}>
+              <motion.div
+                variants={services.cVariants}
+                initial="hidden"
+                animate={services.inView ? "visible" : "hidden"}
+                className="mb-12"
+              >
+                <motion.h2 variants={services.chVariants}>
+                  What Can We Help With?
+                </motion.h2>
+              </motion.div>
+
+              <motion.div
+                variants={services.crdStagger}
+                initial="hidden"
+                animate={services.inView ? "visible" : "hidden"}
+                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              >
+                {SERVICE_LINKS.map((service) => {
+                  const Icon = service.icon
+                  return (
+                    <motion.a
+                      key={service.title}
+                      href={service.href}
+                      variants={services.crdFade}
+                      className="card-surface group flex items-start gap-4 rounded-lg border border-border/60 p-6 transition-colors duration-200 hover:border-border"
+                    >
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded bg-foreground/5">
+                        <Icon
+                          className="size-5 text-foreground/50"
+                          strokeWidth={1.5}
+                        />
+                      </div>
+                      <div>
+                        <h4 className="mb-1 font-heading text-base font-medium uppercase tracking-tight">
+                          {service.title}
+                        </h4>
+                        <p className="text-sm leading-relaxed text-foreground/60">
+                          {service.description}
+                        </p>
+                      </div>
+                    </motion.a>
+                  )
+                })}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Direct Contact Info */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={direct.ref}>
+              <motion.div
+                variants={direct.cVariants}
+                initial="hidden"
+                animate={direct.inView ? "visible" : "hidden"}
+              >
+                <motion.h2 variants={direct.chVariants} className="mb-10">
+                  Reach Us Directly
+                </motion.h2>
+                <motion.div
+                  variants={direct.chVariants}
+                  className="card-surface overflow-hidden rounded-lg border border-border/60"
+                >
+                  <table className="w-full">
+                    <tbody>
+                      {CONTACT_INFO.map((info, i) => (
+                        <tr
+                          key={info.label}
+                          className={
+                            i < CONTACT_INFO.length - 1
+                              ? "border-b border-border/40"
+                              : ""
+                          }
+                        >
+                          <td className="px-6 py-4 font-mono text-sm font-medium text-foreground/50">
+                            {info.label}
+                          </td>
+                          <td className="px-6 py-4 text-sm">{info.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Social Links */}
+      {/* ----------------------------------------------------------------- */}
+      <section>
+        <div className="padding-global">
+          <div className="container-large">
+            <div className="padding-section-medium" ref={social.ref}>
+              <motion.div
+                variants={social.cVariants}
+                initial="hidden"
+                animate={social.inView ? "visible" : "hidden"}
+              >
+                <motion.h2 variants={social.chVariants} className="mb-8">
+                  Follow Bitmern
+                </motion.h2>
+                <motion.div
+                  variants={social.chVariants}
+                  className="flex flex-wrap gap-3"
+                >
+                  {SOCIAL_LINKS.map((social) => {
+                    const Icon = social.icon
+                    return (
+                      <Button
+                        key={social.label}
+                        variant="outline"
+                        size="lg"
+                        asChild
+                      >
+                        <a
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={social.label}
+                        >
+                          <Icon className="size-5" strokeWidth={1.5} />
+                          <span>{social.label}</span>
+                        </a>
+                      </Button>
+                    )
+                  })}
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
