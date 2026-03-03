@@ -110,24 +110,6 @@ const COMPLIANCE_ITEMS = [
   },
 ]
 
-const LEADERSHIP = [
-  {
-    name: "Giannis Andreou",
-    title: "Founder & CEO",
-    photo: "/team/giannis-new.avif",
-  },
-  {
-    name: "Paschalis Pietris",
-    title: "Vice President",
-    photo: "/team/paschalis-new.avif",
-  },
-  {
-    name: "Andreas Stirmpou",
-    title: "CTO",
-    photo: "/team/andreas-new.avif",
-  },
-]
-
 // ---------------------------------------------------------------------------
 // Count-up stat component
 // ---------------------------------------------------------------------------
@@ -154,11 +136,11 @@ function CountUpStat({
     <div className="flex flex-col items-center">
       <span
         ref={ref as React.Ref<HTMLSpanElement>}
-        className="font-heading text-7xl font-bold leading-none tracking-tight text-primary lg:text-8xl"
+        className="font-heading text-5xl font-bold leading-none tracking-tight text-primary lg:text-6xl"
       >
         {inView ? display : "0"}
         {disclaimer && (
-          <span className="align-top text-3xl lg:text-4xl">*</span>
+          <span className="align-top text-2xl lg:text-3xl">*</span>
         )}
       </span>
       {unit && (
@@ -193,8 +175,8 @@ export function InstitutionalPage() {
         {/* Facility photo background */}
         <div className="absolute inset-0">
           <Image
-            src="/facilities/indiana.webp"
-            alt="Bitmern Mining facility — Indiana"
+            src="/facilities/addis-ababa.webp"
+            alt="Bitmern Mining facility — Addis Ababa"
             fill
             className="object-cover"
             sizes="100vw"
@@ -358,9 +340,11 @@ export function InstitutionalPage() {
                 </motion.div>
 
                 {/* Proximate disclaimer for compliance */}
-                <p className="mx-auto mt-8 max-w-xl text-center text-sm text-foreground/60">
+                <p className="mx-auto mt-8 max-w-xl border-l-2 border-primary/40 pl-3 text-left text-sm font-medium text-foreground/70">
                   * Based on historical Bitcoin network performance. Past
-                  performance does not guarantee future results.
+                  performance does not guarantee future results. Mining returns
+                  are variable and depend on network difficulty, energy costs,
+                  and Bitcoin price.
                 </p>
               </motion.div>
             </div>
@@ -392,8 +376,8 @@ export function InstitutionalPage() {
                 <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Countries</span>
               </div>
               <div className="text-center">
-                <span className="block font-heading text-4xl font-bold lg:text-5xl">99.5%</span>
-                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Uptime</span>
+                <span className="block font-heading text-4xl font-bold lg:text-5xl">97%</span>
+                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Uptime Guarantee</span>
               </div>
             </div>
           </div>
@@ -556,7 +540,7 @@ export function InstitutionalPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Leadership Photo Strip */}
+      {/* Leadership Link */}
       {/* ----------------------------------------------------------------- */}
       <section ref={teamStrip.ref}>
         <div className="padding-global">
@@ -568,51 +552,23 @@ export function InstitutionalPage() {
                 animate={teamStrip.inView ? "visible" : "hidden"}
                 className="text-align-center"
               >
-                <motion.div variants={teamStrip.chVariants}>
-                  <Tag>Leadership</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
                 <motion.h2 variants={teamStrip.chVariants} className="text-2xl lg:text-3xl">
-                  Meet the Team Behind the Infrastructure
+                  Led by Industry Veterans
                 </motion.h2>
-                <div className="spacer-medium" />
-
-                <motion.div
-                  variants={teamStrip.crdStagger}
-                  initial="hidden"
-                  animate={teamStrip.inView ? "visible" : "hidden"}
-                  className="flex flex-wrap items-center justify-center gap-10 lg:gap-16"
+                <div className="spacer-xsmall" />
+                <motion.p
+                  variants={teamStrip.chVariants}
+                  className="mx-auto max-w-xl text-base text-foreground/60"
                 >
-                  {LEADERSHIP.map((person) => (
-                    <motion.div
-                      key={person.name}
-                      variants={teamStrip.crdFade}
-                      className="flex flex-col items-center"
-                    >
-                      <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-border/40">
-                        <Image
-                          src={person.photo}
-                          alt={person.name}
-                          fill
-                          className="object-cover"
-                          sizes="64px"
-                        />
-                      </div>
-                      <span className="mt-3 font-heading text-sm font-semibold">
-                        {person.name}
-                      </span>
-                      <span className="font-mono text-xs uppercase tracking-wide text-foreground/50">
-                        {person.title}
-                      </span>
-                    </motion.div>
-                  ))}
-                </motion.div>
-
+                  Our leadership team brings decades of combined experience in
+                  energy infrastructure, digital assets, and large-scale mining
+                  operations.
+                </motion.p>
                 <div className="spacer-small" />
                 <motion.div variants={teamStrip.chVariants}>
                   <Button variant="outline" size="sm" asChild>
                     <Link href="/team" className="inline-flex items-center gap-2">
-                      View Full Team <ArrowRight className="size-4" />
+                      Meet Our Leadership <ArrowRight className="size-4" />
                     </Link>
                   </Button>
                 </motion.div>
