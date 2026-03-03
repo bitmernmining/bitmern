@@ -137,7 +137,7 @@ export function ProvenAtScale() {
                   className="card-surface flex flex-col justify-between overflow-hidden rounded-lg border border-border/60 p-8"
                 >
                   {/* Stat number */}
-                  <div className="mb-6 font-heading text-[4rem] font-bold leading-none text-primary">
+                  <div className="mb-6 font-heading text-[2.5rem] sm:text-[3rem] lg:text-[4rem] font-bold leading-none text-primary">
                     <StatNumber value={stat.value} suffix={stat.suffix} />
                   </div>
 

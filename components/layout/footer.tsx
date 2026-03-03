@@ -109,7 +109,7 @@ export function Footer() {
               ) : (
                 <>
                   <form
-                    className="flex items-center gap-3"
+                    className="flex flex-col gap-3 sm:flex-row sm:items-center"
                     onSubmit={handleNewsletterSubmit}
                   >
                     <input
@@ -120,7 +120,7 @@ export function Footer() {
                       autoComplete="email"
                       placeholder="Enter your email"
                       disabled={nlState === "submitting"}
-                      className="h-11 min-w-[16rem] rounded-md border border-border/60 bg-background/60 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all duration-200 disabled:opacity-50"
+                      className="h-11 w-full rounded-md border border-border/60 bg-background/60 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all duration-200 disabled:opacity-50 sm:min-w-[16rem] sm:w-auto"
                     />
                     <Button
                       type="submit"

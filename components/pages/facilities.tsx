@@ -289,7 +289,7 @@ export function FacilitiesPage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:min-h-[70vh]"
+                className="grid items-center gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-12 lg:min-h-[70vh]"
               >
                 {/* Left — Text */}
                 <div>
@@ -468,7 +468,7 @@ export function FacilitiesPage() {
                 variants={strategy.cVariants}
                 initial="hidden"
                 animate={strategy.inView ? "visible" : "hidden"}
-                className="grid items-center gap-12 lg:grid-cols-2"
+                className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12"
               >
                 {/* Left — Text */}
                 <div>

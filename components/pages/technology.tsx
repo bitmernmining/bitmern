@@ -132,8 +132,7 @@ export function TechnologyPage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]"
-                style={{ minHeight: "60vh" }}
+                className="grid items-center gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-12 lg:min-h-[60vh]"
               >
                 {/* Left — Copy */}
                 <div>

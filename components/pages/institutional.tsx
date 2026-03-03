@@ -135,7 +135,7 @@ function CountUpStat({
     <div className="flex flex-col items-center">
       <span
         ref={ref as React.Ref<HTMLSpanElement>}
-        className="font-heading text-5xl font-bold leading-none tracking-tight text-primary lg:text-6xl"
+        className="font-heading text-3xl font-bold leading-none tracking-tight text-primary sm:text-5xl lg:text-6xl"
       >
         {inView ? display : "0"}
         {disclaimer && (

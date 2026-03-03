@@ -27,7 +27,7 @@ function StatCounter({ stat }: { stat: (typeof STATS)[number] }) {
     <div className="flex flex-col gap-2">
       <span
         ref={ref}
-        className="font-heading text-6xl font-bold tracking-tight text-primary lg:text-7xl"
+        className="font-heading text-4xl font-bold tracking-tight text-primary sm:text-5xl lg:text-7xl"
       >
         {display || "0"}
         {stat.unit && (

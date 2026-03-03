@@ -54,7 +54,7 @@ function TestimonialCard({
     <div className="card-surface relative flex flex-col rounded-lg border border-border/60 p-6 lg:p-8">
       {/* Decorative small quote mark */}
       <span
-        className="pointer-events-none select-none font-heading text-[6rem] leading-none text-foreground/[0.06] absolute -top-2 left-4"
+        className="pointer-events-none select-none font-heading text-[4rem] sm:text-[6rem] leading-none text-foreground/[0.06] absolute -top-2 left-4"
         aria-hidden="true"
       >
         &ldquo;

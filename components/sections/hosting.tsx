@@ -163,7 +163,7 @@ export function Hosting() {
                 variants={crdStagger}
                 initial="hidden"
                 animate={cardsInView ? "visible" : "hidden"}
-                className="grid gap-x-12 gap-y-16 md:grid-cols-2 lg:col-start-2 lg:row-span-2"
+                className="grid gap-x-6 gap-y-10 sm:gap-x-8 sm:gap-y-12 md:grid-cols-2 lg:col-start-2 lg:row-span-2 lg:gap-x-12 lg:gap-y-16"
               >
                 {FEATURES.map((feature) => {
                   const Icon = feature.icon

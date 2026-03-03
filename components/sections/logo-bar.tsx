@@ -15,11 +15,11 @@ const PARTNERS: Partner[] = [
 
 // Normalize visual weight — wider logos get constrained, narrow ones get boosted
 const LOGO_WIDTHS: Record<string, string> = {
-  Bitmain: "w-28",
-  Canaan: "w-32",
-  ViaBTC: "w-28",
-  CoinEx: "w-28",
-  Auradine: "w-36",
+  Bitmain: "w-20 sm:w-28",
+  Canaan: "w-24 sm:w-32",
+  ViaBTC: "w-20 sm:w-28",
+  CoinEx: "w-20 sm:w-28",
+  Auradine: "w-24 sm:w-36",
 }
 
 export function LogoBar() {
@@ -32,7 +32,7 @@ export function LogoBar() {
               <p className="text-sm font-medium text-foreground/60">
                 Trusted by industry leaders
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-14">
+              <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-14">
                 {PARTNERS.map((partner) => (
                   <Image
                     key={partner.name}

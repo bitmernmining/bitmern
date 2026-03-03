@@ -201,29 +201,29 @@ export function HeroSlider() {
       aria-roledescription="carousel"
       aria-label="Services overview"
       tabIndex={0}
-      className="relative flex min-h-[100svh] flex-col items-center justify-center outline-none"
+      className="relative flex min-h-[85svh] flex-col items-center justify-center px-4 outline-none sm:min-h-[100svh] sm:px-0"
     >
       {/* Chevron nav — left */}
       <button
         onClick={() => goTo(active - 1)}
         aria-label="Previous slide"
-        className="absolute left-0 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full p-3 bg-background/60 backdrop-blur-sm border border-border/40 text-foreground/50 transition-all duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:bg-background/90 hover:text-foreground hover:border-border/80 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background outline-none"
+        className="absolute left-1 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full p-2 sm:p-3 bg-background/60 backdrop-blur-sm border border-border/40 text-foreground/50 transition-all duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:bg-background/90 hover:text-foreground hover:border-border/80 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background outline-none"
       >
-        <ChevronLeft className="size-7" />
+        <ChevronLeft className="size-5 sm:size-7" />
       </button>
 
       {/* Chevron nav — right */}
       <button
         onClick={() => goTo(active + 1)}
         aria-label="Next slide"
-        className="absolute right-0 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full p-3 bg-background/60 backdrop-blur-sm border border-border/40 text-foreground/50 transition-all duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:bg-background/90 hover:text-foreground hover:border-border/80 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background outline-none"
+        className="absolute right-1 top-1/2 z-20 -translate-y-1/2 cursor-pointer rounded-full p-2 sm:p-3 bg-background/60 backdrop-blur-sm border border-border/40 text-foreground/50 transition-all duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:bg-background/90 hover:text-foreground hover:border-border/80 hover:shadow-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background outline-none"
       >
-        <ChevronRight className="size-7" />
+        <ChevronRight className="size-5 sm:size-7" />
       </button>
 
       {/* Slide content — fixed height prevents layout shift on tab change */}
       <div
-        className="max-width-large mx-auto flex min-h-[28rem] flex-col items-center justify-center text-align-center md:min-h-[26rem]"
+        className="max-width-large mx-auto flex min-h-[22rem] flex-col items-center justify-center text-align-center sm:min-h-[26rem]"
         onMouseEnter={handlePause}
         onMouseLeave={handleResume}
         onFocusCapture={handlePause}
