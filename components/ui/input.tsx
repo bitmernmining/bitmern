@@ -24,7 +24,7 @@ function Input({
         "placeholder:text-foreground/40",
         "selection:bg-primary selection:text-primary-foreground",
         // Transitions
-        "transition-[background-color,border-color,outline-color] duration-200",
+        "transition-[background-color,border-color,outline-color] duration-350",
         // Hover — warm cream tint (Webflow: fuel-yellow-lightest)
         "hover:bg-[oklch(0.98_0.015_78)]",
         "dark:hover:bg-foreground/[0.08]",
@@ -61,7 +61,7 @@ function Textarea({
         "border border-transparent",
         "placeholder:text-foreground/40",
         "selection:bg-primary selection:text-primary-foreground",
-        "transition-[background-color,border-color,outline-color] duration-200",
+        "transition-[background-color,border-color,outline-color] duration-350",
         "hover:bg-[oklch(0.98_0.015_78)]",
         "dark:hover:bg-foreground/[0.08]",
         "focus:border-primary focus:outline-[1.5px] focus:outline-primary/30 focus:outline-offset-1",

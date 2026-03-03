@@ -70,7 +70,7 @@ const navigationMenuTriggerStyle = cva(
   [
     "group inline-flex items-center justify-center gap-2",
     "px-4 py-6 text-base font-medium",
-    "transition-colors duration-200",
+    "transition-colors duration-350",
     "outline-none cursor-pointer select-none",
     "hover:text-[var(--nav-hover)]",
     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
@@ -154,12 +154,12 @@ function NavigationMenuViewport({
           "relative w-full overflow-hidden",
           "rounded-xl border border-border/40",
           "h-[var(--radix-navigation-menu-viewport-height)]",
-          "transition-[height] duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
+          "transition-[height] duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
           // Open: fade + scale in. Close: fade + scale out.
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0",
           "data-[state=open]:zoom-in-[0.98] data-[state=closed]:zoom-out-[0.98]",
-          "duration-150",
+          "duration-350",
           className
         )}
         {...props}
@@ -176,7 +176,7 @@ function NavigationMenuLink({
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Link>) {
   const linkClasses = cn(
     "group/link flex flex-col items-start py-2 no-underline outline-none rounded-md px-3 -mx-3",
-    "transition-all duration-200",
+    "transition-all duration-350",
     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset focus-visible:rounded-md",
     className
   )

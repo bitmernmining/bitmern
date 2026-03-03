@@ -31,6 +31,11 @@
   --tag-unfilled: oklch(0.98 0.02 85);
   --tag-text: oklch(0.30 0.06 70);
   --nav-hover: oklch(0.55 0.12 78);
+  /* Motion tokens — consistent easing & durations across all transitions */
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-fast: 150ms;
+  --duration-base: 350ms;
+  --duration-slow: 500ms;
   /* Shadow scale — unified "industrial luxury" depth system */
   --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.03);
   --shadow-sm: inset 0 1px 0 0 oklch(1 0 0 / 0.06), 0 1px 3px 0 oklch(0 0 0 / 0.04);
@@ -140,7 +145,7 @@
     text-transform: uppercase;
   }
   h1 {
-    font-size: 2.986rem;
+    font-size: clamp(2rem, 1.5rem + 2.5vw, 2.986rem);
     font-weight: 400;
     letter-spacing: -0.045rem;
     line-height: 1.2;
@@ -151,13 +156,13 @@
     letter-spacing: -0.06rem;
   }
   h2 {
-    font-size: 2.488rem;
+    font-size: clamp(1.75rem, 1.25rem + 2vw, 2.488rem);
     font-weight: 400;
     letter-spacing: -0.0325rem;
     line-height: 1.05;
   }
   h3 {
-    font-size: 2.074rem;
+    font-size: clamp(1.25rem, 1rem + 1.25vw, 1.728rem);
     font-weight: 400;
     letter-spacing: -0.0275rem;
     line-height: 1.08;
@@ -192,25 +197,8 @@
   color: var(--tag-text);
 }
 
-/* Responsive heading scales — Webflow breakpoint-matched */
-@media screen and (max-width: 991px) {
-  h1       { font-size: 2.25rem; }
-  h1.is-hero { font-size: 3.25rem; }
-  h2       { font-size: 2rem; }
-  h3       { font-size: 1.75rem; }
-}
-@media screen and (max-width: 767px) {
-  h1       { font-size: 2rem; }
-  h1.is-hero { font-size: 2.75rem; }
-  h2       { font-size: 1.75rem; }
-  h3       { font-size: 1.5rem; }
-}
-@media screen and (max-width: 479px) {
-  h1       { font-size: 1.75rem; }
-  h1.is-hero { font-size: 2.5rem; }
-  h2       { font-size: 1.5rem; }
-  h3       { font-size: 1.35rem; }
-}
+/* Responsive heading scales — now handled by clamp() fluid typography.
+   h1.is-hero uses its own clamp() defined in @layer base. */
 
 /* Badge pulse — breathing glow ring via pseudo-element */
 @keyframes badge-breathe {
@@ -219,7 +207,7 @@
 }
 
 .badge-pulse {
-  --pulse-color: oklch(0.795 0.153 78 / 0.55);
+  --pulse-color: oklch(from var(--primary) l c h / 0.55);
 }
 
 .badge-pulse[data-variant="success"] {
@@ -249,11 +237,11 @@
 .text-shimmer {
   background: linear-gradient(
     90deg,
-    oklch(0.795 0.153 78) 0%,
-    oklch(0.795 0.153 78) 35%,
-    oklch(0.95 0.08 78) 50%,
-    oklch(0.795 0.153 78) 65%,
-    oklch(0.795 0.153 78) 100%
+    var(--primary) 0%,
+    var(--primary) 35%,
+    oklch(from var(--primary) 0.95 0.08 h) 50%,
+    var(--primary) 65%,
+    var(--primary) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -264,11 +252,11 @@
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 20px oklch(0.795 0.153 78 / 0.3), 0 0 60px oklch(0.795 0.153 78 / 0.1);
+  box-shadow: 0 0 20px oklch(from var(--primary) l c h / 0.3), 0 0 60px oklch(from var(--primary) l c h / 0.1);
 }
 
 .glow-lg {
-  box-shadow: 0 0 30px oklch(0.795 0.153 78 / 0.4), 0 0 80px oklch(0.795 0.153 78 / 0.15);
+  box-shadow: 0 0 30px oklch(from var(--primary) l c h / 0.4), 0 0 80px oklch(from var(--primary) l c h / 0.15);
 }
 
 /* Dot-grid background */
@@ -300,11 +288,11 @@
   padding: 1px;
   background: conic-gradient(
     from var(--gradient-angle),
-    oklch(0.795 0.153 78) 0%,
-    oklch(0.88 0 0) 25%,
-    oklch(0.795 0.153 78) 50%,
-    oklch(0.88 0 0) 75%,
-    oklch(0.795 0.153 78) 100%
+    var(--primary) 0%,
+    var(--border) 25%,
+    var(--primary) 50%,
+    var(--border) 75%,
+    var(--primary) 100%
   );
   animation: gradient-rotate 4s linear infinite;
 }
@@ -312,11 +300,11 @@
 .dark .gradient-border {
   background: conic-gradient(
     from var(--gradient-angle),
-    oklch(0.795 0.153 78) 0%,
-    oklch(0.28 0 0) 25%,
-    oklch(0.795 0.153 78) 50%,
-    oklch(0.28 0 0) 75%,
-    oklch(0.795 0.153 78) 100%
+    var(--primary) 0%,
+    var(--border) 25%,
+    var(--primary) 50%,
+    var(--border) 75%,
+    var(--primary) 100%
   );
 }
 
@@ -355,15 +343,11 @@
 
 /* Gradient text */
 .text-gradient {
-  background-image: linear-gradient(135deg, oklch(0.145 0 0) 0%, oklch(0.795 0.153 78) 100%);
+  background-image: linear-gradient(135deg, var(--foreground) 0%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-}
-
-.dark .text-gradient {
-  background-image: linear-gradient(135deg, oklch(0.95 0 0) 0%, oklch(0.795 0.153 78) 100%);
 }
 
 /* Fade-to-edge mask */
@@ -582,8 +566,8 @@
 
 /* Section padding — vertical breathing room inside sections */
 .padding-section-small  { padding-top: 3rem; padding-bottom: 3rem; }
-.padding-section-medium { padding-top: 5rem; padding-bottom: 5rem; }
-.padding-section-large  { padding-top: 7rem; padding-bottom: 7rem; }
+.padding-section-medium { padding-top: clamp(3rem, 1.5rem + 4vw, 5rem); padding-bottom: clamp(3rem, 1.5rem + 4vw, 5rem); }
+.padding-section-large  { padding-top: clamp(4rem, 2rem + 5vw, 6.25rem); padding-bottom: clamp(4rem, 2rem + 5vw, 6.25rem); }
 .padding-section-large.is-hero { padding-top: 12rem; }
 .padding-section-large.is-section-hero { padding-top: 12rem; padding-bottom: 12rem; }
 
@@ -602,8 +586,6 @@
 
 /* Tablet — max-width: 991px */
 @media screen and (max-width: 991px) {
-  .padding-section-medium { padding-top: 4rem; padding-bottom: 4rem; }
-  .padding-section-large  { padding-top: 6rem; padding-bottom: 6rem; }
   .spacer-large   { padding-top: 2.5rem; }
   .spacer-xlarge  { padding-top: 3.5rem; }
   .spacer-xxlarge { padding-top: 4.5rem; }
@@ -614,9 +596,6 @@
 
 /* Mobile landscape — max-width: 767px */
 @media screen and (max-width: 767px) {
-  .padding-section-small  { padding-top: 2rem; padding-bottom: 2rem; }
-  .padding-section-medium { padding-top: 3rem; padding-bottom: 3rem; }
-  .padding-section-large  { padding-top: 4rem; padding-bottom: 4rem; }
   .spacer-xsmall  { padding-top: 0.75rem; }
   .spacer-small   { padding-top: 1.25rem; }
   .spacer-medium  { padding-top: 1.5rem; }

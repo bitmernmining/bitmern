@@ -20,7 +20,7 @@ function Accordion({
       data-slot="accordion"
       className={cn(
         // Webflow: border, radius--medium (0.5rem), foreground bg, overflow hidden
-        "rounded-lg border bg-card overflow-hidden",
+        "rounded-lg border border-border/60 overflow-hidden",
         className
       )}
       {...props}
@@ -35,7 +35,7 @@ function AccordionItem({
   return (
     <AccordionPrimitive.Item
       data-slot="accordion-item"
-      className={cn("border-b last:border-b-0", className)}
+      className={cn("border-b last:border-b-0 transition-colors duration-350 data-[state=open]:bg-foreground/[0.015]", className)}
       {...props}
     />
   )
@@ -54,7 +54,7 @@ function AccordionTrigger({
           // Webflow: padding 1.25rem 1.5rem, flex, space-between, pointer
           "flex flex-1 items-center justify-between gap-4 px-6 py-5",
           "text-left text-sm font-medium cursor-pointer",
-          "transition-colors duration-200 outline-none",
+          "transition-colors duration-350 outline-none",
           "hover:text-primary",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           "disabled:pointer-events-none disabled:opacity-50",

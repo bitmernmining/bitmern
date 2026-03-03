@@ -12,7 +12,6 @@ const tagVariants = cva(
   [
     "inline-flex items-center justify-center gap-1.5 whitespace-nowrap",
     "rounded-sm font-mono text-sm font-normal uppercase tracking-[-0.0625rem]",
-    "backdrop-blur-[10px]",
     "select-none shrink-0",
     "[&>svg]:size-3 [&>svg]:pointer-events-none",
   ].join(" "),
@@ -27,12 +26,12 @@ const tagVariants = cva(
 
         // Muted — neutral surface, subtle
         muted: [
-          "bg-foreground/[0.06] text-foreground/70",
+          "bg-foreground/[0.06] text-foreground/70 backdrop-blur-[10px]",
           "dark:bg-foreground/[0.08] dark:text-foreground/60",
         ].join(" "),
 
         // Alternate — for dark backgrounds, translucent white
-        alternate: "bg-white/10 text-white",
+        alternate: "bg-white/10 text-white backdrop-blur-[10px]",
 
         // Primary — fuel-yellow bg with contrast text
         primary: [
@@ -71,16 +70,21 @@ function Tag({
   variant = "default",
   size = "default",
   asChild = false,
+  interactive = false,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof tagVariants> & { asChild?: boolean }) {
+  VariantProps<typeof tagVariants> & { asChild?: boolean; interactive?: boolean }) {
   const Comp = asChild ? Slot.Root : "span"
 
   return (
     <Comp
       data-slot="tag"
       data-variant={variant}
-      className={cn(tagVariants({ variant, size, className }))}
+      className={cn(
+        tagVariants({ variant, size }),
+        interactive && "cursor-pointer transition-all duration-350 hover:brightness-[0.95] active:scale-[0.97]",
+        className
+      )}
       {...props}
     />
   )
