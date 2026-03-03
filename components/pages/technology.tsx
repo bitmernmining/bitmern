@@ -16,7 +16,9 @@ import {
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import Link from "next/link"
+import Image from "next/image"
 import { useSection } from "@/lib/motion"
 
 // ---------------------------------------------------------------------------
@@ -117,12 +119,11 @@ export function TechnologyPage() {
   const ai = useSection()
   const firmware = useSection()
   const platforms = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* --------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Split Layout with Device Mockup */}
       {/* --------------------------------------------------------------- */}
       <section ref={hero.ref}>
         <div className="padding-global">
@@ -132,36 +133,55 @@ export function TechnologyPage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]"
+                style={{ minHeight: "60vh" }}
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Technology</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  Enterprise Monitoring. Real-Time Control.
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  The Bitmern SuperApp gives you full visibility and control
-                  over your mining operation &mdash; from a single miner to a
-                  fleet of thousands. Real-time dashboards, automated alerts,
-                  and remote management across every facility.
-                </motion.p>
-                <div className="spacer-medium" />
+                {/* Left — Copy */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>Technology</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h1 variants={hero.chVariants}>
+                    Built for Performance
+                  </motion.h1>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  >
+                    The Bitmern SuperApp gives you full visibility and control
+                    over your mining operation &mdash; from a single miner to a
+                    fleet of thousands. Real-time dashboards, automated alerts,
+                    and remote management across every facility.
+                  </motion.p>
+                  <div className="spacer-medium" />
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Request Access</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <Link href="/mara-firmware">Explore MARA Firmware</Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right — Device Mockup */}
                 <motion.div
                   variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  className="mx-auto max-w-[520px]"
                 >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Request Access</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/mara-firmware">Explore MARA Firmware</Link>
-                  </Button>
+                  <Image
+                    src="/mockups/app-dashboard.webp"
+                    alt="Bitmern SuperApp monitoring dashboard"
+                    width={1040}
+                    height={780}
+                    className="rounded-lg shadow-xl"
+                    priority
+                  />
                 </motion.div>
               </motion.div>
             </div>
@@ -170,7 +190,7 @@ export function TechnologyPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* SuperApp Features */}
+      {/* SuperApp Features with Device Composition */}
       {/* --------------------------------------------------------------- */}
       <section ref={features.ref}>
         <div className="padding-global">
@@ -190,7 +210,37 @@ export function TechnologyPage() {
                 </motion.h2>
               </motion.div>
 
+              {/* Device Composition — dashboard + mobile overlap */}
               <div className="spacer-large" />
+              <motion.div
+                variants={features.cVariants}
+                initial="hidden"
+                animate={features.inView ? "visible" : "hidden"}
+                className="relative mx-auto max-w-3xl"
+              >
+                <motion.div variants={features.chVariants}>
+                  {/* Main dashboard mockup */}
+                  <Image
+                    src="/mockups/app-dashboard.webp"
+                    alt="Bitmern SuperApp dashboard view"
+                    width={1040}
+                    height={780}
+                    className="rounded-lg shadow-xl"
+                  />
+                  {/* Mobile mockup — overlapping bottom-left */}
+                  <div className="absolute -bottom-6 -left-4 w-[30%] sm:-bottom-8 sm:-left-8 md:-bottom-10 md:-left-12">
+                    <Image
+                      src="/mockups/app-mobile.webp"
+                      alt="Bitmern SuperApp mobile view"
+                      width={400}
+                      height={800}
+                      className="rounded-lg shadow-2xl"
+                    />
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              <div className="spacer-xlarge" />
 
               <motion.div
                 variants={features.crdStagger}
@@ -314,14 +364,14 @@ export function TechnologyPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Mid-page CTA */}
+      {/* Mid-page CTA — SectionCTA */}
       {/* --------------------------------------------------------------- */}
-      <section className="padding-global">
-        <div className="container-large text-center py-16">
-          <h3 className="text-xl font-semibold mb-4">Ready to get started?</h3>
-          <Button asChild size="lg"><Link href="/contact">Contact Us</Link></Button>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Bitmern SuperApp"
+        heading="Monitor Everything from One Dashboard"
+        primaryCTA={{ label: "Download the App", href: "/contact" }}
+        variant="elevated"
+      />
 
       {/* --------------------------------------------------------------- */}
       {/* MARA Firmware */}
@@ -386,7 +436,7 @@ export function TechnologyPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Platform Availability */}
+      {/* Platform Availability + App Store Buttons */}
       {/* --------------------------------------------------------------- */}
       <section ref={platforms.ref} className="section-elevated">
         <div className="padding-global">
@@ -435,6 +485,40 @@ export function TechnologyPage() {
                   )
                 })}
               </motion.div>
+
+              {/* App Store Download Buttons */}
+              <div className="spacer-medium" />
+              <motion.div
+                variants={platforms.cVariants}
+                initial="hidden"
+                animate={platforms.inView ? "visible" : "hidden"}
+                className="flex items-center justify-center gap-3"
+              >
+                <motion.div variants={platforms.chVariants}>
+                  {/* TODO: Replace # with real App Store link */}
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src="/mockups/app-store.webp"
+                      alt="Download on the App Store"
+                      width={160}
+                      height={48}
+                      className="h-12 w-auto"
+                    />
+                  </a>
+                </motion.div>
+                <motion.div variants={platforms.chVariants}>
+                  {/* TODO: Replace # with real Google Play link */}
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src="/mockups/google-play.webp"
+                      alt="Get it on Google Play"
+                      width={160}
+                      height={48}
+                      className="h-12 w-auto"
+                    />
+                  </a>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -443,44 +527,14 @@ export function TechnologyPage() {
       {/* --------------------------------------------------------------- */}
       {/* Bottom CTA */}
       {/* --------------------------------------------------------------- */}
-      <section ref={cta.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  See Your Mining Operation in Real Time
-                </motion.h2>
-                <div className="spacer-xsmall" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Download the SuperApp or log in to the web dashboard to start
-                  monitoring.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get Started</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/hosting">View Hosting Plans</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Get Started"
+        heading="See Your Mining Operation in Real Time"
+        description="Download the SuperApp or log in to the web dashboard to start monitoring."
+        primaryCTA={{ label: "Get Started", href: "/contact" }}
+        secondaryCTA={{ label: "View Hosting Plans", href: "/hosting" }}
+        variant="dark"
+      />
     </>
   )
 }
