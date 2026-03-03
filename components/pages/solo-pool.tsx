@@ -1,9 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import {
   Activity,
   Bell,
@@ -120,16 +122,19 @@ const RECOMMENDED_HARDWARE = [
     title: "Flagship ASICs",
     subtitle: "Maximum block-finding probability",
     miners: "Antminer S21 Pro (234 TH/s), Whatsminer M66S (298 TH/s), Antminer L9 (16 GH/s)",
+    hasImage: true,
   },
   {
     title: "Mid-Range",
     subtitle: "Best value for dedicated solo miners",
     miners: "Antminer S19K Pro (120 TH/s), Antminer L7 (9.5 GH/s)",
+    hasImage: false,
   },
   {
     title: "Home & Solo Miners",
     subtitle: "Affordable entry into solo mining",
     miners: "Bitaxe (1.2 TH/s), Bitaxe Hex (3.6 TH/s), Goldshell Mini-Doge III (800 MH/s)",
+    hasImage: false,
   },
 ]
 
@@ -146,12 +151,11 @@ export function SoloPoolPage() {
   const comparison = useSection()
   const hardware = useSection()
   const hosting = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero                                                              */}
+      {/* Hero — Split layout with device mockup                            */}
       {/* ----------------------------------------------------------------- */}
       <section ref={hero.ref}>
         <div className="padding-global">
@@ -161,57 +165,76 @@ export function SoloPoolPage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-center"
+                className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Solo Mining Pool</Tag>
-                </motion.div>
+                {/* Left — text content */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>Solo Mining Pool</Tag>
+                  </motion.div>
 
-                <div className="spacer-xsmall" />
+                  <div className="spacer-xsmall" />
 
-                <motion.h1
-                  variants={hero.chVariants}
-                  className="text-balance"
-                >
-                  Keep the Entire Block Reward to Yourself
-                </motion.h1>
+                  <motion.h1
+                    variants={hero.chVariants}
+                    className="text-balance"
+                  >
+                    Keep the Entire Block Reward to Yourself
+                  </motion.h1>
 
-                <div className="spacer-small" />
+                  <div className="spacer-small" />
 
-                <motion.p
-                  variants={hero.chVariants}
-                  className="mx-auto max-w-2xl text-lg leading-relaxed text-foreground/70"
-                >
-                  Mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte on
-                  Bitmern Solo. Flat 1% fee, direct wallet payouts, no shared
-                  rewards, no middlemen. 99.9% uptime on enterprise
-                  infrastructure.
-                </motion.p>
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="max-w-2xl text-lg leading-relaxed text-foreground/70"
+                  >
+                    Mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte on
+                    Bitmern Solo. Flat 1% fee, direct wallet payouts, no shared
+                    rewards, no middlemen. 99.9% uptime on enterprise
+                    infrastructure.
+                  </motion.p>
 
-                <div className="spacer-medium" />
+                  <div className="spacer-medium" />
 
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <a
+                        href="https://bitmernsolo.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Start Mining
+                      </a>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <a
+                        href="https://bitmernsolo.com/pool-stats"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Pool Stats
+                      </a>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right — dashboard mockup */}
                 <motion.div
                   variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border/40 shadow-xl"
                 >
-                  <Button size="lg" asChild>
-                    <a
-                      href="https://bitmernsolo.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Start Mining
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a
-                      href="https://bitmernsolo.com/pool-stats"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View Pool Stats
-                    </a>
-                  </Button>
+                  <Image
+                    src="/mockups/app-dashboard.webp"
+                    alt="Bitmern Solo mining pool dashboard"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    quality={90}
+                    priority
+                  />
                 </motion.div>
               </motion.div>
             </div>
@@ -414,12 +437,13 @@ export function SoloPoolPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Mid-page CTA                                                      */}
       {/* ----------------------------------------------------------------- */}
-      <section className="padding-global">
-        <div className="container-large text-center py-16">
-          <h3 className="text-xl font-semibold mb-4">Ready to get started?</h3>
-          <Button asChild size="lg"><a href="https://bitmernsolo.com" target="_blank" rel="noopener noreferrer">Start Mining</a></Button>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Solo Mining"
+        heading="Start Mining Solo Today"
+        primaryCTA={{ label: "Get Started", href: "/contact" }}
+        secondaryCTA={{ label: "View Hardware", href: "/hardware" }}
+        variant="elevated"
+      />
 
       {/* ----------------------------------------------------------------- */}
       {/* Pricing                                                           */}
@@ -633,20 +657,35 @@ export function SoloPoolPage() {
                     <motion.div
                       key={hw.title}
                       variants={hardware.crdFade}
-                      className="card-surface border border-border/60 rounded-lg p-6"
+                      className="card-surface border border-border/60 rounded-lg overflow-hidden"
                     >
-                      <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-tight tracking-tight">
-                        {hw.title}
-                      </h3>
-                      <p className="mt-1 text-sm text-foreground/50">
-                        {hw.subtitle}
-                      </p>
+                      {/* Product photo for flagship card */}
+                      {hw.hasImage && (
+                        <div className="relative aspect-[16/10] bg-secondary/30">
+                          <Image
+                            src="/hardware/antminer-s21-plus.webp"
+                            alt="Antminer S21 Pro — flagship ASIC for solo mining"
+                            fill
+                            className="object-contain p-4"
+                            sizes="(max-width: 1024px) 100vw, 33vw"
+                            quality={85}
+                          />
+                        </div>
+                      )}
+                      <div className="p-6">
+                        <h3 className="font-heading text-[1.44rem] font-normal uppercase leading-tight tracking-tight">
+                          {hw.title}
+                        </h3>
+                        <p className="mt-1 text-sm text-foreground/50">
+                          {hw.subtitle}
+                        </p>
 
-                      <div className="spacer-xsmall" />
+                        <div className="spacer-xsmall" />
 
-                      <p className="text-sm leading-relaxed text-foreground/60">
-                        {hw.miners}
-                      </p>
+                        <p className="text-sm leading-relaxed text-foreground/60">
+                          {hw.miners}
+                        </p>
+                      </div>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -721,63 +760,14 @@ export function SoloPoolPage() {
       {/* ----------------------------------------------------------------- */}
       {/* Bottom CTA                                                        */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl text-center"
-              >
-                <motion.h2
-                  variants={cta.chVariants}
-                  className="text-balance"
-                >
-                  Start Mining Solo Today
-                </motion.h2>
-
-                <div className="spacer-small" />
-
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-base leading-relaxed text-foreground/70"
-                >
-                  Create a free account, point your miner at our stratum, and
-                  start submitting shares in minutes.
-                </motion.p>
-
-                <div className="spacer-medium" />
-
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <a
-                      href="https://app.bitmernsolo.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Create Free Account
-                    </a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a
-                      href="https://bitmernsolo.com/docs"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Read the Docs
-                    </a>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Solo Mining"
+        heading="Start Mining Solo Today"
+        description="Create a free account, point your miner at our stratum, and start submitting shares in minutes."
+        primaryCTA={{ label: "Create Free Account", href: "https://app.bitmernsolo.com" }}
+        secondaryCTA={{ label: "Read the Docs", href: "https://bitmernsolo.com/docs" }}
+        variant="dark"
+      />
     </>
   )
 }

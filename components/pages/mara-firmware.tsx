@@ -1,9 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
 import {
   Gauge,
   Wand2,
@@ -117,12 +119,11 @@ export function MaraFirmwarePage() {
   const dashboard = useSection()
   const install = useSection()
   const ucb = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero                                                              */}
+      {/* Hero — Split layout with device mockup                            */}
       {/* ----------------------------------------------------------------- */}
       <section ref={hero.ref}>
         <div className="padding-global">
@@ -132,45 +133,64 @@ export function MaraFirmwarePage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-center"
+                className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr]"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>MARA Firmware</Tag>
-                </motion.div>
+                {/* Left — text content */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>MARA Firmware</Tag>
+                  </motion.div>
 
-                <div className="spacer-xsmall" />
+                  <div className="spacer-xsmall" />
 
-                <motion.h1
-                  variants={hero.chVariants}
-                  className="text-balance"
-                >
-                  Realize Your Miners&rsquo; True Potential
-                </motion.h1>
+                  <motion.h1
+                    variants={hero.chVariants}
+                    className="text-balance"
+                  >
+                    Realize Your Miners&rsquo; True Potential
+                  </motion.h1>
 
-                <div className="spacer-small" />
+                  <div className="spacer-small" />
 
-                <motion.p
-                  variants={hero.chVariants}
-                  className="mx-auto max-w-2xl text-lg leading-relaxed text-foreground/70"
-                >
-                  More performance. Less power. Innovative auto-tuning. Bitmern
-                  is an authorized deployment partner for Marathon Digital&rsquo;s
-                  MARAFW — the firmware that sets MARA apart. Now available for
-                  your fleet.
-                </motion.p>
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="max-w-2xl text-lg leading-relaxed text-foreground/70"
+                  >
+                    More performance. Less power. Innovative auto-tuning. Bitmern
+                    is an authorized deployment partner for Marathon Digital&rsquo;s
+                    MARAFW — the firmware that sets MARA apart. Now available for
+                    your fleet.
+                  </motion.p>
 
-                <div className="spacer-medium" />
+                  <div className="spacer-medium" />
 
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Get MARAFW on Your Miners</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <a href="#compatible-hardware">View Compatible Hardware</a>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right — dashboard mockup */}
                 <motion.div
                   variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border/40 shadow-xl"
                 >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get MARAFW on Your Miners</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a href="#compatible-hardware">View Compatible Hardware</a>
-                  </Button>
+                  <Image
+                    src="/mockups/app-dashboard.webp"
+                    alt="MARA Firmware management dashboard"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    quality={90}
+                    priority
+                  />
                 </motion.div>
               </motion.div>
             </div>
@@ -322,16 +342,34 @@ export function MaraFirmwarePage() {
 
                 <div className="spacer-large" />
 
-                <motion.div
-                  variants={compatible.chVariants}
-                  className="flex flex-wrap gap-3"
-                >
-                  {COMPATIBLE_MINERS.map((miner) => (
-                    <Tag key={miner} variant="muted" size="sm">
-                      {miner}
-                    </Tag>
-                  ))}
-                </motion.div>
+                <div className="grid items-start gap-8 lg:grid-cols-[1fr_1.2fr]">
+                  {/* Product photo */}
+                  <motion.div
+                    variants={compatible.chVariants}
+                    className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border/40 bg-secondary/30"
+                  >
+                    <Image
+                      src="/hardware/antminer-s21-plus.webp"
+                      alt="Antminer S21 — compatible with MARA Firmware"
+                      fill
+                      className="object-contain p-6"
+                      sizes="(max-width: 1024px) 100vw, 40vw"
+                      quality={85}
+                    />
+                  </motion.div>
+
+                  {/* Miner tags */}
+                  <motion.div
+                    variants={compatible.chVariants}
+                    className="flex flex-wrap content-start gap-3"
+                  >
+                    {COMPATIBLE_MINERS.map((miner) => (
+                      <Tag key={miner} variant="muted" size="sm">
+                        {miner}
+                      </Tag>
+                    ))}
+                  </motion.div>
+                </div>
               </motion.div>
             </div>
           </div>
@@ -499,52 +537,14 @@ export function MaraFirmwarePage() {
       {/* ----------------------------------------------------------------- */}
       {/* Bottom CTA                                                        */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref} className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl text-center"
-              >
-                <motion.h2
-                  variants={cta.chVariants}
-                  className="text-balance"
-                >
-                  Upgrade Your Fleet Today
-                </motion.h2>
-
-                <div className="spacer-small" />
-
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-base leading-relaxed text-foreground/70"
-                >
-                  Whether you&apos;re hosted with Bitmern or running your own
-                  facility, MARAFW can optimize your miners. Contact us to get
-                  started.
-                </motion.p>
-
-                <div className="spacer-medium" />
-
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get MARAFW on Your Miners</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/technology">Explore Our Technology</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="MARA Firmware"
+        heading="Upgrade Your Fleet Today"
+        description="Whether you're hosted with Bitmern or running your own facility, MARAFW can optimize your miners. Contact us to get started."
+        primaryCTA={{ label: "Get MARAFW on Your Miners", href: "/contact" }}
+        secondaryCTA={{ label: "Explore Our Technology", href: "/technology" }}
+        variant="dark"
+      />
     </>
   )
 }

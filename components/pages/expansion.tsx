@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import {
   Snowflake,
   Handshake,
@@ -12,6 +13,8 @@ import {
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { ImageSection } from "@/components/ui/image-section"
+import { SectionCTA } from "@/components/ui/section-cta"
 import Link from "next/link"
 import { useSection } from "@/lib/motion"
 
@@ -77,60 +80,60 @@ export function ExpansionPage() {
   const originspark = useSection()
   const trajectory = useSection(0.15)
   const advantage = useSection()
-  const cta = useSection()
 
   return (
     <>
       {/* --------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Dark with Finland facility background                     */}
       {/* --------------------------------------------------------------- */}
-      <section ref={hero.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={hero.cVariants}
-                initial="hidden"
-                animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
-              >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Expansion</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  Building the Next Generation of Mining Infrastructure
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  From our roots in Greece and Ethiopia to a global network
-                  spanning four continents, Bitmern is scaling aggressively. Our
-                  expansion pipeline includes Nordic facilities and the 500 MW
-                  OriginSpark partnership.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Reserve Your Spot</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/facilities">View Current Facilities</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
+      <ImageSection
+        src="/facilities/finland.webp"
+        alt="Bitmern Finland mining facility"
+        overlay="gradient"
+        className="min-h-[60vh] flex items-center section-dark"
+      >
+        <div className="padding-section-large" ref={hero.ref}>
+          <motion.div
+            variants={hero.cVariants}
+            initial="hidden"
+            animate={hero.inView ? "visible" : "hidden"}
+            className="mx-auto max-w-3xl text-align-center"
+          >
+            <motion.div variants={hero.chVariants}>
+              <Tag>Expansion</Tag>
+            </motion.div>
+            <div className="spacer-xsmall" />
+            <motion.h1 variants={hero.chVariants} className="text-white">
+              Building the Next Generation of Mining Infrastructure
+            </motion.h1>
+            <div className="spacer-small" />
+            <motion.p
+              variants={hero.chVariants}
+              className="text-[1.125rem] leading-relaxed text-white/70"
+            >
+              From our roots in Greece and Ethiopia to a global network
+              spanning four continents, Bitmern is scaling aggressively. Our
+              expansion pipeline includes Nordic facilities and the 500 MW
+              OriginSpark partnership.
+            </motion.p>
+            <div className="spacer-medium" />
+            <motion.div
+              variants={hero.chVariants}
+              className="flex flex-wrap items-center justify-center gap-4"
+            >
+              <Button size="lg" asChild>
+                <Link href="/contact">Reserve Your Spot</Link>
+              </Button>
+              <Button variant="secondary" size="lg" asChild>
+                <Link href="/facilities">View Current Facilities</Link>
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </ImageSection>
 
       {/* --------------------------------------------------------------- */}
-      {/* Finland */}
+      {/* Finland                                                          */}
       {/* --------------------------------------------------------------- */}
       <section ref={finland.ref} className="section-elevated">
         <div className="padding-global">
@@ -145,6 +148,18 @@ export function ExpansionPage() {
                   variants={finland.chVariants}
                   className="overflow-hidden rounded-lg border border-primary/20 bg-primary/[0.03] p-8 md:p-12"
                 >
+                  {/* Finland photo */}
+                  <div className="relative mb-8 aspect-[16/9] overflow-hidden rounded-lg">
+                    <Image
+                      src="/facilities/finland.webp"
+                      alt="Bitmern Finland facility — cold climate mining"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                      quality={85}
+                    />
+                  </div>
+
                   <div className="mb-6 flex flex-wrap items-center gap-4">
                     <Tag variant="primary">Coming Soon</Tag>
                     <Snowflake className="size-5 text-primary" />
@@ -194,7 +209,7 @@ export function ExpansionPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* OriginSpark Partnership */}
+      {/* OriginSpark Partnership                                          */}
       {/* --------------------------------------------------------------- */}
       <section ref={originspark.ref}>
         <div className="padding-global">
@@ -259,7 +274,7 @@ export function ExpansionPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Growth Trajectory */}
+      {/* Growth Trajectory                                                */}
       {/* --------------------------------------------------------------- */}
       <section ref={trajectory.ref} className="section-elevated">
         <div className="padding-global">
@@ -329,7 +344,7 @@ export function ExpansionPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Why It Matters — Scale Creates Advantage */}
+      {/* Why It Matters — Scale Creates Advantage                         */}
       {/* --------------------------------------------------------------- */}
       <section ref={advantage.ref}>
         <div className="padding-global">
@@ -390,46 +405,16 @@ export function ExpansionPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Bottom CTA */}
+      {/* Bottom CTA                                                       */}
       {/* --------------------------------------------------------------- */}
-      <section ref={cta.ref} className="section-elevated">
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  Get Ahead of the Expansion
-                </motion.h2>
-                <div className="spacer-xsmall" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Reserve your hosting allocation at upcoming facilities.
-                  Current clients receive priority access and locked pricing.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Reserve Your Spot</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/facilities">View Current Facilities</Link>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Expansion"
+        heading="Get Ahead of the Expansion"
+        description="Reserve your hosting allocation at upcoming facilities. Current clients receive priority access and locked pricing."
+        primaryCTA={{ label: "Reserve Your Spot", href: "/contact" }}
+        secondaryCTA={{ label: "View Current Facilities", href: "/facilities" }}
+        variant="dark"
+      />
     </>
   )
 }
