@@ -4,21 +4,10 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 import { motion } from "framer-motion"
+import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-
-// Shadow layers translated from Webflow source (bitmern-mining-e6bc63.webflow.css)
-// Original: inset 0 -2px 1px 0 #0003, inset 0 32px 24px 0 #ffffff0d,
-//           inset 0 1px 1px 1px #ffffff40, inset 0 0 0 1px neutral-darkest-15,
-//           0 1px 2px 0 neutral-darkest-5
-
-// Stiff spring — responsive, no overshoot. Feels like precision hardware.
-const springTransition = {
-  type: "spring" as const,
-  stiffness: 500,
-  damping: 35,
-  mass: 0.8,
-}
+import { springTransition } from "@/lib/motion"
 
 const buttonVariants = cva(
   [
@@ -52,9 +41,10 @@ const buttonVariants = cva(
           "active:shadow-[inset_0_1px_2px_0_oklch(0_0_0/0.08)]",
         ].join(" "),
 
-        // Outline — crisp border, clean hover fill
+        // Outline — crisp border, subtle inset shadow for depth parity
         outline: [
           "border border-border bg-background",
+          "shadow-[inset_0_1px_0_0_oklch(1_0_0/0.06),0_1px_2px_0_oklch(0_0_0/0.03)]",
           "hover:bg-accent hover:border-foreground/10",
           "active:bg-accent/80",
           "dark:bg-card dark:border-input",
@@ -84,6 +74,7 @@ const buttonVariants = cva(
         xs: "h-6 gap-1 rounded-sm px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
         sm: "h-8 gap-1.5 px-3.5 has-[>svg]:px-2.5",
         lg: "h-11 px-7 text-[0.938rem] has-[>svg]:px-5",
+        xl: "h-12 px-8 text-base gap-2.5 has-[>svg]:px-6",
         icon: "size-9",
         "icon-xs": "size-6 rounded-sm [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
@@ -105,23 +96,39 @@ function Button({
   variant = "default",
   size = "default",
   asChild = false,
+  isLoading = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    isLoading?: boolean
   }) {
   const classes = cn(buttonVariants({ variant, size, className }))
 
-  // asChild uses Slot — can't wrap with motion
+  const loadingContent = isLoading ? (
+    <>
+      <Loader2 className="size-4 animate-spin" />
+      {children}
+    </>
+  ) : children
+
+  // asChild uses Slot — can't wrap with motion.
+  // CSS-only hover lift + tap press for lifted variants.
   if (asChild) {
+    const liftClass = liftedVariants.has(variant ?? "default")
+      ? "transition-transform duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-0.5 active:translate-y-px active:scale-[0.98]"
+      : ""
     return (
       <Slot.Root
         data-slot="button"
         data-variant={variant}
         data-size={size}
-        className={classes}
+        className={cn(classes, liftClass)}
         {...props}
-      />
+      >
+        {children}
+      </Slot.Root>
     )
   }
 
@@ -134,8 +141,12 @@ function Button({
         data-variant={variant}
         data-size={size}
         className={classes}
+        disabled={isLoading || props.disabled}
+        aria-busy={isLoading || undefined}
         {...props}
-      />
+      >
+        {loadingContent}
+      </button>
     )
   }
 
@@ -145,11 +156,15 @@ function Button({
       data-variant={variant}
       data-size={size}
       className={classes}
+      disabled={isLoading || props.disabled}
+      aria-busy={isLoading || undefined}
       whileHover={{ y: -2 }}
       whileTap={{ y: 1, scale: 0.98 }}
       transition={springTransition}
       {...(props as React.ComponentProps<typeof motion.button>)}
-    />
+    >
+      {loadingContent}
+    </motion.button>
   )
 }
 

@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutSine, smoothstep, resolveThemeColors, rgba } from "@/lib/animation-utils"
+import { easeInOutSine, smoothstep, resolveThemeColors, rgba, type AnimColors } from "@/lib/animation-utils"
 
 // --- Config: identical to Webflow source ---
 const CHANNEL_COUNT = 5
@@ -39,8 +39,8 @@ const LINE_WIDTH_FLOW = 2.5
 const BASE_LINE_OPACITY = 0.12
 const END_NODE_OPACITY = 0.25
 
-// --- Theme-aware colors (re-resolved on mount/resize) ---
-let colors = resolveThemeColors()
+// Initialized in init() — avoid calling resolveThemeColors() at module scope (SSR)
+let colors: AnimColors = null as unknown as AnimColors
 
 interface Channel {
   y: number

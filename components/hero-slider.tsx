@@ -92,6 +92,7 @@ export function HeroSlider() {
   const rafRef = useRef<number>(0)
   const tagRef = useRef<HTMLSpanElement>(null)
   const pausedRef = useRef(paused)
+  const visibleRef = useRef(true)
 
   // Keep ref in sync
   useEffect(() => { pausedRef.current = paused }, [paused])
@@ -155,21 +156,20 @@ export function HeroSlider() {
     startRef.current += pausedFor
     setPaused(false)
     pausedRef.current = false
-    // Restart the loop
-    if (!rafRef.current) {
+    // Restart the loop (only if auto-advance is active)
+    if (!rafRef.current && !prefersReduced) {
       rafRef.current = requestAnimationFrame(tick)
     }
-  }, [tick])
+  }, [tick, prefersReduced])
 
   // Pause rAF when slider scrolls out of view
-  const visibleRef = useRef(true)
   useEffect(() => {
     const el = carouselRef.current
     if (!el) return
     const io = new IntersectionObserver(
       ([entry]) => {
         visibleRef.current = entry.isIntersecting
-        if (entry.isIntersecting && !pausedRef.current && !rafRef.current) {
+        if (entry.isIntersecting && !pausedRef.current && !rafRef.current && !prefersReduced) {
           startRef.current = performance.now()
           rafRef.current = requestAnimationFrame(tick)
         }
@@ -178,15 +178,17 @@ export function HeroSlider() {
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [tick])
+  }, [tick, prefersReduced])
 
+  // Start auto-advance loop — skip entirely when reduced motion is preferred
   useEffect(() => {
+    if (prefersReduced) return
     startRef.current = performance.now()
     rafRef.current = requestAnimationFrame(tick)
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
-  }, [tick])
+  }, [tick, prefersReduced])
 
   const slide = SLIDES[active]
   const cVariants = prefersReduced ? reducedContainerVariants : containerVariants

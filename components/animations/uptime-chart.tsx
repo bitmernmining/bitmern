@@ -2,10 +2,10 @@
 
 import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, resolveThemeColors, rgba } from "@/lib/animation-utils"
+import { easeInOutCubic, resolveThemeColors, rgba, type AnimColors } from "@/lib/animation-utils"
 
-// --- Theme-aware colors (re-resolved on mount/resize) ---
-let COLORS = resolveThemeColors()
+// Initialized in init() — avoid calling resolveThemeColors() at module scope (SSR)
+let COLORS: AnimColors = null as unknown as AnimColors
 
 const GRID = {
   horizontalLines: 5,

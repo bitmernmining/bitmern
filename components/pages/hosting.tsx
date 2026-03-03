@@ -370,13 +370,13 @@ export function HostingPage() {
                   <table className="w-full text-left">
                     <thead>
                       <tr className="border-b bg-foreground/[0.03]">
-                        <th className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Term
                         </th>
-                        <th className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Rate
                         </th>
-                        <th className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Commitment
                         </th>
                       </tr>
@@ -450,19 +450,19 @@ export function HostingPage() {
                   <table className="w-full text-left">
                     <thead>
                       <tr className="border-b bg-foreground/[0.03]">
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Facility
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Power
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Rate
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Uptime
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-tight">
                           Status
                         </th>
                       </tr>

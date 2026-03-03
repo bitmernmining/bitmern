@@ -126,7 +126,7 @@ function HeroSection() {
   return (
     <section ref={ref} className="relative">
       {/* Canvas background */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" aria-hidden="true">
         <InfrastructureGrid />
       </div>
 
@@ -516,9 +516,9 @@ function TimelineSection() {
                   <div className="mb-4 h-px w-12 bg-border transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:bg-primary/60" />
 
                   {/* Title */}
-                  <h6 className="mb-2 font-heading text-[1rem] font-medium uppercase tracking-tight text-foreground">
+                  <h3 className="mb-2 font-heading text-[1rem] font-medium uppercase tracking-tight text-foreground">
                     {item.title}
-                  </h6>
+                  </h3>
 
                   {/* Description */}
                   <p className="text-sm leading-relaxed text-foreground/60">

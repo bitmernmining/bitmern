@@ -92,6 +92,7 @@ export function Hardware() {
                 <motion.div
                   variants={chVariants}
                   className="relative aspect-[2/1] w-full"
+                  aria-hidden="true"
                 >
                   <SupplyChainFlow />
                 </motion.div>
@@ -161,7 +162,7 @@ export function Hardware() {
                     className="card-surface flex flex-col rounded-lg border border-border/60 overflow-hidden"
                   >
                     {/* Card canvas animation */}
-                    <div className="relative aspect-[2/1] w-full">
+                    <div className="relative aspect-[2/1] w-full" aria-hidden="true">
                       <card.Animation />
                     </div>
 

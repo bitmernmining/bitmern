@@ -373,6 +373,19 @@ export function FacilityGlobe({ className }: { className?: string }) {
 
       globeRef.current = globe
 
+      // Reduced motion — show static globe with all data visible, no tour
+      const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      if (prefersReduced) {
+        container.style.opacity = "1"
+        globe.pointsData(facilities)
+        globe.labelsData([...ethiopiaLabels, ...usLabels, ...europeLabels])
+        globe.ringsData(rings)
+        globe.arcsData(arcs)
+        globe.pointOfView({ lat: 30, lng: -20, altitude: 2.2 })
+        // No tour, no rotation — static view
+        return
+      }
+
       // Intersection observer — trigger tour on scroll-in
       const io = new IntersectionObserver(
         ([entry]) => {

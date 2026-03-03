@@ -109,12 +109,6 @@ function CellContent({ value, highlighted }: { value: CellValue; highlighted?: b
 }
 
 // ---------------------------------------------------------------------------
-// Grid cols — single source of truth
-// ---------------------------------------------------------------------------
-
-const GRID_COLS = "grid grid-cols-[1.5fr_1fr_1fr_1fr]"
-
-// ---------------------------------------------------------------------------
 // Section
 // ---------------------------------------------------------------------------
 
@@ -192,76 +186,81 @@ export function Comparison() {
             >
               {/* Scrollable inner on mobile only */}
               <div className="overflow-x-auto md:overflow-x-visible">
-                <div className="min-w-[640px]">
-                  {/* Header row */}
-                  <motion.div
-                    variants={tblRow}
-                    className={`${GRID_COLS} border-b border-border/60 bg-foreground/[0.02] text-center`}
-                  >
-                    <div className="sticky left-0 z-10 flex items-end bg-foreground/[0.02] px-6 py-5 text-left">
-                      <span className="font-mono text-xs font-normal uppercase tracking-widest text-foreground/40">
-                        Comparison
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-center justify-center px-6 py-5">
-                      <span className="font-mono text-sm text-foreground/60">Spot BTC</span>
-                    </div>
-                    <div className="flex flex-col items-center justify-center px-6 py-5">
-                      <span className="font-mono text-sm text-foreground/60">Bitcoin ETFs</span>
-                    </div>
-                    {/* Bitcoin Mining — highlighted column header */}
-                    <div className="flex flex-col items-center justify-center gap-1.5 bg-primary/20 px-6 py-5">
-                      <Tag size="sm" variant="primary">Recommended</Tag>
-                      <span className="font-mono text-sm font-semibold text-foreground">
-                        Bitcoin Mining
-                      </span>
-                    </div>
-                  </motion.div>
+                <table className="min-w-[640px] w-full border-collapse text-center">
+                  <caption className="sr-only">
+                    Comparison of Spot BTC, Bitcoin ETFs, and Bitcoin Mining
+                  </caption>
+                  <thead>
+                    <motion.tr
+                      variants={tblRow}
+                      className="border-b border-border/60 bg-foreground/[0.02]"
+                    >
+                      <th scope="col" className="sticky left-0 z-10 bg-foreground/[0.02] px-6 py-5 text-left align-bottom">
+                        <span className="font-mono text-xs font-normal uppercase tracking-widest text-foreground/40">
+                          Comparison
+                        </span>
+                      </th>
+                      <th scope="col" className="px-6 py-5 align-middle">
+                        <span className="font-mono text-sm font-normal text-foreground/60">Spot BTC</span>
+                      </th>
+                      <th scope="col" className="px-6 py-5 align-middle">
+                        <span className="font-mono text-sm font-normal text-foreground/60">Bitcoin ETFs</span>
+                      </th>
+                      {/* Bitcoin Mining — highlighted column header */}
+                      <th scope="col" className="bg-primary/20 px-6 py-5 align-middle">
+                        <div className="flex flex-col items-center justify-center gap-1.5">
+                          <Tag size="sm" variant="primary">Recommended</Tag>
+                          <span className="font-mono text-sm font-semibold text-foreground">
+                            Bitcoin Mining
+                          </span>
+                        </div>
+                      </th>
+                    </motion.tr>
+                  </thead>
+                  <tbody>
+                    {ROWS.map((row, i) => {
+                      const isAlt = i % 2 === 0
+                      const isLast = i === ROWS.length - 1
 
-                  {/* Data rows */}
-                  {ROWS.map((row, i) => {
-                    const isAlt = i % 2 === 0
-                    const isLast = i === ROWS.length - 1
-
-                    return (
-                      <motion.div
-                        key={row.feature}
-                        variants={tblRow}
-                        className={[
-                          `${GRID_COLS} items-center`,
-                          "transition-colors duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
-                          "hover:bg-foreground/[0.03]",
-                          isAlt ? "bg-foreground/[0.015]" : "",
-                          isLast ? "" : "border-b border-border/40",
-                        ].join(" ")}
-                      >
-                        {/* Feature name — sticky on mobile scroll */}
-                        <div className={`sticky left-0 z-10 px-6 py-4 text-sm font-medium text-foreground/70 ${isAlt ? "bg-foreground/[0.015]" : "bg-background"}`}>
-                          {row.feature}
-                        </div>
-                        {/* Spot BTC */}
-                        <div className="flex items-center justify-center px-6 py-4">
-                          <CellContent value={row.spotBtc} />
-                        </div>
-                        {/* Bitcoin ETFs */}
-                        <div className="flex items-center justify-center px-6 py-4">
-                          <CellContent value={row.etf} />
-                        </div>
-                        {/* Bitcoin Mining — highlighted column */}
-                        <div
+                      return (
+                        <motion.tr
+                          key={row.feature}
+                          variants={tblRow}
                           className={[
-                            "flex items-center justify-center px-6 py-4",
-                            "bg-primary/[0.06]",
-                            "shadow-[inset_1px_0_0_oklch(0.90_0.06_78),-1px_0_0_oklch(0.90_0.06_78)]",
-                            isLast ? "shadow-[inset_1px_0_0_oklch(0.90_0.06_78),-1px_0_0_oklch(0.90_0.06_78),inset_0_-1px_0_oklch(0.90_0.06_78)]" : "",
+                            "transition-colors duration-200 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
+                            "hover:bg-foreground/[0.03]",
+                            isAlt ? "bg-foreground/[0.015]" : "",
+                            isLast ? "" : "border-b border-border/40",
                           ].join(" ")}
                         >
-                          <CellContent value={row.mining} highlighted />
-                        </div>
-                      </motion.div>
-                    )
-                  })}
-                </div>
+                          {/* Feature name — sticky on mobile scroll */}
+                          <td className={`sticky left-0 z-10 px-6 py-4 text-left text-sm font-medium text-foreground/70 ${isAlt ? "bg-foreground/[0.015]" : "bg-background"}`}>
+                            {row.feature}
+                          </td>
+                          {/* Spot BTC */}
+                          <td className="px-6 py-4">
+                            <CellContent value={row.spotBtc} />
+                          </td>
+                          {/* Bitcoin ETFs */}
+                          <td className="px-6 py-4">
+                            <CellContent value={row.etf} />
+                          </td>
+                          {/* Bitcoin Mining — highlighted column */}
+                          <td
+                            className={[
+                              "px-6 py-4",
+                              "bg-primary/[0.06]",
+                              "shadow-[inset_1px_0_0_oklch(0.90_0.06_78),-1px_0_0_oklch(0.90_0.06_78)]",
+                              isLast ? "shadow-[inset_1px_0_0_oklch(0.90_0.06_78),-1px_0_0_oklch(0.90_0.06_78),inset_0_-1px_0_oklch(0.90_0.06_78)]" : "",
+                            ].join(" ")}
+                          >
+                            <CellContent value={row.mining} highlighted />
+                          </td>
+                        </motion.tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
               </div>
             </motion.div>
           </div>

@@ -54,9 +54,9 @@ export function CookiesContent() {
                   <table>
                     <thead>
                       <tr>
-                        <th>Cookie</th>
-                        <th>Purpose</th>
-                        <th>Duration</th>
+                        <th scope="col">Cookie</th>
+                        <th scope="col">Purpose</th>
+                        <th scope="col">Duration</th>
                       </tr>
                     </thead>
                     <tbody>

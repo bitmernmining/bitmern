@@ -125,8 +125,8 @@ export function PrivacyContent() {
                   <table>
                     <thead>
                       <tr>
-                        <th>Provider</th>
-                        <th>Purpose</th>
+                        <th scope="col">Provider</th>
+                        <th scope="col">Purpose</th>
                       </tr>
                     </thead>
                     <tbody>

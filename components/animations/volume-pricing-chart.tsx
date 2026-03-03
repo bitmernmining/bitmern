@@ -12,8 +12,8 @@ const BAR_RADIUS = 6
 const VOL_GRADIENT = { top: 0.9, bottom: 0.6 }
 const COST_GRADIENT = { top: 0.5, bottom: 0.3 }
 
-// Module-level — initial resolve (SSR-safe fallback)
-let COLORS: AnimColors = resolveThemeColors()
+// Initialized in init() — avoid calling resolveThemeColors() at module scope (SSR)
+let COLORS: AnimColors = null as unknown as AnimColors
 
 // --- Component ---
 export function VolumePricingChart({ className }: { className?: string }) {

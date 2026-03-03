@@ -118,6 +118,7 @@ export function GlobalInfrastructure() {
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ duration: 0.8, ease: EASE }}
+                aria-hidden="true"
               >
                 <FacilityGlobe className="h-[450px] lg:h-[600px]" />
               </motion.div>

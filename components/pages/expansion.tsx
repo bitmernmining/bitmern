@@ -150,9 +150,9 @@ export function ExpansionPage() {
                     <Snowflake className="size-5 text-primary" />
                   </div>
 
-                  <h2 className="mb-4 text-balance">
+                  <h3 className="mb-4 text-balance">
                     Nordic Mining &mdash; Finland Facility
-                  </h2>
+                  </h3>
 
                   <p className="mb-8 max-w-3xl text-[1.125rem] leading-relaxed text-foreground/70">
                     Finland offers the ideal combination for Bitcoin mining: cold
@@ -287,13 +287,13 @@ export function ExpansionPage() {
                   <table className="w-full text-left">
                     <thead>
                       <tr className="border-b bg-foreground/[0.03]">
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
                           Phase
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
                           Capacity
                         </th>
-                        <th className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
+                        <th scope="col" className="whitespace-nowrap px-6 py-4 font-mono text-sm font-semibold uppercase tracking-widest">
                           Facilities
                         </th>
                       </tr>

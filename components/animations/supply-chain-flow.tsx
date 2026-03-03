@@ -2,11 +2,12 @@
 
 import { useRef } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
-import { easeInOutCubic, lerp, rgba, resolveThemeColors, getCanvasFont } from "@/lib/animation-utils"
+import { easeInOutCubic, lerp, rgba, resolveThemeColors, getCanvasFont, type AnimColors } from "@/lib/animation-utils"
 
 // --- Webflow-identical config ---
 
-let COLORS = resolveThemeColors()
+// Initialized in init() — avoid calling resolveThemeColors() at module scope (SSR)
+let COLORS: AnimColors = null as unknown as AnimColors
 
 const SOURCE_COLORS = [
   { r: 242, g: 174, b: 46 },

@@ -130,10 +130,6 @@ export function invalidateColorCache(): void {
   _cacheIsDark = null
 }
 
-// Legacy static export — animations that haven't migrated yet
-// TODO: Remove once all animations use resolveThemeColors()
-export const ANIM_COLORS = FALLBACK_LIGHT
-
 /**
  * Get the canvas-compatible font family string.
  * Reads the computed font from the document so it matches next/font loaded faces.

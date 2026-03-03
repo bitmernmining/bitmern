@@ -4,8 +4,8 @@ import { useRef, useCallback } from "react"
 import { useCanvasAnimation } from "@/hooks/use-canvas-animation"
 import { easeInOutCubic, resolveThemeColors, getCanvasFont, rgba, type AnimColors } from "@/lib/animation-utils"
 
-// Module-level — initial resolve (SSR-safe fallback)
-let COLORS: AnimColors = resolveThemeColors()
+// Initialized in init() — avoid calling resolveThemeColors() at module scope (SSR)
+let COLORS: AnimColors = null as unknown as AnimColors
 
 const PULSE_SPEED = 0.0004
 const MAX_CONCURRENT_PULSES = 2

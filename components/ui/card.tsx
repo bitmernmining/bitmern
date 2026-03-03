@@ -5,17 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { motion } from "framer-motion"
 
 import { cn } from "@/lib/utils"
-
-// Card — clean surface with understated depth.
-// Webflow source: border-radius 0.5rem, border 1px solid neutral-lightest,
-// overflow hidden. Shadows are minimal — just enough to lift off the page.
-
-const springTransition = {
-  type: "spring" as const,
-  stiffness: 500,
-  damping: 35,
-  mass: 0.8,
-}
+import { springTransition } from "@/lib/motion"
 
 const cardVariants = cva(
   [
@@ -26,28 +16,17 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        // Default — clean surface, whisper-light shadow
+        // Default — uses shadow scale for "industrial luxury" top-bevel inset
         default: [
-          "bg-card text-card-foreground",
-          "border border-[oklch(0_0_0/0.06)]",
-          "shadow-[0_1px_2px_0_oklch(0_0_0/0.03),0_2px_8px_0_oklch(0_0_0/0.02)]",
-          "dark:border-[oklch(1_0_0/0.08)]",
-          "dark:shadow-[0_1px_2px_0_oklch(0_0_0/0.15),0_2px_8px_0_oklch(0_0_0/0.1)]",
+          "card-surface",
+          "border border-border/60",
         ].join(" "),
 
         // Interactive — lifts on hover via Framer Motion, shadow expands via CSS
         interactive: [
-          "bg-card text-card-foreground cursor-pointer",
-          "border border-[oklch(0_0_0/0.06)]",
-          "shadow-[0_1px_2px_0_oklch(0_0_0/0.03),0_2px_8px_0_oklch(0_0_0/0.02)]",
-          "hover:border-[oklch(0_0_0/0.09)]",
-          "hover:shadow-[0_2px_6px_0_oklch(0_0_0/0.05),0_6px_20px_0_oklch(0_0_0/0.03)]",
-          "active:shadow-[0_1px_2px_0_oklch(0_0_0/0.04)]",
-          // Dark
-          "dark:border-[oklch(1_0_0/0.08)]",
-          "dark:shadow-[0_1px_2px_0_oklch(0_0_0/0.15),0_2px_8px_0_oklch(0_0_0/0.1)]",
-          "dark:hover:border-[oklch(1_0_0/0.12)]",
-          "dark:hover:shadow-[0_2px_6px_0_oklch(0_0_0/0.25),0_6px_20px_0_oklch(0_0_0/0.15)]",
+          "card-surface cursor-pointer",
+          "border border-border/60",
+          "hover:border-border",
         ].join(" "),
 
         // Glass — translucent surface with backdrop blur, minimal edge definition
@@ -88,6 +67,14 @@ function Card({
         data-slot="card"
         data-variant={variant}
         className={classes}
+        tabIndex={0}
+        role="button"
+        onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault()
+            e.currentTarget.click()
+          }
+        }}
         whileHover={{ y: -3 }}
         whileTap={{ y: 0, scale: 0.995 }}
         transition={springTransition}
@@ -119,9 +106,13 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+function CardTitle({
+  as: Comp = "h3",
+  className,
+  ...props
+}: React.ComponentProps<"div"> & { as?: React.ElementType }) {
   return (
-    <div
+    <Comp
       data-slot="card-title"
       className={cn("leading-none font-semibold", className)}
       {...props}
