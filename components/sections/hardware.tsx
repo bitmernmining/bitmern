@@ -9,6 +9,7 @@ import {
   reducedStagger,
   reducedFade,
 } from "@/lib/motion"
+import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
@@ -88,13 +89,26 @@ export function Hardware() {
                 animate={isInView ? "visible" : "hidden"}
                 className="card-surface flex flex-col rounded-lg border border-border/60 overflow-hidden"
               >
-                {/* Supply chain canvas animation */}
+                {/* Supply chain canvas animation + product photo overlay */}
                 <motion.div
                   variants={chVariants}
                   className="relative aspect-[2/1] w-full"
                   aria-hidden="true"
                 >
                   <SupplyChainFlow />
+                  {/* Product photo floating above canvas */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="device-float relative w-48 lg:w-56 drop-shadow-xl">
+                      <Image
+                        src="/hardware/antminer-s21-plus.webp"
+                        alt="Antminer S21+"
+                        width={400}
+                        height={267}
+                        className="object-contain"
+                        priority={false}
+                      />
+                    </div>
+                  </div>
                 </motion.div>
 
                 {/* Content */}
