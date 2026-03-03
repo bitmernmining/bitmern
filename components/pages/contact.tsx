@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useRef, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import {
   CalendarDays,
   Mail,
@@ -14,10 +15,14 @@ import {
   Linkedin,
   Instagram,
   Youtube,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection } from "@/lib/motion"
+
+type FormState = "idle" | "submitting" | "success" | "error"
 
 // ---------------------------------------------------------------------------
 // Data
@@ -101,6 +106,7 @@ const SUBJECT_OPTIONS = [
   "Hosting Quote",
   "Hardware Purchase",
   "Institutional / Blocks Fund",
+  "MARA Firmware",
   "Partnership",
   "Solo Pool Support",
   "Other",
@@ -111,7 +117,9 @@ const BUDGET_OPTIONS = [
   "$10K\u2013$50K",
   "$50K\u2013$100K",
   "$100K\u2013$500K",
-  "$500K+",
+  "$500K\u2013$1M",
+  "$1M\u2013$5M",
+  "$5M+",
 ]
 
 const SOCIAL_LINKS = [
@@ -156,6 +164,26 @@ export function ContactPage() {
   const services = useSection()
   const direct = useSection()
   const social = useSection()
+
+  const [formState, setFormState] = useState<FormState>("idle")
+  const formRef = useRef<HTMLFormElement>(null)
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setFormState("submitting")
+
+    const fd = new FormData(e.currentTarget)
+    const data = Object.fromEntries(fd.entries())
+
+    try {
+      // TODO: Replace with real API call (e.g. POST /api/contact)
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+      console.log("[contact] form submission:", data)
+      setFormState("success")
+    } catch {
+      setFormState("error")
+    }
+  }
 
   return (
     <>
@@ -271,126 +299,229 @@ export function ContactPage() {
                   Send Us a Message
                 </motion.h2>
 
-                <motion.form
-                  variants={form.chVariants}
-                  onSubmit={(e) => e.preventDefault()}
-                  className="flex flex-col gap-5"
-                >
-                  {/* Name */}
-                  <div>
-                    <label
-                      htmlFor="contact-name"
-                      className="mb-2 block text-sm font-medium"
+                <AnimatePresence mode="wait">
+                  {formState === "success" ? (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col items-center gap-4 rounded-lg border border-primary/30 bg-primary/[0.04] p-10 text-center"
                     >
-                      Name <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      placeholder="Your full name"
-                      required
-                      className={inputClass}
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label
-                      htmlFor="contact-email"
-                      className="mb-2 block text-sm font-medium"
+                      <CheckCircle2 className="size-10 text-primary" strokeWidth={1.5} />
+                      <h3 className="font-heading text-[1.2rem] font-normal uppercase tracking-tight">
+                        Message Sent
+                      </h3>
+                      <p className="text-base leading-relaxed text-foreground/70">
+                        Thanks! We&rsquo;ll be in touch within 24 hours.
+                      </p>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => {
+                          setFormState("idle")
+                          formRef.current?.reset()
+                        }}
+                      >
+                        Send Another Message
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <motion.form
+                      key="form"
+                      ref={formRef}
+                      variants={form.chVariants}
+                      onSubmit={handleSubmit}
+                      className="flex flex-col gap-5"
                     >
-                      Email <span className="text-destructive">*</span>
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      placeholder="you@company.com"
-                      required
-                      className={inputClass}
-                    />
-                  </div>
+                      {/* Error banner */}
+                      {formState === "error" && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/[0.06] p-4"
+                        >
+                          <AlertCircle className="mt-0.5 size-5 shrink-0 text-destructive" strokeWidth={1.5} />
+                          <p className="text-sm text-foreground/80">
+                            Something went wrong. Please try again or email us
+                            directly at{" "}
+                            <a
+                              href="mailto:info@bitmernmining.com"
+                              className="font-medium text-primary hover:underline"
+                            >
+                              info@bitmernmining.com
+                            </a>
+                          </p>
+                        </motion.div>
+                      )}
 
-                  {/* Phone */}
-                  <div>
-                    <label
-                      htmlFor="contact-phone"
-                      className="mb-2 block text-sm font-medium"
-                    >
-                      Phone{" "}
-                      <span className="text-foreground/40">(optional)</span>
-                    </label>
-                    <input
-                      id="contact-phone"
-                      type="tel"
-                      placeholder="+1 (555) 000-0000"
-                      className={inputClass}
-                    />
-                  </div>
+                      {/* Name */}
+                      <div>
+                        <label
+                          htmlFor="contact-name"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Name <span className="text-destructive">*</span>
+                        </label>
+                        <input
+                          id="contact-name"
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          placeholder="Your full name"
+                          required
+                          disabled={formState === "submitting"}
+                          className={inputClass}
+                        />
+                      </div>
 
-                  {/* Subject */}
-                  <div>
-                    <label
-                      htmlFor="contact-subject"
-                      className="mb-2 block text-sm font-medium"
-                    >
-                      Subject
-                    </label>
-                    <select id="contact-subject" className={selectClass} defaultValue="">
-                      <option value="" disabled>
-                        Select a topic
-                      </option>
-                      {SUBJECT_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      {/* Email */}
+                      <div>
+                        <label
+                          htmlFor="contact-email"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Email <span className="text-destructive">*</span>
+                        </label>
+                        <input
+                          id="contact-email"
+                          name="email"
+                          type="email"
+                          autoComplete="email"
+                          placeholder="you@company.com"
+                          required
+                          disabled={formState === "submitting"}
+                          className={inputClass}
+                        />
+                      </div>
 
-                  {/* Message */}
-                  <div>
-                    <label
-                      htmlFor="contact-message"
-                      className="mb-2 block text-sm font-medium"
-                    >
-                      Message <span className="text-destructive">*</span>
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      placeholder="Tell us about your project..."
-                      required
-                      className={textareaClass}
-                    />
-                  </div>
+                      {/* Phone */}
+                      <div>
+                        <label
+                          htmlFor="contact-phone"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Phone{" "}
+                          <span className="text-foreground/40">(optional)</span>
+                        </label>
+                        <input
+                          id="contact-phone"
+                          name="phone"
+                          type="tel"
+                          autoComplete="tel"
+                          placeholder="+1 (555) 000-0000 (intl. welcome)"
+                          disabled={formState === "submitting"}
+                          className={inputClass}
+                        />
+                      </div>
 
-                  {/* Budget */}
-                  <div>
-                    <label
-                      htmlFor="contact-budget"
-                      className="mb-2 block text-sm font-medium"
-                    >
-                      Budget Range{" "}
-                      <span className="text-foreground/40">(optional)</span>
-                    </label>
-                    <select id="contact-budget" className={selectClass} defaultValue="">
-                      <option value="" disabled>
-                        Select a range
-                      </option>
-                      {BUDGET_OPTIONS.map((opt) => (
-                        <option key={opt} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                      {/* Company */}
+                      <div>
+                        <label
+                          htmlFor="contact-company"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Company{" "}
+                          <span className="text-foreground/40">(optional)</span>
+                        </label>
+                        <input
+                          id="contact-company"
+                          name="company"
+                          type="text"
+                          autoComplete="organization"
+                          placeholder="Your company name"
+                          disabled={formState === "submitting"}
+                          className={inputClass}
+                        />
+                      </div>
 
-                  {/* Submit */}
-                  <div className="pt-2">
-                    <Button type="submit" size="lg">
-                      Send Message
-                    </Button>
-                  </div>
-                </motion.form>
+                      {/* Subject */}
+                      <div>
+                        <label
+                          htmlFor="contact-subject"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Subject
+                        </label>
+                        <select
+                          id="contact-subject"
+                          name="subject"
+                          className={selectClass}
+                          defaultValue=""
+                          disabled={formState === "submitting"}
+                        >
+                          <option value="" disabled>
+                            Select a topic
+                          </option>
+                          {SUBJECT_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label
+                          htmlFor="contact-message"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Message <span className="text-destructive">*</span>
+                        </label>
+                        <textarea
+                          id="contact-message"
+                          name="message"
+                          placeholder="Tell us about your project..."
+                          required
+                          disabled={formState === "submitting"}
+                          className={textareaClass}
+                        />
+                      </div>
+
+                      {/* Budget */}
+                      <div>
+                        <label
+                          htmlFor="contact-budget"
+                          className="mb-2 block text-sm font-medium"
+                        >
+                          Budget Range{" "}
+                          <span className="text-foreground/40">(optional)</span>
+                        </label>
+                        <select
+                          id="contact-budget"
+                          name="budget"
+                          className={selectClass}
+                          defaultValue=""
+                          disabled={formState === "submitting"}
+                        >
+                          <option value="" disabled>
+                            Select a range
+                          </option>
+                          {BUDGET_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Submit */}
+                      <div className="pt-2">
+                        <Button
+                          type="submit"
+                          size="lg"
+                          isLoading={formState === "submitting"}
+                          disabled={formState === "submitting"}
+                        >
+                          {formState === "submitting" ? "Sending..." : "Send Message"}
+                        </Button>
+                      </div>
+                    </motion.form>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </div>
           </div>
