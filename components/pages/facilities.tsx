@@ -1,10 +1,14 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Zap, Shield, Wrench, MapPin, Check } from "lucide-react"
+import { motion, type Variants } from "framer-motion"
+import { Zap, Shield, Wrench, Check } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { SectionCTA } from "@/components/ui/section-cta"
+import { ImageSection } from "@/components/ui/image-section"
+import { FacilityGlobe } from "@/components/animations/facility-globe"
 import { useSection } from "@/lib/motion"
 
 // ---------------------------------------------------------------------------
@@ -22,6 +26,7 @@ interface Facility {
   uptime: string
   features: string[]
   note?: string
+  photo: string
 }
 
 const FACILITIES: Facility[] = [
@@ -41,6 +46,7 @@ const FACILITIES: Facility[] = [
       "Direct fiber connectivity",
     ],
     note: "Currently at full capacity. Join the waitlist for priority access when new rack space opens.",
+    photo: "/facilities/indiana.webp",
   },
   {
     name: "North Dakota, USA",
@@ -55,6 +61,7 @@ const FACILITIES: Facility[] = [
       "Ideal for efficiency-focused deployments",
       "Full monitoring and management included",
     ],
+    photo: "/facilities/north-dakota.webp",
   },
   {
     name: "Missouri, USA",
@@ -69,6 +76,7 @@ const FACILITIES: Facility[] = [
       "Full remote management via SuperApp",
       "24/7 monitoring and maintenance",
     ],
+    photo: "/facilities/missouri.jpeg",
   },
   {
     name: "Addis Ababa, Ethiopia",
@@ -83,6 +91,7 @@ const FACILITIES: Facility[] = [
       "Strategic geographic diversification",
       "Growing capacity with expansion pipeline",
     ],
+    photo: "/facilities/addis-ababa.webp",
   },
   {
     name: "Finland",
@@ -98,6 +107,7 @@ const FACILITIES: Facility[] = [
       "Part of the OriginSpark 500 MW pipeline",
     ],
     note: "Current clients get priority access and locked pricing when Finland goes live.",
+    photo: "/facilities/finland.webp",
   },
 ]
 
@@ -134,27 +144,125 @@ const STANDARD_FEATURES = [
   },
 ]
 
-function statusTag(status: FacilityStatus) {
+function statusBadge(status: FacilityStatus) {
   switch (status) {
     case "Available Now":
       return (
         <Tag variant="success" size="sm">
-          Available Now
+          Operational
         </Tag>
       )
     case "Full Capacity":
       return (
-        <Tag variant="destructive" size="sm">
-          Full Capacity
+        <Tag variant="primary" size="sm">
+          Operational
         </Tag>
       )
     case "Coming Soon":
       return (
         <Tag variant="primary" size="sm">
-          Coming Soon
+          Expanding
         </Tag>
       )
   }
+}
+
+// ---------------------------------------------------------------------------
+// Facility Card Component
+// ---------------------------------------------------------------------------
+
+function FacilityCard({
+  facility,
+  flagship = false,
+  variants,
+}: {
+  facility: Facility
+  flagship?: boolean
+  variants: Variants
+}) {
+  return (
+    <motion.div
+      variants={variants}
+      className={`card-surface overflow-hidden rounded-lg border border-border/60 ${
+        flagship ? "lg:grid lg:grid-cols-[1.2fr_1fr] lg:items-stretch" : ""
+      }`}
+    >
+      {/* Photo */}
+      <div
+        className={`relative overflow-hidden ${
+          flagship
+            ? "aspect-[16/10] lg:aspect-auto lg:min-h-[420px]"
+            : "aspect-[16/10]"
+        }`}
+      >
+        <Image
+          src={facility.photo}
+          alt={`${facility.name} mining facility`}
+          fill
+          className="object-cover"
+          sizes={flagship ? "(min-width: 1024px) 55vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
+          quality={85}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-6 lg:p-8">
+        {/* Header */}
+        <div className="mb-4 flex flex-wrap items-center gap-3">
+          <h3 className="font-heading text-[1.35rem] font-semibold tracking-tight">
+            <span className="mr-2">{facility.flag}</span>
+            {facility.name}
+          </h3>
+          {statusBadge(facility.status)}
+        </div>
+
+        {/* Power capacity callout */}
+        <p className="mb-4 font-heading text-2xl font-bold tracking-tight text-primary">
+          {facility.power}
+        </p>
+
+        {/* Stats row */}
+        <div className="mb-5 flex gap-6">
+          <div>
+            <p className="mb-0.5 font-mono text-xs uppercase tracking-widest text-foreground/50">
+              Rate
+            </p>
+            <p className="font-heading text-base font-semibold">
+              {facility.rate}
+            </p>
+          </div>
+          <div>
+            <p className="mb-0.5 font-mono text-xs uppercase tracking-widest text-foreground/50">
+              Uptime
+            </p>
+            <p className="font-heading text-base font-semibold">
+              {facility.uptime}
+            </p>
+          </div>
+        </div>
+
+        {/* Feature list */}
+        <ul className="space-y-2">
+          {facility.features.map((feature) => (
+            <li
+              key={feature}
+              className="flex items-start gap-2.5 text-sm leading-relaxed text-foreground/70"
+            >
+              <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        {/* Note */}
+        {facility.note && (
+          <p className="mt-5 text-sm italic text-foreground/50">
+            {facility.note}
+          </p>
+        )}
+      </div>
+    </motion.div>
+  )
 }
 
 // ---------------------------------------------------------------------------
@@ -166,14 +274,15 @@ export function FacilitiesPage() {
   const cards = useSection(0.1)
   const standard = useSection()
   const strategy = useSection()
-  const cta = useSection()
+
+  const [flagship, ...rest] = FACILITIES
 
   return (
     <>
       {/* --------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Split Layout with Photo */}
       {/* --------------------------------------------------------------- */}
-      <section ref={hero.ref}>
+      <section ref={hero.ref} className="section-dark">
         <div className="padding-global">
           <div className="container-large">
             <div className="padding-section-large">
@@ -181,36 +290,56 @@ export function FacilitiesPage() {
                 variants={hero.cVariants}
                 initial="hidden"
                 animate={hero.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                className="grid items-center gap-12 lg:grid-cols-[1.2fr_1fr] lg:min-h-[70vh]"
               >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Our Facilities</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  31.5+ MW Across Four Continents
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Every facility is selected for low-cost power, stable
-                  regulatory environments, and optimal climate conditions.
-                  Redundant power feeds, industrial cooling, 24/7 security, and
-                  on-site technicians at every site.
-                </motion.p>
-                <div className="spacer-medium" />
+                {/* Left — Text */}
+                <div>
+                  <motion.div variants={hero.chVariants}>
+                    <Tag>Our Facilities</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h1 variants={hero.chVariants}>
+                    Purpose-Built Mining Infrastructure
+                  </motion.h1>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={hero.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  >
+                    31.5+ MW across four continents. Every facility is selected
+                    for low-cost power, stable regulatory environments, and
+                    optimal climate conditions. Redundant power feeds, industrial
+                    cooling, 24/7 security, and on-site technicians at every
+                    site.
+                  </motion.p>
+                  <div className="spacer-medium" />
+                  <motion.div
+                    variants={hero.chVariants}
+                    className="flex flex-wrap items-center gap-4"
+                  >
+                    <Button size="lg" asChild>
+                      <Link href="/contact">Get a Hosting Quote</Link>
+                    </Button>
+                    <Button variant="secondary" size="lg" asChild>
+                      <Link href="/about">Learn About Us</Link>
+                    </Button>
+                  </motion.div>
+                </div>
+
+                {/* Right — Photo */}
                 <motion.div
                   variants={hero.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-xl lg:aspect-auto lg:h-full lg:min-h-[420px]"
                 >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get a Hosting Quote</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/about">Learn About Us</Link>
-                  </Button>
+                  <Image
+                    src="/facilities/indiana.webp"
+                    alt="Bitmern Mining flagship facility in Indiana, USA"
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                    quality={90}
+                    priority
+                  />
                 </motion.div>
               </motion.div>
             </div>
@@ -219,7 +348,7 @@ export function FacilitiesPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Facility Cards */}
+      {/* Facility Cards — Bento Layout */}
       {/* --------------------------------------------------------------- */}
       <section ref={cards.ref}>
         <div className="padding-global">
@@ -243,75 +372,55 @@ export function FacilitiesPage() {
                 animate={cards.inView ? "visible" : "hidden"}
                 className="flex flex-col gap-6"
               >
-                {FACILITIES.map((facility) => (
-                  <motion.div
-                    key={facility.name}
-                    variants={cards.crdFade}
-                    className="card-surface overflow-hidden rounded-lg border border-border/60 p-8"
-                  >
-                    {/* Header row */}
-                    <div className="mb-6 flex flex-wrap items-center gap-4">
-                      <h3 className="font-heading text-[1.5rem] font-semibold tracking-tight">
-                        <span className="mr-2">{facility.flag}</span>
-                        {facility.name}
-                      </h3>
-                      {statusTag(facility.status)}
-                    </div>
+                {/* Flagship — Indiana, full width */}
+                <FacilityCard
+                  facility={flagship}
+                  flagship
+                  variants={cards.crdFade}
+                />
 
-                    {/* Stats grid */}
-                    <div className="mb-6 grid grid-cols-3 gap-6 sm:max-w-md">
-                      <div>
-                        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-foreground/50">
-                          Power
-                        </p>
-                        <p className="font-heading text-lg font-semibold">
-                          {facility.power}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-foreground/50">
-                          Rate
-                        </p>
-                        <p className="font-heading text-lg font-semibold">
-                          {facility.rate}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="mb-1 font-mono text-xs uppercase tracking-widest text-foreground/50">
-                          Uptime
-                        </p>
-                        <p className="font-heading text-lg font-semibold">
-                          {facility.uptime}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Feature list */}
-                    <ul className="space-y-2.5">
-                      {facility.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-start gap-3 text-base leading-relaxed text-foreground/70"
-                        >
-                          <Check className="mt-0.5 size-4 shrink-0 text-primary" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-
-                    {/* Note */}
-                    {facility.note && (
-                      <p className="mt-6 text-sm italic text-foreground/50">
-                        {facility.note}
-                      </p>
-                    )}
-                  </motion.div>
-                ))}
+                {/* 2x2 Grid for remaining facilities */}
+                <div className="grid gap-6 md:grid-cols-2">
+                  {rest.map((facility) => (
+                    <FacilityCard
+                      key={facility.name}
+                      facility={facility}
+                      variants={cards.crdFade}
+                    />
+                  ))}
+                </div>
               </motion.div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* --------------------------------------------------------------- */}
+      {/* Full-Bleed Photo Break */}
+      {/* --------------------------------------------------------------- */}
+      <ImageSection
+        src="/facilities/addis-ababa.webp"
+        alt="Bitmern Mining facility in Addis Ababa, Ethiopia"
+        overlay="gradient"
+        className="min-h-[50vh]"
+      >
+        <div className="flex items-center justify-center py-20 lg:py-28">
+          <div className="grid gap-12 text-center text-white sm:grid-cols-3">
+            <div>
+              <p className="font-heading text-4xl font-bold lg:text-5xl">31.5+ MW</p>
+              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Total Capacity</p>
+            </div>
+            <div>
+              <p className="font-heading text-4xl font-bold lg:text-5xl">4</p>
+              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Countries</p>
+            </div>
+            <div>
+              <p className="font-heading text-4xl font-bold lg:text-5xl">99.3%</p>
+              <p className="mt-2 text-sm uppercase tracking-widest text-white/70">Best-Site Uptime</p>
+            </div>
+          </div>
+        </div>
+      </ImageSection>
 
       {/* --------------------------------------------------------------- */}
       {/* What Every Facility Includes */}
@@ -377,7 +486,7 @@ export function FacilitiesPage() {
       </section>
 
       {/* --------------------------------------------------------------- */}
-      {/* Smart Diversification */}
+      {/* Smart Diversification — Globe */}
       {/* --------------------------------------------------------------- */}
       <section ref={strategy.ref} className="section-elevated">
         <div className="padding-global">
@@ -387,25 +496,37 @@ export function FacilitiesPage() {
                 variants={strategy.cVariants}
                 initial="hidden"
                 animate={strategy.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                className="grid items-center gap-12 lg:grid-cols-2"
               >
-                <motion.div variants={strategy.chVariants}>
-                  <MapPin className="mx-auto mb-4 size-10 text-primary" />
-                </motion.div>
-                <motion.h2 variants={strategy.chVariants}>
-                  Smart Diversification
-                </motion.h2>
-                <div className="spacer-small" />
-                <motion.p
+                {/* Left — Text */}
+                <div>
+                  <motion.div variants={strategy.chVariants}>
+                    <Tag variant="muted">Strategy</Tag>
+                  </motion.div>
+                  <div className="spacer-xsmall" />
+                  <motion.h2 variants={strategy.chVariants}>
+                    Smart Diversification
+                  </motion.h2>
+                  <div className="spacer-small" />
+                  <motion.p
+                    variants={strategy.chVariants}
+                    className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  >
+                    Start with a US deployment for regulatory stability and
+                    top-tier infrastructure. Expand to Ethiopia for the lowest
+                    power rates. Lock in Finland pricing early for Nordic
+                    efficiency. Current clients get priority access to every new
+                    facility.
+                  </motion.p>
+                </div>
+
+                {/* Right — Globe */}
+                <motion.div
                   variants={strategy.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  className="mx-auto aspect-square w-full max-w-[500px]"
                 >
-                  Start with a US deployment for regulatory stability and
-                  top-tier infrastructure. Expand to Ethiopia for the lowest
-                  power rates. Lock in Finland pricing early for Nordic
-                  efficiency. Current clients get priority access to every new
-                  facility.
-                </motion.p>
+                  <FacilityGlobe />
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -415,44 +536,14 @@ export function FacilitiesPage() {
       {/* --------------------------------------------------------------- */}
       {/* Bottom CTA */}
       {/* --------------------------------------------------------------- */}
-      <section ref={cta.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={cta.cVariants}
-                initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
-              >
-                <motion.h2 variants={cta.chVariants}>
-                  Deploy at the Right Facility
-                </motion.h2>
-                <div className="spacer-xsmall" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  We&rsquo;ll help you choose the optimal facility based on your
-                  fleet size, budget, and risk profile.
-                </motion.p>
-                <div className="spacer-medium" />
-                <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <Button size="lg" asChild>
-                    <Link href="/contact">Get a Hosting Quote</Link>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Strategy Call</a>
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Get Started"
+        heading="Deploy at the Right Facility"
+        description="We'll help you choose the optimal facility based on your fleet size, budget, and risk profile."
+        primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+        variant="dark"
+      />
     </>
   )
 }
