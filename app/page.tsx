@@ -12,6 +12,7 @@ import { Hardware } from "@/components/sections/hardware"
 import { ProvenAtScale } from "@/components/sections/proven-at-scale"
 import { Testimonial } from "@/components/sections/testimonial"
 import { FAQ } from "@/components/sections/faq"
+import { SectionCTA } from "@/components/ui/section-cta"
 
 export default function Home() {
   return (
@@ -97,6 +98,16 @@ export default function Home() {
 
       {/* FAQ — General FAQs */}
       <FAQ />
+
+      {/* Closing CTA */}
+      <SectionCTA
+        tag="Get Started"
+        heading="Ready to Deploy Capital into Bitcoin Mining?"
+        description="Whether you're an institutional investor, a solo miner, or looking to host your hardware — we have the infrastructure, expertise, and track record to power your success."
+        primaryCTA={{ label: "Contact Us", href: "/contact" }}
+        secondaryCTA={{ label: "Explore Institutional Access", href: "/institutional" }}
+        variant="dark"
+      />
     </>
   )
 }
