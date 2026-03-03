@@ -1,33 +1,15 @@
-import dynamic from "next/dynamic"
 import { HeroSlider } from "@/components/hero-slider"
 import { LogoBar } from "@/components/sections/logo-bar"
 import { DeployCapital } from "@/components/sections/deploy-capital"
+import { GlobalInfrastructure } from "@/components/sections/global-infrastructure"
 import { Comparison } from "@/components/sections/comparison"
 import { Hosting } from "@/components/sections/hosting"
+import { Calculator } from "@/components/sections/calculator"
+import { Hardware } from "@/components/sections/hardware"
+import { ProvenAtScale } from "@/components/sections/proven-at-scale"
 import { Testimonial } from "@/components/sections/testimonial"
 import { FAQ } from "@/components/sections/faq"
-
-// Dynamic imports — canvas-heavy sections split into separate chunks, no SSR
-const InfrastructureGrid = dynamic(
-  () => import("@/components/animations/infrastructure-grid").then((m) => m.InfrastructureGrid),
-  { ssr: false }
-)
-const GlobalInfrastructure = dynamic(
-  () => import("@/components/sections/global-infrastructure").then((m) => m.GlobalInfrastructure),
-  { ssr: false }
-)
-const Calculator = dynamic(
-  () => import("@/components/sections/calculator").then((m) => m.Calculator),
-  { ssr: false }
-)
-const Hardware = dynamic(
-  () => import("@/components/sections/hardware").then((m) => m.Hardware),
-  { ssr: false }
-)
-const ProvenAtScale = dynamic(
-  () => import("@/components/sections/proven-at-scale").then((m) => m.ProvenAtScale),
-  { ssr: false }
-)
+import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
 
 export default function Home() {
   return (
