@@ -7,11 +7,15 @@ import {
   Eye,
   Settings2,
   Check,
+  ArrowRight,
 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
-import { useSection } from "@/lib/motion"
+import { useSection, useCountUp } from "@/lib/motion"
+import { ImageSection } from "@/components/ui/image-section"
+import { SectionCTA } from "@/components/ui/section-cta"
 
 // ---------------------------------------------------------------------------
 // Data
@@ -33,12 +37,14 @@ const COMPARISON_CARDS = [
 ]
 
 const TRACK_RECORD = [
-  { value: "5+", unit: "Years", label: "Large-scale mining expertise" },
-  { value: "176+", unit: "PH/s", label: "Bitcoin hashrate under management" },
+  { numericValue: 5, value: "5+", unit: "Years", label: "Large-scale mining expertise", suffix: "+" },
+  { numericValue: 176, value: "176+", unit: "PH/s", label: "Bitcoin hashrate under management", suffix: "+" },
   {
+    numericValue: 80,
     value: "80%+",
     unit: "",
     label: "Annualized returns over past decade (2014\u20132024)",
+    suffix: "%+",
     disclaimer: true,
   },
 ]
@@ -104,6 +110,67 @@ const COMPLIANCE_ITEMS = [
   },
 ]
 
+const LEADERSHIP = [
+  {
+    name: "Giannis Andreou",
+    title: "Founder & CEO",
+    photo: "/team/giannis-new.avif",
+  },
+  {
+    name: "Paschalis Pietris",
+    title: "Vice President",
+    photo: "/team/paschalis-new.avif",
+  },
+  {
+    name: "Andreas Stirmpou",
+    title: "CTO",
+    photo: "/team/andreas-new.avif",
+  },
+]
+
+// ---------------------------------------------------------------------------
+// Count-up stat component
+// ---------------------------------------------------------------------------
+
+function CountUpStat({
+  numericValue,
+  suffix,
+  unit,
+  label,
+  disclaimer,
+}: {
+  numericValue: number
+  suffix: string
+  unit: string
+  label: string
+  disclaimer?: boolean
+}) {
+  const { ref, display, inView } = useCountUp(numericValue, {
+    suffix,
+    duration: 2200,
+  })
+
+  return (
+    <div className="flex flex-col items-center">
+      <span
+        ref={ref as React.Ref<HTMLSpanElement>}
+        className="font-heading text-7xl font-bold leading-none tracking-tight text-primary lg:text-8xl"
+      >
+        {inView ? display : "0"}
+        {disclaimer && (
+          <span className="align-top text-3xl lg:text-4xl">*</span>
+        )}
+      </span>
+      {unit && (
+        <span className="mt-2 font-mono text-lg uppercase tracking-tight text-foreground/80">
+          {unit}
+        </span>
+      )}
+      <p className="mt-3 text-base text-foreground/60">{label}</p>
+    </div>
+  )
+}
+
 // ---------------------------------------------------------------------------
 // Page component
 // ---------------------------------------------------------------------------
@@ -115,15 +182,32 @@ export function InstitutionalPage() {
   const blocksFund = useSection()
   const familyOffice = useSection()
   const compliance = useSection()
-  const cta = useSection()
+  const teamStrip = useSection()
 
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Dark Authoritative with Facility Background */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref}>
-        <div className="padding-global">
+      <section ref={hero.ref} className="section-dark relative min-h-[65vh] overflow-hidden flex items-center">
+        {/* Facility photo background */}
+        <div className="absolute inset-0">
+          <Image
+            src="/facilities/indiana.webp"
+            alt="Bitmern Mining facility — Indiana"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            quality={85}
+            priority
+          />
+        </div>
+
+        {/* Heavy overlay for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/80" />
+
+        {/* Content */}
+        <div className="relative z-10 padding-global w-full">
           <div className="container-large">
             <div className="padding-section-large">
               <motion.div
@@ -142,7 +226,7 @@ export function InstitutionalPage() {
                 <div className="spacer-small" />
                 <motion.p
                   variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
+                  className="text-[1.125rem] leading-relaxed opacity-70"
                 >
                   Designed for Family Offices, High-Net-Worth Individuals, and
                   Institutional Investors seeking yield, transparency, and
@@ -163,7 +247,7 @@ export function InstitutionalPage() {
                 <div className="spacer-xsmall" />
                 <motion.p
                   variants={hero.chVariants}
-                  className="text-sm text-foreground/40"
+                  className="text-sm opacity-40"
                 >
                   For Accredited &amp; Institutional Investors Only
                 </motion.p>
@@ -234,7 +318,7 @@ export function InstitutionalPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Track Record */}
+      {/* Track Record — Massive Typography + Count-Up */}
       {/* ----------------------------------------------------------------- */}
       <section ref={trackRecord.ref}>
         <div className="padding-global">
@@ -261,22 +345,14 @@ export function InstitutionalPage() {
                     <motion.div
                       key={stat.label}
                       variants={trackRecord.crdFade}
-                      className="flex flex-col items-center"
                     >
-                      <span className="font-heading text-[3.5rem] font-bold leading-none tracking-tight text-primary">
-                        {stat.value}
-                        {"disclaimer" in stat && stat.disclaimer && (
-                          <span className="text-[2rem] align-top">*</span>
-                        )}
-                      </span>
-                      {stat.unit && (
-                        <span className="mt-1 font-mono text-lg uppercase tracking-tight text-foreground/80">
-                          {stat.unit}
-                        </span>
-                      )}
-                      <p className="mt-3 text-base text-foreground/60">
-                        {stat.label}
-                      </p>
+                      <CountUpStat
+                        numericValue={stat.numericValue}
+                        suffix={stat.suffix}
+                        unit={stat.unit}
+                        label={stat.label}
+                        disclaimer={stat.disclaimer}
+                      />
                     </motion.div>
                   ))}
                 </motion.div>
@@ -291,6 +367,38 @@ export function InstitutionalPage() {
           </div>
         </div>
       </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Full-Bleed Photo Break */}
+      {/* ----------------------------------------------------------------- */}
+      <ImageSection
+        src="/facilities/north-dakota.webp"
+        alt="Bitmern Mining facility — North Dakota"
+        overlay="gradient"
+        className="min-h-[40vh]"
+      >
+        <div className="padding-section-medium">
+          <div className="mx-auto max-w-3xl text-center text-white">
+            <p className="font-heading text-2xl font-semibold lg:text-3xl">
+              Multi-site infrastructure across the United States and international jurisdictions
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-8">
+              <div className="text-center">
+                <span className="block font-heading text-4xl font-bold lg:text-5xl">4</span>
+                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Active Facilities</span>
+              </div>
+              <div className="text-center">
+                <span className="block font-heading text-4xl font-bold lg:text-5xl">3</span>
+                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Countries</span>
+              </div>
+              <div className="text-center">
+                <span className="block font-heading text-4xl font-bold lg:text-5xl">99.5%</span>
+                <span className="mt-1 block font-mono text-sm uppercase tracking-wide opacity-70">Uptime</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ImageSection>
 
       {/* ----------------------------------------------------------------- */}
       {/* Blocks Fund */}
@@ -448,57 +556,83 @@ export function InstitutionalPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Bottom CTA */}
+      {/* Leadership Photo Strip */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={cta.ref}>
+      <section ref={teamStrip.ref}>
         <div className="padding-global">
           <div className="container-large">
-            <div className="padding-section-large">
+            <div className="padding-section-medium">
               <motion.div
-                variants={cta.cVariants}
+                variants={teamStrip.cVariants}
                 initial="hidden"
-                animate={cta.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-3xl text-align-center"
+                animate={teamStrip.inView ? "visible" : "hidden"}
+                className="text-align-center"
               >
-                <motion.h2 variants={cta.chVariants}>
-                  Schedule a Private Consultation
-                </motion.h2>
+                <motion.div variants={teamStrip.chVariants}>
+                  <Tag>Leadership</Tag>
+                </motion.div>
                 <div className="spacer-xsmall" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Our institutional team works directly with family offices,
-                  wealth managers, and qualified investors. We&rsquo;ll walk you
-                  through the fund structure, expected returns, and onboarding
-                  process.
-                </motion.p>
+                <motion.h2 variants={teamStrip.chVariants} className="text-2xl lg:text-3xl">
+                  Meet the Team Behind the Infrastructure
+                </motion.h2>
                 <div className="spacer-medium" />
+
                 <motion.div
-                  variants={cta.chVariants}
-                  className="flex flex-wrap items-center justify-center gap-4"
+                  variants={teamStrip.crdStagger}
+                  initial="hidden"
+                  animate={teamStrip.inView ? "visible" : "hidden"}
+                  className="flex flex-wrap items-center justify-center gap-10 lg:gap-16"
                 >
-                  <Button size="lg" asChild>
-                    <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Private Consultation</a>
-                  </Button>
-                  <Button variant="secondary" size="lg" asChild>
-                    <Link href="/contact">Request Fund Materials</Link>
+                  {LEADERSHIP.map((person) => (
+                    <motion.div
+                      key={person.name}
+                      variants={teamStrip.crdFade}
+                      className="flex flex-col items-center"
+                    >
+                      <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-border/40">
+                        <Image
+                          src={person.photo}
+                          alt={person.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                      <span className="mt-3 font-heading text-sm font-semibold">
+                        {person.name}
+                      </span>
+                      <span className="font-mono text-xs uppercase tracking-wide text-foreground/50">
+                        {person.title}
+                      </span>
+                    </motion.div>
+                  ))}
+                </motion.div>
+
+                <div className="spacer-small" />
+                <motion.div variants={teamStrip.chVariants}>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href="/team" className="inline-flex items-center gap-2">
+                      View Full Team <ArrowRight className="size-4" />
+                    </Link>
                   </Button>
                 </motion.div>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={cta.chVariants}
-                  className="text-xs text-foreground/40"
-                >
-                  This page is intended for informational purposes only and does
-                  not constitute an offer to sell or a solicitation of an offer
-                  to buy any securities.
-                </motion.p>
               </motion.div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* ----------------------------------------------------------------- */}
+      {/* Bottom CTA — Schedule a Consultation */}
+      {/* ----------------------------------------------------------------- */}
+      <SectionCTA
+        tag="For Institutional Investors"
+        heading="Schedule a Consultation"
+        description="Our team works directly with family offices, funds, and high-net-worth individuals to structure mining investments."
+        primaryCTA={{ label: "Book a Call", href: "/contact" }}
+        secondaryCTA={{ label: "View Our Facilities", href: "/facilities" }}
+        variant="dark"
+      />
     </>
   )
 }
