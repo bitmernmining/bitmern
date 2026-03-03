@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   CalendarDays,
@@ -12,15 +13,14 @@ import {
   Pickaxe,
   Cpu,
   Building2,
-  Linkedin,
-  Instagram,
-  Youtube,
   CheckCircle2,
   AlertCircle,
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { useSection } from "@/lib/motion"
+import { ImageSection } from "@/components/ui/image-section"
+import { SectionCTA } from "@/components/ui/section-cta"
 
 type FormState = "idle" | "submitting" | "success" | "error"
 
@@ -122,24 +122,6 @@ const BUDGET_OPTIONS = [
   "$5M+",
 ]
 
-const SOCIAL_LINKS = [
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com/company/bitmern-mining-group/",
-  },
-  {
-    icon: Instagram,
-    label: "Instagram",
-    href: "https://instagram.com/bitmern_mining",
-  },
-  {
-    icon: Youtube,
-    label: "YouTube",
-    href: "https://youtube.com/@Bitmernmining",
-  },
-]
-
 // ---------------------------------------------------------------------------
 // Shared input styles
 // ---------------------------------------------------------------------------
@@ -154,6 +136,16 @@ const selectClass =
   "h-11 w-full rounded-md border border-border/60 bg-background px-4 py-2 text-sm text-foreground/70 outline-none transition-colors duration-200 hover:border-border focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer appearance-none"
 
 // ---------------------------------------------------------------------------
+// Trust stats for facility photo overlay
+// ---------------------------------------------------------------------------
+
+const TRUST_STATS = [
+  { value: "7", label: "Facilities" },
+  { value: "97%", label: "Uptime" },
+  { value: "1,400+", label: "Miners Deployed" },
+]
+
+// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
@@ -163,7 +155,6 @@ export function ContactPage() {
   const form = useSection()
   const services = useSection()
   const direct = useSection()
-  const social = useSection()
 
   const [formState, setFormState] = useState<FormState>("idle")
   const formRef = useRef<HTMLFormElement>(null)
@@ -188,39 +179,39 @@ export function ContactPage() {
   return (
     <>
       {/* ----------------------------------------------------------------- */}
-      {/* Hero */}
+      {/* Hero — Dark with facility photo background */}
       {/* ----------------------------------------------------------------- */}
-      <section ref={hero.ref}>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-large">
-              <motion.div
-                variants={hero.cVariants}
-                initial="hidden"
-                animate={hero.inView ? "visible" : "hidden"}
-                className="max-w-3xl"
-              >
-                <motion.div variants={hero.chVariants}>
-                  <Tag>Contact</Tag>
-                </motion.div>
-                <div className="spacer-xsmall" />
-                <motion.h1 variants={hero.chVariants}>
-                  Let&rsquo;s Talk Mining
-                </motion.h1>
-                <div className="spacer-small" />
-                <motion.p
-                  variants={hero.chVariants}
-                  className="text-[1.125rem] leading-relaxed text-foreground/70"
-                >
-                  Whether you&rsquo;re deploying your first miner or scaling an
-                  institutional portfolio, our team is ready to help. Book a
-                  strategy call, request a quote, or reach out directly.
-                </motion.p>
-              </motion.div>
-            </div>
-          </div>
+      <ImageSection
+        src="/facilities/indiana.webp"
+        alt="Bitmern Mining facility in Indiana"
+        overlay="dark"
+      >
+        <div className="padding-section-large" ref={hero.ref}>
+          <motion.div
+            variants={hero.cVariants}
+            initial="hidden"
+            animate={hero.inView ? "visible" : "hidden"}
+            className="max-w-3xl text-white"
+          >
+            <motion.div variants={hero.chVariants}>
+              <Tag>Contact</Tag>
+            </motion.div>
+            <div className="spacer-xsmall" />
+            <motion.h1 variants={hero.chVariants} className="text-white">
+              Let&rsquo;s Talk Mining
+            </motion.h1>
+            <div className="spacer-small" />
+            <motion.p
+              variants={hero.chVariants}
+              className="text-[1.125rem] leading-relaxed text-white/70"
+            >
+              Whether you&rsquo;re deploying your first miner or scaling an
+              institutional portfolio, our team is ready to help. Book a
+              strategy call, request a quote, or reach out directly.
+            </motion.p>
+          </motion.div>
         </div>
-      </section>
+      </ImageSection>
 
       {/* ----------------------------------------------------------------- */}
       {/* Contact Methods */}
@@ -283,7 +274,7 @@ export function ContactPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Contact Form */}
+      {/* Contact Form — Split Layout: Facility Photo | Form */}
       {/* ----------------------------------------------------------------- */}
       <section>
         <div className="padding-global">
@@ -293,235 +284,272 @@ export function ContactPage() {
                 variants={form.cVariants}
                 initial="hidden"
                 animate={form.inView ? "visible" : "hidden"}
-                className="mx-auto max-w-2xl"
+                className="grid items-start gap-12 lg:grid-cols-[1fr_1.2fr]"
               >
-                <motion.h2 variants={form.chVariants} className="mb-10">
-                  Send Us a Message
-                </motion.h2>
+                {/* Left — Facility photo with trust overlay */}
+                <motion.div
+                  variants={form.chVariants}
+                  className="hidden lg:block"
+                >
+                  <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
+                    <Image
+                      src="/facilities/indiana.webp"
+                      alt="Inside Bitmern Mining's Indiana facility"
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 42vw, 0px"
+                      quality={85}
+                    />
+                    {/* Bottom gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    {/* Trust stats */}
+                    <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
+                      {TRUST_STATS.map((stat) => (
+                        <div key={stat.label} className="text-white">
+                          <div className="font-heading text-2xl font-bold leading-none">
+                            {stat.value}
+                          </div>
+                          <div className="mt-1 font-mono text-xs uppercase tracking-wider text-white/60">
+                            {stat.label}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
 
-                <AnimatePresence mode="wait">
-                  {formState === "success" ? (
-                    <motion.div
-                      key="success"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -12 }}
-                      transition={{ duration: 0.3 }}
-                      className="flex flex-col items-center gap-4 rounded-lg border border-primary/30 bg-primary/[0.04] p-10 text-center"
-                    >
-                      <CheckCircle2 className="size-10 text-primary" strokeWidth={1.5} />
-                      <h3 className="font-heading text-[1.2rem] font-normal uppercase tracking-tight">
-                        Message Sent
-                      </h3>
-                      <p className="text-base leading-relaxed text-foreground/70">
-                        Thanks! We&rsquo;ll be in touch within 24 hours.
-                      </p>
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="mt-2"
-                        onClick={() => {
-                          setFormState("idle")
-                          formRef.current?.reset()
-                        }}
+                {/* Right — Contact form */}
+                <div>
+                  <motion.h2 variants={form.chVariants} className="mb-10">
+                    Send Us a Message
+                  </motion.h2>
+
+                  <AnimatePresence mode="wait">
+                    {formState === "success" ? (
+                      <motion.div
+                        key="success"
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -12 }}
+                        transition={{ duration: 0.3 }}
+                        className="flex flex-col items-center gap-4 rounded-lg border border-primary/30 bg-primary/[0.04] p-10 text-center"
                       >
-                        Send Another Message
-                      </Button>
-                    </motion.div>
-                  ) : (
-                    <motion.form
-                      key="form"
-                      ref={formRef}
-                      variants={form.chVariants}
-                      onSubmit={handleSubmit}
-                      className="flex flex-col gap-5"
-                    >
-                      {/* Error banner */}
-                      {formState === "error" && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/[0.06] p-4"
-                        >
-                          <AlertCircle className="mt-0.5 size-5 shrink-0 text-destructive" strokeWidth={1.5} />
-                          <p className="text-sm text-foreground/80">
-                            Something went wrong. Please try again or email us
-                            directly at{" "}
-                            <a
-                              href="mailto:info@bitmernmining.com"
-                              className="font-medium text-primary hover:underline"
-                            >
-                              info@bitmernmining.com
-                            </a>
-                          </p>
-                        </motion.div>
-                      )}
-
-                      {/* Name */}
-                      <div>
-                        <label
-                          htmlFor="contact-name"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Name <span className="text-destructive">*</span>
-                        </label>
-                        <input
-                          id="contact-name"
-                          name="name"
-                          type="text"
-                          autoComplete="name"
-                          placeholder="Your full name"
-                          required
-                          disabled={formState === "submitting"}
-                          className={inputClass}
-                        />
-                      </div>
-
-                      {/* Email */}
-                      <div>
-                        <label
-                          htmlFor="contact-email"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Email <span className="text-destructive">*</span>
-                        </label>
-                        <input
-                          id="contact-email"
-                          name="email"
-                          type="email"
-                          autoComplete="email"
-                          placeholder="you@company.com"
-                          required
-                          disabled={formState === "submitting"}
-                          className={inputClass}
-                        />
-                      </div>
-
-                      {/* Phone */}
-                      <div>
-                        <label
-                          htmlFor="contact-phone"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Phone{" "}
-                          <span className="text-foreground/40">(optional)</span>
-                        </label>
-                        <input
-                          id="contact-phone"
-                          name="phone"
-                          type="tel"
-                          autoComplete="tel"
-                          placeholder="+1 (555) 000-0000 (intl. welcome)"
-                          disabled={formState === "submitting"}
-                          className={inputClass}
-                        />
-                      </div>
-
-                      {/* Company */}
-                      <div>
-                        <label
-                          htmlFor="contact-company"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Company{" "}
-                          <span className="text-foreground/40">(optional)</span>
-                        </label>
-                        <input
-                          id="contact-company"
-                          name="company"
-                          type="text"
-                          autoComplete="organization"
-                          placeholder="Your company name"
-                          disabled={formState === "submitting"}
-                          className={inputClass}
-                        />
-                      </div>
-
-                      {/* Subject */}
-                      <div>
-                        <label
-                          htmlFor="contact-subject"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Subject
-                        </label>
-                        <select
-                          id="contact-subject"
-                          name="subject"
-                          className={selectClass}
-                          defaultValue=""
-                          disabled={formState === "submitting"}
-                        >
-                          <option value="" disabled>
-                            Select a topic
-                          </option>
-                          {SUBJECT_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Message */}
-                      <div>
-                        <label
-                          htmlFor="contact-message"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Message <span className="text-destructive">*</span>
-                        </label>
-                        <textarea
-                          id="contact-message"
-                          name="message"
-                          placeholder="Tell us about your project..."
-                          required
-                          disabled={formState === "submitting"}
-                          className={textareaClass}
-                        />
-                      </div>
-
-                      {/* Budget */}
-                      <div>
-                        <label
-                          htmlFor="contact-budget"
-                          className="mb-2 block text-sm font-medium"
-                        >
-                          Budget Range{" "}
-                          <span className="text-foreground/40">(optional)</span>
-                        </label>
-                        <select
-                          id="contact-budget"
-                          name="budget"
-                          className={selectClass}
-                          defaultValue=""
-                          disabled={formState === "submitting"}
-                        >
-                          <option value="" disabled>
-                            Select a range
-                          </option>
-                          {BUDGET_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      {/* Submit */}
-                      <div className="pt-2">
+                        <CheckCircle2 className="size-10 text-primary" strokeWidth={1.5} />
+                        <h3 className="font-heading text-[1.2rem] font-normal uppercase tracking-tight">
+                          Message Sent
+                        </h3>
+                        <p className="text-base leading-relaxed text-foreground/70">
+                          Thanks! We&rsquo;ll be in touch within 24 hours.
+                        </p>
                         <Button
-                          type="submit"
-                          size="lg"
-                          isLoading={formState === "submitting"}
-                          disabled={formState === "submitting"}
+                          variant="secondary"
+                          size="sm"
+                          className="mt-2"
+                          onClick={() => {
+                            setFormState("idle")
+                            formRef.current?.reset()
+                          }}
                         >
-                          {formState === "submitting" ? "Sending..." : "Send Message"}
+                          Send Another Message
                         </Button>
-                      </div>
-                    </motion.form>
-                  )}
-                </AnimatePresence>
+                      </motion.div>
+                    ) : (
+                      <motion.form
+                        key="form"
+                        ref={formRef}
+                        variants={form.chVariants}
+                        onSubmit={handleSubmit}
+                        className="flex flex-col gap-5"
+                      >
+                        {/* Error banner */}
+                        {formState === "error" && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            className="flex items-start gap-3 rounded-lg border border-destructive/30 bg-destructive/[0.06] p-4"
+                          >
+                            <AlertCircle className="mt-0.5 size-5 shrink-0 text-destructive" strokeWidth={1.5} />
+                            <p className="text-sm text-foreground/80">
+                              Something went wrong. Please try again or email us
+                              directly at{" "}
+                              <a
+                                href="mailto:info@bitmernmining.com"
+                                className="font-medium text-primary hover:underline"
+                              >
+                                info@bitmernmining.com
+                              </a>
+                            </p>
+                          </motion.div>
+                        )}
+
+                        {/* Name + Email row */}
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <div>
+                            <label
+                              htmlFor="contact-name"
+                              className="mb-2 block text-sm font-medium"
+                            >
+                              Name <span className="text-destructive">*</span>
+                            </label>
+                            <input
+                              id="contact-name"
+                              name="name"
+                              type="text"
+                              autoComplete="name"
+                              placeholder="Your full name"
+                              required
+                              disabled={formState === "submitting"}
+                              className={inputClass}
+                            />
+                          </div>
+
+                          <div>
+                            <label
+                              htmlFor="contact-email"
+                              className="mb-2 block text-sm font-medium"
+                            >
+                              Email <span className="text-destructive">*</span>
+                            </label>
+                            <input
+                              id="contact-email"
+                              name="email"
+                              type="email"
+                              autoComplete="email"
+                              placeholder="you@company.com"
+                              required
+                              disabled={formState === "submitting"}
+                              className={inputClass}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Phone + Company row */}
+                        <div className="grid gap-5 sm:grid-cols-2">
+                          <div>
+                            <label
+                              htmlFor="contact-phone"
+                              className="mb-2 block text-sm font-medium"
+                            >
+                              Phone{" "}
+                              <span className="text-foreground/40">(optional)</span>
+                            </label>
+                            <input
+                              id="contact-phone"
+                              name="phone"
+                              type="tel"
+                              autoComplete="tel"
+                              placeholder="+1 (555) 000-0000"
+                              disabled={formState === "submitting"}
+                              className={inputClass}
+                            />
+                          </div>
+
+                          <div>
+                            <label
+                              htmlFor="contact-company"
+                              className="mb-2 block text-sm font-medium"
+                            >
+                              Company{" "}
+                              <span className="text-foreground/40">(optional)</span>
+                            </label>
+                            <input
+                              id="contact-company"
+                              name="company"
+                              type="text"
+                              autoComplete="organization"
+                              placeholder="Your company name"
+                              disabled={formState === "submitting"}
+                              className={inputClass}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Subject */}
+                        <div>
+                          <label
+                            htmlFor="contact-subject"
+                            className="mb-2 block text-sm font-medium"
+                          >
+                            Subject
+                          </label>
+                          <select
+                            id="contact-subject"
+                            name="subject"
+                            className={selectClass}
+                            defaultValue=""
+                            disabled={formState === "submitting"}
+                          >
+                            <option value="" disabled>
+                              Select a topic
+                            </option>
+                            {SUBJECT_OPTIONS.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Message */}
+                        <div>
+                          <label
+                            htmlFor="contact-message"
+                            className="mb-2 block text-sm font-medium"
+                          >
+                            Message <span className="text-destructive">*</span>
+                          </label>
+                          <textarea
+                            id="contact-message"
+                            name="message"
+                            placeholder="Tell us about your project..."
+                            required
+                            disabled={formState === "submitting"}
+                            className={textareaClass}
+                          />
+                        </div>
+
+                        {/* Budget */}
+                        <div>
+                          <label
+                            htmlFor="contact-budget"
+                            className="mb-2 block text-sm font-medium"
+                          >
+                            Budget Range{" "}
+                            <span className="text-foreground/40">(optional)</span>
+                          </label>
+                          <select
+                            id="contact-budget"
+                            name="budget"
+                            className={selectClass}
+                            defaultValue=""
+                            disabled={formState === "submitting"}
+                          >
+                            <option value="" disabled>
+                              Select a range
+                            </option>
+                            {BUDGET_OPTIONS.map((opt) => (
+                              <option key={opt} value={opt}>
+                                {opt}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Submit */}
+                        <div className="pt-2">
+                          <Button
+                            type="submit"
+                            size="lg"
+                            isLoading={formState === "submitting"}
+                            disabled={formState === "submitting"}
+                          >
+                            {formState === "submitting" ? "Sending..." : "Send Message"}
+                          </Button>
+                        </div>
+                      </motion.form>
+                    )}
+                  </AnimatePresence>
+                </div>
               </motion.div>
             </div>
           </div>
@@ -630,51 +658,15 @@ export function ContactPage() {
       </section>
 
       {/* ----------------------------------------------------------------- */}
-      {/* Social Links */}
+      {/* Bottom CTA */}
       {/* ----------------------------------------------------------------- */}
-      <section>
-        <div className="padding-global">
-          <div className="container-large">
-            <div className="padding-section-medium" ref={social.ref}>
-              <motion.div
-                variants={social.cVariants}
-                initial="hidden"
-                animate={social.inView ? "visible" : "hidden"}
-              >
-                <motion.h2 variants={social.chVariants} className="mb-8">
-                  Follow Bitmern
-                </motion.h2>
-                <motion.div
-                  variants={social.chVariants}
-                  className="flex flex-wrap gap-3"
-                >
-                  {SOCIAL_LINKS.map((social) => {
-                    const Icon = social.icon
-                    return (
-                      <Button
-                        key={social.label}
-                        variant="outline"
-                        size="lg"
-                        asChild
-                      >
-                        <a
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={social.label}
-                        >
-                          <Icon className="size-5" strokeWidth={1.5} />
-                          <span>{social.label}</span>
-                        </a>
-                      </Button>
-                    )
-                  })}
-                </motion.div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SectionCTA
+        tag="Get Started"
+        heading="Ready to Scale Your Mining Operation?"
+        description="Book a free strategy call and let our team build a deployment plan tailored to your goals."
+        primaryCTA={{ label: "Book a Call", href: "https://calendly.com/bitmernmining" }}
+        secondaryCTA={{ label: "View Facilities", href: "/facilities" }}
+      />
     </>
   )
 }
