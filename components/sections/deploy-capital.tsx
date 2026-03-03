@@ -2,13 +2,13 @@
 
 import { useRef } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
+import Image from "next/image"
 import {
   staggerContainer,
   fadeUp,
   reducedStagger,
   reducedFade,
-  cardStagger,
-  cardFade,
+  EASE,
 } from "@/lib/motion"
 import { Landmark, Server, Pickaxe } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
@@ -26,6 +26,7 @@ const CARDS = [
     body: "Gain Bitcoin mining exposure without the operational complexity. Blocks Fund offers accredited investors a hands-off vehicle with transparent reporting, managed risk, and quarterly distributions.",
     cta: "Explore Blocks Fund",
     href: "/institutional",
+    featured: true,
   },
   {
     icon: Server,
@@ -34,16 +35,37 @@ const CARDS = [
     body: "Colocate your miners at our global facilities with sub-$0.06/kWh power, 97% uptime, and 24/7 monitoring. With full transparency via our SuperApp dashboard, you own the hardware, we handle operations.",
     cta: "View Hosting Plans",
     href: "/hosting",
+    featured: false,
   },
   {
     icon: Pickaxe,
     title: "Solo Mining Pool",
     audience: "Miners who want the full block reward",
-    body: "Mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte on Bitmern Solo with a flat 1% fee. No shared payouts, no middlemen \u2014 direct wallet payouts, real-time monitoring, and 99.9% uptime infrastructure.",
+    body: "Mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte on Bitmern Solo with a flat 1% fee. No shared payouts, no middlemen — direct wallet payouts, real-time monitoring, and 99.9% uptime infrastructure.",
     cta: "Start Solo Mining",
     href: "https://bitmernsolo.com",
+    featured: false,
   },
 ]
+
+// ---------------------------------------------------------------------------
+// Bento stagger — featured card first, then two smaller cards follow
+// ---------------------------------------------------------------------------
+
+const bentoStagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
+}
+
+const bentoFeatured = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+}
+
+const bentoCard = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+}
 
 // ---------------------------------------------------------------------------
 // Section
@@ -58,12 +80,18 @@ export function DeployCapital() {
 
   const cVariants = prefersReduced ? reducedStagger : staggerContainer
   const chVariants = prefersReduced ? reducedFade : fadeUp
-  const crdStagger = prefersReduced ? reducedStagger : cardStagger
-  const crdFade = prefersReduced ? reducedFade : cardFade
+  const bStagger = prefersReduced ? reducedStagger : bentoStagger
+  const bFeatured = prefersReduced ? reducedFade : bentoFeatured
+  const bCard = prefersReduced ? reducedFade : bentoCard
+
+  const [featured, ...supporting] = CARDS
 
   return (
-    <section ref={sectionRef}>
-      <div className="padding-global">
+    <section ref={sectionRef} className="relative">
+      {/* Dot-grid background overlay */}
+      <div className="dot-grid pointer-events-none absolute inset-0" aria-hidden />
+
+      <div className="padding-global relative">
         <div className="container-large">
           <div className="padding-section-medium">
             {/* Header — 2 columns: tag+h2 left, paragraph right */}
@@ -93,25 +121,76 @@ export function DeployCapital() {
               </motion.p>
             </motion.div>
 
-            {/* 3-column card grid */}
+            {/* Asymmetric bento grid */}
             <motion.div
               ref={cardsRef}
-              variants={crdStagger}
+              variants={bStagger}
               initial="hidden"
               animate={cardsInView ? "visible" : "hidden"}
-              className="grid gap-6 md:grid-cols-3"
+              className="grid gap-6 lg:grid-cols-2 lg:grid-rows-2"
             >
-              {CARDS.map((card) => {
+              {/* Featured card — spans 2 rows */}
+              <motion.div
+                variants={bFeatured}
+                className="card-surface flex flex-col overflow-hidden rounded-lg border border-border/60 lg:row-span-2"
+              >
+                {/* Facility photo header */}
+                <div className="relative aspect-[16/9] w-full overflow-hidden">
+                  <Image
+                    src="/facilities/indiana.webp"
+                    alt="Bitmern mining facility — Indiana"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+
+                {/* Card content */}
+                <div className="flex flex-1 flex-col p-8">
+                  {/* Icon badge */}
+                  <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2 text-primary-foreground">
+                    <featured.icon className="size-6" strokeWidth={1.5} />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="mb-6 font-heading text-[1.728rem] font-normal uppercase leading-none tracking-tight">
+                    {featured.title}
+                  </h3>
+
+                  {/* Audience */}
+                  <p className="mb-4 font-mono text-sm">
+                    <strong className="font-semibold text-primary">
+                      For:
+                    </strong>{" "}
+                    {featured.audience}
+                  </p>
+
+                  {/* Body */}
+                  <p className="mb-6 text-base leading-relaxed text-foreground/60">
+                    {featured.body}
+                  </p>
+
+                  {/* CTA */}
+                  <div className="mt-auto">
+                    <Button variant="secondary" size="sm" asChild>
+                      <a href={featured.href}>{featured.cta}</a>
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Supporting cards */}
+              {supporting.map((card) => {
                 const Icon = card.icon
                 return (
                   <motion.div
                     key={card.title}
-                    variants={crdFade}
-                    className="card-surface flex flex-col rounded-lg border border-border/60 p-8"
+                    variants={bCard}
+                    className="card-surface flex flex-col rounded-lg border border-border/60 border-t-2 border-t-primary/20 p-8"
                   >
-                    {/* Icon badge */}
-                    <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2 text-primary-foreground">
-                      <Icon className="size-6" strokeWidth={1.5} />
+                    {/* Icon badge — larger for supporting cards */}
+                    <div className="mb-8 inline-flex w-fit items-center justify-center rounded bg-primary p-2.5 text-primary-foreground">
+                      <Icon className="size-10" strokeWidth={1.5} />
                     </div>
 
                     {/* Title */}
