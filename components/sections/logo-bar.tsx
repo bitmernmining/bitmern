@@ -1,7 +1,4 @@
-"use client"
-
 import Image from "next/image"
-import { LogoMarquee } from "@/components/ui/logo-marquee"
 
 interface Partner {
   name: string
@@ -16,28 +13,37 @@ const PARTNERS: Partner[] = [
   { name: "Auradine", logo: "/partners/auradine.webp" },
 ]
 
+// Normalize visual weight — wider logos get constrained, narrow ones get boosted
+const LOGO_WIDTHS: Record<string, string> = {
+  Bitmain: "w-28",
+  Canaan: "w-32",
+  ViaBTC: "w-28",
+  CoinEx: "w-28",
+  Auradine: "w-36",
+}
+
 export function LogoBar() {
   return (
     <section className="section-elevated">
       <div className="padding-global">
         <div className="container-large">
           <div className="py-10">
-            <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-8">
               <p className="text-sm font-medium text-foreground/60">
                 Trusted by industry leaders
               </p>
-              <LogoMarquee speed={25} fadeColor="var(--color-elevated)">
+              <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-14">
                 {PARTNERS.map((partner) => (
                   <Image
                     key={partner.name}
                     src={partner.logo}
                     alt={partner.name}
-                    width={120}
-                    height={32}
-                    className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity"
+                    width={280}
+                    height={64}
+                    className={`${LOGO_WIDTHS[partner.name] || "w-28"} h-auto brightness-0 opacity-50 hover:opacity-70 transition-[opacity,filter]`}
                   />
                 ))}
-              </LogoMarquee>
+              </div>
             </div>
           </div>
         </div>

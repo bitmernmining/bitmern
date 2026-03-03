@@ -39,18 +39,6 @@ const testimonials: TestimonialData[] = [
     title: "30+ Miners Hosted",
     stars: 5,
   },
-  {
-    quote: (
-      <>
-        &ldquo;MARA firmware has been a <Hl>game changer</Hl> for our
-        operation. The efficiency gains are real — we&rsquo;ve seen{" "}
-        <Hl>measurable improvements</Hl> across our entire fleet.&rdquo;
-      </>
-    ),
-    name: "Abdulrahman Hamdy",
-    title: "Zero Two Mining",
-    stars: 5,
-  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -144,7 +132,7 @@ export function Testimonial() {
               variants={crdStagger}
               initial="hidden"
               animate={isInView ? "visible" : "hidden"}
-              className="grid gap-8 lg:grid-cols-2 max-w-4xl mx-auto"
+              className="mx-auto max-w-xl"
             >
               {testimonials.map((t) => (
                 <motion.div key={t.name} variants={crdFade}>
