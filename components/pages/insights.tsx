@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { BookOpen, Download, CheckCircle2 } from "lucide-react"
+import { BookOpen, Mail, CheckCircle2, Clock } from "lucide-react"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
@@ -31,7 +31,6 @@ interface Article {
   title: string
   category: string
   readTime: string
-  href: string
 }
 
 const ARTICLES: Article[] = [
@@ -40,92 +39,77 @@ const ARTICLES: Article[] = [
     title: "Energy Rich Nations Bitcoin Mining Capacity",
     category: "Bitcoin Mining",
     readTime: "5 min",
-    href: "#",
   },
   {
     title: "Bitcoin Difficulty Adjustment Equilibrium",
     category: "Bitcoin Mining",
     readTime: "5 min",
-    href: "#",
   },
   {
     title: "Bitcoin Mining ROI Cycle",
     category: "Bitcoin Mining",
     readTime: "5 min",
-    href: "#",
   },
   {
     title: "Transmission Bottlenecks Bitcoin Mining",
     category: "Bitcoin Mining",
     readTime: "5 min",
-    href: "#",
   },
   {
     title: "Power Market Bitcoin Mining",
     category: "Bitcoin Mining",
     readTime: "6 min",
-    href: "#",
   },
   {
     title: "Anti-Hype Bitcoin Mining",
     category: "Bitcoin Mining",
     readTime: "6 min",
-    href: "#",
   },
   {
     title: "Mining Operations Aging",
     category: "Bitcoin Mining",
     readTime: "5 min",
-    href: "#",
   },
   {
     title: "Bitmern Solo Pool Now Live",
     category: "Bitcoin Mining",
     readTime: "8 min",
-    href: "#",
   },
   // Shop blog (hardware-focused)
   {
     title: "Bitcoin Mining in 2026: The Complete Beginners Guide",
     category: "Guides",
     readTime: "10 min",
-    href: "#",
   },
   {
     title: "Antminer S21 vs S19: Which Should You Buy",
     category: "Hardware Reviews",
     readTime: "7 min",
-    href: "#",
   },
   {
     title: "Which Bitcoin Miner Should You Buy in 2026",
     category: "Hardware Reviews",
     readTime: "8 min",
-    href: "#",
   },
   {
     title: "Best Solo Bitcoin Miners",
     category: "Hardware Reviews",
     readTime: "6 min",
-    href: "#",
   },
   {
     title: "Bitmain Antminer S21 vs S21 Pro: What\u2019s the Difference",
     category: "Hardware Reviews",
     readTime: "6 min",
-    href: "#",
   },
   {
     title: "Hydro Miners Explained",
     category: "Guides",
     readTime: "7 min",
-    href: "#",
   },
   {
     title: "ASIC Miners Profitability and Value",
     category: "Strategy",
     readTime: "6 min",
-    href: "#",
   },
 ]
 
@@ -190,6 +174,16 @@ export function InsightsPage() {
                   operational insights from the Bitmern team. Stay ahead of the
                   curve.
                 </motion.p>
+                <div className="spacer-small" />
+                <motion.div
+                  variants={hero.chVariants}
+                  className="inline-flex items-center gap-2.5 rounded-md border border-primary/30 bg-primary/[0.06] px-4 py-2.5"
+                >
+                  <Clock className="size-4 text-primary shrink-0" strokeWidth={1.5} />
+                  <p className="text-sm text-foreground/70">
+                    Our insights hub is launching soon. Subscribe below to get notified.
+                  </p>
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -212,10 +206,7 @@ export function InsightsPage() {
               >
                 {CATEGORIES.map((category, i) => (
                   <motion.div key={category} variants={categories.chVariants}>
-                    <Tag
-                      variant={i === 0 ? "primary" : "muted"}
-                      className="cursor-pointer transition-colors duration-200 hover:bg-foreground/10"
-                    >
+                    <Tag variant={i === 0 ? "primary" : "muted"}>
                       {category}
                     </Tag>
                   </motion.div>
@@ -244,11 +235,16 @@ export function InsightsPage() {
                   <motion.div
                     key={article.title}
                     variants={articles.crdFade}
-                    className="card-surface flex flex-col gap-3 rounded-lg border border-border/60 p-6"
+                    className="card-surface relative flex flex-col gap-3 rounded-lg border border-border/60 p-6"
                   >
-                    <Tag variant="muted" size="sm">
-                      {article.category}
-                    </Tag>
+                    <div className="flex items-center gap-2">
+                      <Tag variant="muted" size="sm">
+                        {article.category}
+                      </Tag>
+                      <Tag variant="primary" size="sm">
+                        Coming Soon
+                      </Tag>
+                    </div>
                     <h5 className="font-heading text-[1.1rem] font-normal uppercase leading-tight tracking-tight">
                       {article.title}
                     </h5>
@@ -368,7 +364,7 @@ export function InsightsPage() {
                       />
                     </motion.div>
                     <motion.h2 variants={ebook.chVariants}>
-                      Free Download: The Modern Guide to Bitcoin Mining
+                      Coming Soon: The Modern Guide to Bitcoin Mining
                     </motion.h2>
                     <div className="spacer-small" />
                     <motion.p
@@ -391,8 +387,8 @@ export function InsightsPage() {
                   <motion.div variants={ebook.chVariants}>
                     <Button size="lg" asChild>
                       <Link href="/contact">
-                        <Download className="size-4" strokeWidth={1.5} />
-                        Download Free eBook
+                        <Mail className="size-4" strokeWidth={1.5} />
+                        Get Notified When Available
                       </Link>
                     </Button>
                   </motion.div>
