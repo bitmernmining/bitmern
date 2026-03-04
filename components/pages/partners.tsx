@@ -16,6 +16,7 @@ const PARTNER_LOGOS: Record<string, string> = {
   ViaBTC: "/partners/viabtc.avif",
   CoinEx: "/partners/coinex.avif",
   Auradine: "/partners/auradine.webp",
+  "Blockchain Summits": "/partners/blockchain-summits.png",
 }
 
 // ---------------------------------------------------------------------------
@@ -83,16 +84,17 @@ const ECOSYSTEM_PARTNERS = [
 // Shared: Partner Logo
 // ---------------------------------------------------------------------------
 
-function PartnerLogo({ name, className = "h-10 w-auto" }: { name: string; className?: string }) {
+function PartnerLogo({ name, size = "default" }: { name: string; size?: "default" | "sm" }) {
   const src = PARTNER_LOGOS[name]
   if (!src) return null
+  const sizeClass = size === "sm" ? "h-8 sm:h-10" : "h-12 sm:h-14"
   return (
     <Image
       src={src}
       alt={`${name} logo`}
-      width={160}
-      height={40}
-      className={`${className} object-contain`}
+      width={200}
+      height={56}
+      className={`${sizeClass} w-auto object-contain brightness-0 opacity-70`}
     />
   )
 }
@@ -243,7 +245,7 @@ export function PartnersPage() {
                     >
                       {hasLogo && (
                         <div className="mb-3">
-                          <PartnerLogo name={partner.name} className="h-8 w-auto" />
+                          <PartnerLogo name={partner.name} size="sm" />
                         </div>
                       )}
                       <h4 className="mb-2 font-heading text-base font-medium uppercase tracking-tight">

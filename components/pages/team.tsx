@@ -74,8 +74,8 @@ function getInitials(name: string): string {
 function LeadershipCard({ member }: { member: TeamMember }) {
   return (
     <div className="card-surface group flex flex-col overflow-hidden rounded-lg border border-border/60">
-      {/* Photo area — tall aspect ratio */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-foreground/5">
+      {/* Photo area — square 1:1 */}
+      <div className="relative aspect-square w-full overflow-hidden bg-foreground/5">
         {member.photo ? (
           <>
             <Image
