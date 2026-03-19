@@ -292,8 +292,8 @@ export function ContactPage() {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
                     <Image
-                      src="/facilities/indiana.webp"
-                      alt="Inside Bitmern Mining's Indiana facility"
+                      src="/facilities/addis-ababa.webp"
+                      alt="Bitmern Mining facility"
                       fill
                       className="object-cover"
                       sizes="(min-width: 1024px) 42vw, 0px"

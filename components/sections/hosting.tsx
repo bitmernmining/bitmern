@@ -127,15 +127,15 @@ export function Hosting() {
                   className="relative mt-8 aspect-[4/3] w-full overflow-hidden rounded-lg"
                 >
                   <Image
-                    src="/facilities/missouri.jpeg"
-                    alt="Bitmern Mining facility in Missouri"
+                    src="/facilities/addis-ababa.webp"
+                    alt="Bitmern Mining facility in Addis Ababa, Ethiopia"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 40vw"
                   />
                   {/* Location badge */}
                   <div className="absolute bottom-3 left-3 rounded-md bg-background/90 px-3 py-1.5 text-xs font-medium uppercase tracking-wider backdrop-blur-sm">
-                    Missouri, USA
+                    Addis Ababa, Ethiopia
                   </div>
                 </motion.div>
 

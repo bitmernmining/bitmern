@@ -96,17 +96,11 @@ const milestones = [
     imageAlt: "Bitmern facility in Addis Ababa, Ethiopia",
   },
   {
-    year: "2023",
-    title: "US Expansion",
-    milestone: "Indiana facility comes online \u2014 20 MW flagship site.",
-    image: "/facilities/indiana.webp",
-    imageAlt: "Bitmern flagship facility in Indiana, USA",
-  },
-  {
-    year: "2024",
+    year: "2023–24",
     title: "Scaling Up",
-    milestone:
-      "North Dakota (3 MW) and Missouri (5.5 MW) facilities online.",
+    milestone: "Multi-site expansion brings total managed capacity past 30 MW.",
+    image: "/facilities/addis-ababa.webp",
+    imageAlt: "Bitmern Mining facility expansion",
   },
   {
     year: "2025",
@@ -279,8 +273,8 @@ function OriginSection() {
                 {/* Facility photo */}
                 <div className="relative mb-6 aspect-[4/3] overflow-hidden rounded-lg">
                   <Image
-                    src="/facilities/indiana.webp"
-                    alt="Bitmern flagship facility in Indiana, USA"
+                    src="/facilities/addis-ababa.webp"
+                    alt="Bitmern Mining facility"
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 40vw"

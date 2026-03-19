@@ -22,9 +22,10 @@ interface Facility {
 
 const facilities: Facility[] = [
   { name: "Addis Ababa, Ethiopia", lat: 9.032, lng: 38.7469, mw: 3, kwh: 0.055, status: "Available", color: "#10b981", active: true, region: "ethiopia" },
-  { name: "Indiana, USA", lat: 39.7684, lng: -86.1581, mw: 20, kwh: 0.058, status: "Full Capacity", color: "#f2ae2e", active: true, region: "us" },
-  { name: "North Dakota, USA", lat: 47.5515, lng: -101.002, mw: 3, kwh: 0.058, status: "Available", color: "#10b981", active: true, region: "us" },
-  { name: "Missouri, USA", lat: 38.5767, lng: -92.1735, mw: 5.5, kwh: 0.0675, status: "Available", color: "#10b981", active: true, region: "us" },
+  // USA facilities hidden for now
+  // { name: "Indiana, USA", lat: 39.7684, lng: -86.1581, mw: 20, kwh: 0.058, status: "Full Capacity", color: "#f2ae2e", active: true, region: "us" },
+  // { name: "North Dakota, USA", lat: 47.5515, lng: -101.002, mw: 3, kwh: 0.058, status: "Available", color: "#10b981", active: true, region: "us" },
+  // { name: "Missouri, USA", lat: 38.5767, lng: -92.1735, mw: 5.5, kwh: 0.0675, status: "Available", color: "#10b981", active: true, region: "us" },
   { name: "Finland", lat: 60.472, lng: 8.4689, mw: 4.4, kwh: null, status: "Coming Soon", color: "#459bf3", active: false, region: "europe" },
 ]
 

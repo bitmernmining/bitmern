@@ -23,7 +23,7 @@ const WHY_CARDS = [
   {
     icon: Zap,
     title: "Sub-$0.06/kWh Power",
-    body: "Direct utility contracts at wholesale rates. No markups \u2014 savings passed directly to you. Rates from $0.055/kWh (Ethiopia) to $0.0675/kWh (Missouri).",
+    body: "Direct utility contracts at wholesale rates. No markups \u2014 savings passed directly to you. Rates starting at $0.055/kWh.",
   },
   {
     icon: Shield,
@@ -69,27 +69,7 @@ const PRICING_TIERS = [
 ]
 
 const FACILITIES = [
-  {
-    name: "Indiana, USA",
-    power: "20 MW",
-    rate: "$0.058/kWh",
-    uptime: "97%",
-    status: "Full Capacity" as const,
-  },
-  {
-    name: "North Dakota, USA",
-    power: "3 MW",
-    rate: "$0.058/kWh",
-    uptime: "97%",
-    status: "Available" as const,
-  },
-  {
-    name: "Missouri, USA",
-    power: "5.5 MW",
-    rate: "$0.0675/kWh",
-    uptime: "97%",
-    status: "Available" as const,
-  },
+  // USA facilities hidden for now
   {
     name: "Addis Ababa, Ethiopia",
     power: "3 MW",
@@ -211,8 +191,8 @@ export function HostingPage() {
                 {/* Photo */}
                 <motion.div variants={hero.chVariants} className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-lg hidden lg:block">
                   <Image
-                    src="/facilities/missouri.jpeg"
-                    alt="Bitmern Mining Missouri facility"
+                    src="/facilities/addis-ababa.webp"
+                    alt="Bitmern Mining facility"
                     fill
                     className="object-cover"
                     sizes="50vw"
@@ -511,14 +491,6 @@ export function HostingPage() {
                             {f.status === "Available" && (
                               <Tag variant="muted" size="sm">
                                 Available
-                              </Tag>
-                            )}
-                            {f.status === "Full Capacity" && (
-                              <Tag
-                                variant="destructive"
-                                size="sm"
-                              >
-                                Full Capacity
                               </Tag>
                             )}
                             {f.status === "Coming Soon" && (

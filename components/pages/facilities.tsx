@@ -28,55 +28,14 @@ interface Facility {
   photo: string
 }
 
+// USA facilities hidden for now
+// const USA_FACILITIES: Facility[] = [
+//   { name: "Indiana, USA", ... },
+//   { name: "North Dakota, USA", ... },
+//   { name: "Missouri, USA", ... },
+// ]
+
 const FACILITIES: Facility[] = [
-  {
-    name: "Indiana, USA",
-    flag: "\u{1F1FA}\u{1F1F8}",
-    status: "Full Capacity",
-    power: "20 MW",
-    rate: "$0.058/kWh",
-    uptime: "97%",
-    features: [
-      "Bitmern\u2019s largest facility and operational headquarters",
-      "Redundant power with backup generators",
-      "Industrial-grade air cooling with automated climate control",
-      "24/7 on-site technicians and security",
-      "Full CCTV surveillance and access control",
-      "Direct fiber connectivity",
-    ],
-    note: "Currently at full capacity. Join the waitlist for priority access when new rack space opens.",
-    photo: "/facilities/indiana.webp",
-  },
-  {
-    name: "North Dakota, USA",
-    flag: "\u{1F1FA}\u{1F1F8}",
-    status: "Available Now",
-    power: "3 MW",
-    rate: "$0.058/kWh",
-    uptime: "97%",
-    features: [
-      "Cold climate reduces cooling costs significantly",
-      "Same power rate as Indiana \u2014 $0.058/kWh",
-      "Ideal for efficiency-focused deployments",
-      "Full monitoring and management included",
-    ],
-    photo: "/facilities/north-dakota.webp",
-  },
-  {
-    name: "Missouri, USA",
-    flag: "\u{1F1FA}\u{1F1F8}",
-    status: "Available Now",
-    power: "5.5 MW",
-    rate: "$0.0675/kWh",
-    uptime: "97%",
-    features: [
-      "Mid-tier power rate with strong infrastructure",
-      "Expanding capacity for growing operations",
-      "Full remote management via SuperApp",
-      "24/7 monitoring and maintenance",
-    ],
-    photo: "/facilities/missouri.jpeg",
-  },
   {
     name: "Addis Ababa, Ethiopia",
     flag: "\u{1F1EA}\u{1F1F9}",
@@ -305,11 +264,10 @@ export function FacilitiesPage() {
                     variants={hero.chVariants}
                     className="text-[1.125rem] leading-relaxed text-foreground/70"
                   >
-                    31.5+ MW across three continents. Every facility is selected
-                    for low-cost power, stable regulatory environments, and
-                    optimal climate conditions. Redundant power feeds, industrial
-                    cooling, 24/7 security, and on-site technicians at every
-                    site.
+                    Global mining infrastructure selected for low-cost power,
+                    stable regulatory environments, and optimal climate
+                    conditions. Redundant power feeds, industrial cooling, 24/7
+                    security, and on-site technicians at every site.
                   </motion.p>
                   <div className="spacer-medium" />
                   <motion.div
@@ -331,8 +289,8 @@ export function FacilitiesPage() {
                   className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-xl lg:aspect-auto lg:h-full lg:min-h-[420px]"
                 >
                   <Image
-                    src="/facilities/indiana.webp"
-                    alt="Bitmern Mining flagship facility in Indiana, USA"
+                    src="/facilities/addis-ababa.webp"
+                    alt="Bitmern Mining facility in Addis Ababa, Ethiopia"
                     fill
                     className="object-cover"
                     sizes="(min-width: 1024px) 45vw, 100vw"
@@ -371,23 +329,25 @@ export function FacilitiesPage() {
                 animate={cards.inView ? "visible" : "hidden"}
                 className="flex flex-col gap-6"
               >
-                {/* Flagship — Indiana, full width */}
+                {/* Flagship — Ethiopia, full width */}
                 <FacilityCard
                   facility={flagship}
                   flagship
                   variants={cards.crdFade}
                 />
 
-                {/* 2x2 Grid for remaining facilities */}
-                <div className="grid gap-6 md:grid-cols-2">
-                  {rest.map((facility) => (
-                    <FacilityCard
-                      key={facility.name}
-                      facility={facility}
-                      variants={cards.crdFade}
-                    />
-                  ))}
-                </div>
+                {/* Remaining facilities */}
+                {rest.length > 0 && (
+                  <div className="grid gap-6 md:grid-cols-2">
+                    {rest.map((facility) => (
+                      <FacilityCard
+                        key={facility.name}
+                        facility={facility}
+                        variants={cards.crdFade}
+                      />
+                    ))}
+                  </div>
+                )}
               </motion.div>
             </div>
           </div>
@@ -484,11 +444,10 @@ export function FacilitiesPage() {
                     variants={strategy.chVariants}
                     className="text-[1.125rem] leading-relaxed text-foreground/70"
                   >
-                    Start with a US deployment for regulatory stability and
-                    top-tier infrastructure. Expand to Ethiopia for the lowest
-                    power rates. Lock in Finland pricing early for Nordic
-                    efficiency. Current clients get priority access to every new
-                    facility.
+                    Deploy in Ethiopia for the lowest power rates in our
+                    network. Lock in Finland pricing early for Nordic efficiency.
+                    Current clients get priority access to every new facility as
+                    we expand.
                   </motion.p>
                 </div>
 

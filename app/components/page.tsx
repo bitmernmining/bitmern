@@ -196,7 +196,7 @@ export default function ComponentsPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Globe className="size-4 text-primary" />
-                      <span>Indiana, North Dakota, Ethiopia, Finland</span>
+                      <span>Ethiopia, Finland</span>
                     </div>
                   </div>
                 </CardContent>

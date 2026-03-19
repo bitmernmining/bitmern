@@ -21,9 +21,9 @@ const PAST_EVENTS = [
     image: "/content/yt-blockchain-life.jpg",
   },
   {
-    title: "Facility Tours \u2014 US & Ethiopia",
+    title: "Facility Tours",
     description:
-      "On-site walkthroughs for institutional clients and partners across our Indiana, North Dakota, Missouri, and Ethiopia facilities.",
+      "On-site walkthroughs for institutional clients and partners at our global facilities.",
     image: "/content/yt-facility-tour.jpg",
   },
   {
@@ -240,9 +240,8 @@ export function EventsPage() {
                     className="text-[1.125rem] leading-relaxed text-foreground/70"
                   >
                     Want to see our infrastructure firsthand? We offer facility
-                    tours at our Indiana, North Dakota, Missouri, and Ethiopia
-                    locations. Tours are available for prospective clients,
-                    institutional investors, and partners.
+                    tours at our global locations. Tours are available for
+                    prospective clients, institutional investors, and partners.
                   </motion.p>
                   <div className="spacer-medium" />
                   <motion.div variants={tours.chVariants}>

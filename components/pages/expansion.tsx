@@ -37,15 +37,10 @@ const ORIGINSPARK_BENEFITS = [
 
 const TIMELINE = [
   { phase: "2022", capacity: "3 MW", facilities: "Ethiopia" },
-  { phase: "2023", capacity: "23 MW", facilities: "Ethiopia + Indiana" },
-  {
-    phase: "2024",
-    capacity: "31.5 MW",
-    facilities: "Ethiopia + Indiana + North Dakota + Missouri",
-  },
+  { phase: "2023–24", capacity: "30+ MW", facilities: "Multi-site expansion" },
   {
     phase: "2025-26",
-    capacity: "31.5+ MW",
+    capacity: "Expanding",
     facilities: "+ Finland (upcoming)",
   },
   { phase: "Pipeline", capacity: "500+ MW", facilities: "OriginSpark partnership" },

@@ -81,7 +81,7 @@ const infrastructureItems = [
   {
     icon: Factory,
     title: "Our Facilities",
-    description: "31.5+ MW across three continents.",
+    description: "Global mining infrastructure.",
     link: "Tour Our Sites",
     href: "/facilities",
   },
