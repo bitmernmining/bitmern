@@ -122,17 +122,22 @@ const teamMembers = [
   {
     name: "Giannis Andreou",
     title: "Founder & CEO",
-    image: "/team/giannis-new.avif",
+    image: "/team/Giannis-CEO.jpeg",
   },
   {
     name: "Paschalis Pietris",
     title: "Vice President",
-    image: "/team/paschalis-new.avif",
+    image: "/team/Pashalis-CEO.jpeg",
+  },
+  {
+    name: "Andreas Stirmpou",
+    title: "Chief Technology Officer",
+    image: "/team/Andreas-CTO.jpeg",
   },
   {
     name: "Michelle Chikomboya",
-    title: "Chief Financial Officer",
-    image: "/team/michelle.webp",
+    title: "Chief Operating Officer",
+    image: "/team/Michele-COO.jpeg",
   },
 ]
 
@@ -492,66 +497,89 @@ function ValuesSection() {
 }
 
 function TeamPreviewSection() {
-  const { ref, inView, cVariants, chVariants } = useSection()
+  const header = useSection()
+  const cards = useSection(0.15)
 
   return (
-    <section ref={ref}>
+    <section ref={header.ref}>
       <div className="padding-global">
         <div className="container-large">
           <div className="padding-section-large">
+            {/* Header — centered */}
             <motion.div
-              variants={cVariants}
+              variants={header.cVariants}
               initial="hidden"
-              animate={inView ? "visible" : "hidden"}
+              animate={header.inView ? "visible" : "hidden"}
               className="mx-auto max-w-[42rem] text-align-center"
             >
-              <motion.div variants={chVariants}>
+              <motion.div variants={header.chVariants}>
                 <Tag>Leadership</Tag>
               </motion.div>
               <div className="spacer-xsmall" />
-              <motion.h2 variants={chVariants}>
+              <motion.h2 variants={header.chVariants}>
                 The Team Behind the Hash
               </motion.h2>
               <div className="spacer-small" />
               <motion.p
-                variants={chVariants}
+                variants={header.chVariants}
                 className="text-lg leading-relaxed text-foreground/70"
               >
                 A leadership team that combines deep industry expertise
                 with an operator-first mentality across three continents.
               </motion.p>
+            </motion.div>
 
-              <div className="spacer-large" />
+            <div className="spacer-xxlarge" />
 
-              {/* Team headshots */}
-              <motion.div
-                variants={chVariants}
-                className="flex flex-wrap items-start justify-center gap-10"
-              >
-                {teamMembers.map((member) => (
-                  <div key={member.name} className="flex flex-col items-center">
-                    <div className="relative mb-4 h-20 w-20 overflow-hidden rounded-full border-2 border-border/60">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        className="object-cover"
-                        sizes="80px"
-                      />
+            {/* Portrait card grid — 4 up on desktop, 2 on tablet, 1 on mobile */}
+            <motion.div
+              ref={cards.ref}
+              variants={cards.crdStagger}
+              initial="hidden"
+              animate={cards.inView ? "visible" : "hidden"}
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            >
+              {teamMembers.map((member) => (
+                <motion.div
+                  key={member.name}
+                  variants={cards.crdFade}
+                  className="card-surface group flex flex-col overflow-hidden rounded-lg border border-border/60 transition-colors duration-350 ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:border-primary/40"
+                >
+                  {/* Portrait — square */}
+                  <div className="relative aspect-square w-full overflow-hidden bg-foreground/5">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      quality={90}
+                    />
+                    {/* Gradient overlay for text readability */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                    {/* Name + title overlaid on photo */}
+                    <div className="absolute inset-x-0 bottom-0 p-5 text-align-left">
+                      <h3 className="font-heading text-[1.125rem] font-medium leading-tight text-white">
+                        {member.name}
+                      </h3>
+                      <p className="mt-1 font-mono text-xs uppercase tracking-wide text-white/70">
+                        {member.title}
+                      </p>
                     </div>
-                    <p className="font-heading text-sm font-medium text-foreground">
-                      {member.name}
-                    </p>
-                    <p className="font-mono text-xs text-foreground/50">
-                      {member.title}
-                    </p>
                   </div>
-                ))}
-              </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
 
-              <div className="spacer-medium" />
+            <div className="spacer-large" />
 
-              <motion.div variants={chVariants}>
+            <motion.div
+              variants={header.cVariants}
+              initial="hidden"
+              animate={header.inView ? "visible" : "hidden"}
+              className="text-align-center"
+            >
+              <motion.div variants={header.chVariants}>
                 <Button variant="secondary" size="sm" asChild>
                   <Link href="/team">
                     Meet the Full Team
