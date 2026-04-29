@@ -220,7 +220,7 @@ function CoreTeamSection() {
               animate={inView ? "visible" : "hidden"}
             >
               <motion.div variants={chVariants}>
-                <Tag variant="muted">Core Team</Tag>
+                <Tag variant="muted">Executives</Tag>
               </motion.div>
               <div className="spacer-xsmall" />
               <motion.h2 variants={chVariants}>Our People</motion.h2>
