@@ -18,16 +18,16 @@
 **Layout:** 3-column grid on desktop, 2 on tablet, 1 on mobile. Photo + name + title + bio + social links.
 
 ### Giannis Andreou
-**Title:** Founder & CEO
+**Title:** Founder
 **Photo:** /team/giannis.avif
-**Bio:** Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern Mining into a $10M+ business in under two years, with facilities spanning Ethiopia, the United States, and an expansion pipeline into the Nordics. Leads company strategy, investor relations, and facility development.
+**Bio:** Founded Bitmern Mining in Greece in 2021. Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern from zero into a $10M+ infrastructure business in under two years, with facilities spanning Ethiopia and an expansion pipeline into the Nordics. Continues to shape long-term vision, investor relations, and facility development.
 **Social:** LinkedIn, X, Facebook, Instagram
 **Email:** GiannisAndreou@bitmern.com
 
 ### Paschalis Pietris
-**Title:** Vice President
+**Title:** Chief Executive Officer
 **Photo:** /team/pashalis.avif
-**Bio:** Oversees day-to-day operations across all facilities and manages strategic partnerships. Ensures operational excellence from hardware procurement through deployment and ongoing performance optimization.
+**Bio:** Leads Bitmern Mining as CEO, owning company strategy, growth, and execution across all facilities and partnerships. Brings deep operational experience from hardware procurement through deployment and performance optimization.
 **Social:** LinkedIn, X, Facebook, Instagram
 **Email:** P.pashalis@bitmernmining.com
 

@@ -121,12 +121,12 @@ const milestones = [
 const teamMembers = [
   {
     name: "Giannis Andreou",
-    title: "Founder & CEO",
+    title: "Founder",
     image: "/team/Giannis-CEO.jpeg",
   },
   {
     name: "Paschalis Pietris",
-    title: "Vice President",
+    title: "Chief Executive Officer",
     image: "/team/Pashalis-CEO.jpeg",
   },
   {
@@ -300,7 +300,7 @@ function OriginSection() {
                     <strong className="font-semibold text-primary">
                       Giannis Andreou
                     </strong>{" "}
-                    &mdash; Founder &amp; CEO
+                    &mdash; Founder
                   </p>
                 </div>
 

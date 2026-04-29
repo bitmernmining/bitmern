@@ -30,17 +30,17 @@ interface TeamMember {
 const coreTeam: TeamMember[] = [
   {
     name: "Giannis Andreou",
-    title: "Founder & CEO",
+    title: "Founder",
     photo: "/team/Giannis-CEO.jpeg",
-    bio: "Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern Mining into a $10M+ business in under two years, with facilities spanning Ethiopia, the United States, and an expansion pipeline into the Nordics. Leads company strategy, investor relations, and facility development.",
+    bio: "Founded Bitmern Mining in Greece in 2021. Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern from zero into a $10M+ infrastructure business in under two years, with facilities spanning Ethiopia and an expansion pipeline into the Nordics. Continues to shape long-term vision, investor relations, and facility development.",
     linkedin: "https://linkedin.com/in/giannisandreou",
     email: "GiannisAndreou@bitmern.com",
   },
   {
     name: "Paschalis Pietris",
-    title: "Vice President",
+    title: "Chief Executive Officer",
     photo: "/team/Pashalis-CEO.jpeg",
-    bio: "Oversees day-to-day operations across all facilities and manages strategic partnerships. Ensures operational excellence from hardware procurement through deployment and ongoing performance optimization.",
+    bio: "Leads Bitmern Mining as CEO, owning company strategy, growth, and execution across all facilities and partnerships. Brings deep operational experience from hardware procurement through deployment and performance optimization.",
     linkedin: "https://linkedin.com/in/paschalispietris",
     email: "P.pashalis@bitmernmining.com",
   },
