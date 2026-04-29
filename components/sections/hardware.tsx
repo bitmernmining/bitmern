@@ -13,6 +13,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { CONTACT } from "@/lib/contact"
 import { SupplyChainFlow } from "@/components/animations/supply-chain-flow"
 import { DirectAccessBypass } from "@/components/animations/direct-access-bypass"
 import { VolumePricingChart } from "@/components/animations/volume-pricing-chart"
@@ -147,7 +148,7 @@ export function Hardware() {
                   >
                     <Button size="lg" asChild>
                       <a
-                        href="https://shop.bitmernmining.com"
+                        href={CONTACT.shop}
                         target="_blank"
                         rel="noopener noreferrer"
                       >

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { SectionCTA } from "@/components/ui/section-cta"
+import { CONTACT } from "@/lib/contact"
 import {
   Activity,
   Bell,
@@ -202,7 +203,7 @@ export function SoloPoolPage() {
                   >
                     <Button size="lg" asChild>
                       <a
-                        href="https://bitmernsolo.com"
+                        href={CONTACT.solo}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -211,7 +212,7 @@ export function SoloPoolPage() {
                     </Button>
                     <Button variant="secondary" size="lg" asChild>
                       <a
-                        href="https://bitmernsolo.com/pool-stats"
+                        href={CONTACT.soloPoolStats}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -695,7 +696,7 @@ export function SoloPoolPage() {
                 <motion.div variants={hardware.chVariants}>
                   <Button size="lg" asChild>
                     <a
-                      href="https://shop.bitmernmining.com"
+                      href={CONTACT.shop}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -764,8 +765,8 @@ export function SoloPoolPage() {
         tag="Solo Mining"
         heading="Start Mining Solo Today"
         description="Create a free account, point your miner at our stratum, and start submitting shares in minutes."
-        primaryCTA={{ label: "Create Free Account", href: "https://app.bitmernsolo.com" }}
-        secondaryCTA={{ label: "Read the Docs", href: "https://bitmernsolo.com/docs" }}
+        primaryCTA={{ label: "Create Free Account", href: CONTACT.soloApp }}
+        secondaryCTA={{ label: "Read the Docs", href: CONTACT.soloDocs }}
         variant="elevated"
       />
     </>

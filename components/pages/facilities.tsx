@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { SectionCTA } from "@/components/ui/section-cta"
 import { FacilityGlobe } from "@/components/animations/facility-globe"
 import { useSection } from "@/lib/motion"
+import { CONTACT } from "@/lib/contact"
 
 // ---------------------------------------------------------------------------
 // Data
@@ -27,13 +28,6 @@ interface Facility {
   note?: string
   photo: string
 }
-
-// USA facilities hidden for now
-// const USA_FACILITIES: Facility[] = [
-//   { name: "Indiana, USA", ... },
-//   { name: "North Dakota, USA", ... },
-//   { name: "Missouri, USA", ... },
-// ]
 
 const FACILITIES: Facility[] = [
   {
@@ -472,7 +466,7 @@ export function FacilitiesPage() {
         heading="Deploy at the Right Facility"
         description="We'll help you choose the optimal facility based on your fleet size, budget, and risk profile."
         primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
-        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: CONTACT.calendly }}
         variant="elevated"
       />
     </>

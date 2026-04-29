@@ -7,6 +7,7 @@ import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { SectionCTA } from "@/components/ui/section-cta"
+import { CONTACT } from "@/lib/contact"
 import {
   Accordion,
   AccordionItem,
@@ -169,7 +170,7 @@ export function HostingPage() {
                     variants={hero.chVariants}
                     className="text-[1.125rem] leading-relaxed text-foreground/60"
                   >
-                    Deploy your ASICs at our US and international facilities with
+                    Deploy your ASICs at our global facilities with
                     sub-$0.06/kWh power, 97% uptime, and real-time monitoring
                     through our SuperApp dashboard. You retain full ownership
                     &mdash; we handle power, cooling, maintenance, and security.
@@ -629,7 +630,7 @@ export function HostingPage() {
         heading="Ready to Deploy?"
         description="Get a custom hosting quote based on your fleet size and preferred facility. Current clients get priority access to new facilities and locked pricing."
         primaryCTA={{ label: "Get a Hosting Quote", href: "/contact" }}
-        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: CONTACT.calendly }}
         variant="elevated"
       />
     </>

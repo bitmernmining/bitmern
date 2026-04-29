@@ -7,6 +7,7 @@ import { Tag } from "@/components/ui/tag"
 import { SectionCTA } from "@/components/ui/section-cta"
 import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
 import { useSection, reducedStagger } from "@/lib/motion"
+import { CONTACT } from "@/lib/contact"
 
 // Faster stagger for large grids (unique to team page)
 const gridStagger = {
@@ -257,8 +258,8 @@ export function TeamPage() {
         tag="Careers"
         heading="Join the Bitmern Team"
         description="We're growing fast and hiring across DevOps, Engineering, Product Management, Data Analytics, and Customer Success. We also welcome strategic partners and investors."
-        primaryCTA={{ label: "Email Careers", href: "mailto:careers@bitmernmining.com" }}
-        secondaryCTA={{ label: "Contact Us", href: "mailto:info@bitmernmining.com" }}
+        primaryCTA={{ label: "Email Careers", href: `mailto:${CONTACT.careersEmail}` }}
+        secondaryCTA={{ label: "Contact Us", href: `mailto:${CONTACT.email}` }}
         variant="elevated"
       />
     </>

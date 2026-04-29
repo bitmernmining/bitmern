@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { CONTACT } from "@/lib/contact"
 
 // --- Slide data (full Webflow copy) ---
 const SLIDES = [
@@ -18,7 +19,7 @@ const SLIDES = [
   {
     tag: "Global Colocation Infrastructure",
     headline: "Your Hardware, Our Facilities, Industry-Leading Uptime",
-    body: "Deploy your ASICs at our US and Nordic facilities with sub-$0.06/kWh power, 97% uptime guarantees, and real-time monitoring through our SuperApp dashboard. You retain full ownership while we handle power, cooling, maintenance, and security.",
+    body: "Deploy your ASICs at our global facilities with sub-$0.06/kWh power, 97% uptime guarantees, and real-time monitoring through our SuperApp dashboard. You retain full ownership while we handle power, cooling, maintenance, and security.",
     primaryCta: { label: "View Hosting Plans", href: "/hosting" },
     secondaryCta: { label: "Tour Our Facilities", href: "/facilities" },
   },
@@ -26,14 +27,14 @@ const SLIDES = [
     tag: "Solo Mining Pool",
     headline: "Keep the Entire Block Reward to Yourself",
     body: "Connect your ASIC to Bitmern Solo and mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte with a flat 1% fee. No shared payouts, no middlemen — just real-time monitoring, instant alerts, and direct wallet payouts on 99.9% uptime infrastructure.",
-    primaryCta: { label: "Start Solo Mining", href: "https://bitmernsolo.com", external: true },
-    secondaryCta: { label: "See How It Works", href: "https://bitmernsolo.com", external: true },
+    primaryCta: { label: "Start Solo Mining", href: CONTACT.solo, external: true },
+    secondaryCta: { label: "See How It Works", href: CONTACT.solo, external: true },
   },
   {
     tag: "Direct Manufacturer Access",
     headline: "Source ASIC Miners at Institutional Pricing",
     body: "Leverage our direct relationships with Bitmain, MicroBT, and Canaan for priority allocation and volume pricing on the latest-generation miners. We handle logistics, import, and deployment at our facilities or yours.",
-    primaryCta: { label: "Shop Miners", href: "https://shop.bitmernmining.com", external: true },
+    primaryCta: { label: "Shop Miners", href: CONTACT.shop, external: true },
     secondaryCta: { label: "Browse Hardware", href: "/hardware" },
   },
 ] as const

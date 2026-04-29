@@ -13,6 +13,8 @@ import {
 } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { CONTACT } from "@/lib/contact"
+import { STATS } from "@/lib/stats"
 import Link from "next/link"
 import Image from "next/image"
 import { InfrastructureGrid } from "@/components/animations/infrastructure-grid"
@@ -27,7 +29,7 @@ const HERO_STATS = [
   { value: "31.5+", unit: "MW", label: "Power Capacity" },
   { value: "176+", unit: "PH/s", label: "Hashrate Under Management" },
   { value: "3", unit: "", label: "Continents" },
-  { value: "1,400+", unit: "", label: "Miners Deployed" },
+  { value: STATS.minersDeployed, unit: "", label: "Miners Deployed" },
 ]
 
 const capabilities = [
@@ -708,7 +710,7 @@ export function AboutPage() {
         heading="Ready to Start Mining?"
         description="Whether you're deploying your first miner or scaling an institutional portfolio, we have the infrastructure and expertise to match."
         primaryCTA={{ label: "Get Started", href: "/contact" }}
-        secondaryCTA={{ label: "Book a Strategy Call", href: "https://calendly.com/bitmernmining" }}
+        secondaryCTA={{ label: "Book a Strategy Call", href: CONTACT.calendly }}
       />
     </>
   )

@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
 import { SectionCTA } from "@/components/ui/section-cta"
+import { CONTACT } from "@/lib/contact"
 import { ArrowRight } from "lucide-react"
 import { useSection, slideFromLeft, slideFromRight } from "@/lib/motion"
 
@@ -208,7 +209,7 @@ export function HardwarePage() {
                   >
                     <Button size="lg" asChild>
                       <a
-                        href="https://shop.bitmernmining.com"
+                        href={CONTACT.shop}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -325,7 +326,7 @@ export function HardwarePage() {
                           <div className="spacer-small" />
 
                           <a
-                            href="https://shop.bitmernmining.com"
+                            href={CONTACT.shop}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
@@ -393,7 +394,7 @@ export function HardwarePage() {
                           <div className="spacer-xsmall" />
 
                           <a
-                            href="https://shop.bitmernmining.com"
+                            href={CONTACT.shop}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
@@ -622,7 +623,7 @@ export function HardwarePage() {
         tag="Full Catalog"
         heading="Browse 150+ Products Across 17 Brands"
         description="New miners, used miners, accessories, containers, and cooling solutions — all at institutional pricing."
-        primaryCTA={{ label: "Shop All Miners", href: "https://shop.bitmernmining.com" }}
+        primaryCTA={{ label: "Shop All Miners", href: CONTACT.shop }}
         secondaryCTA={{ label: "Get a Custom Quote", href: "/contact" }}
         variant="elevated"
       />

@@ -5,14 +5,18 @@ import { useState } from "react"
 import { Play } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-interface VideoCardProps {
+type VideoCardBase = {
   thumbnail: string
   title: string
-  youtubeId?: string
-  href?: string
   duration?: string
   className?: string
 }
+
+type VideoCardProps = VideoCardBase &
+  (
+    | { youtubeId: string; href?: never }
+    | { href: string; youtubeId?: never }
+  )
 
 export function VideoCard({ thumbnail, title, youtubeId, href, duration, className }: VideoCardProps) {
   const [playing, setPlaying] = useState(false)
@@ -22,6 +26,7 @@ export function VideoCard({ thumbnail, title, youtubeId, href, duration, classNa
       <div className={cn("card-surface rounded-lg overflow-hidden", className)}>
         <div className="relative aspect-video">
           <iframe
+            title={title}
             src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1`}
             allow="autoplay; encrypted-media"
             allowFullScreen

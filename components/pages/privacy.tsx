@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CONTACT } from "@/lib/contact";
 
 export function PrivacyContent() {
   return (
@@ -242,7 +243,7 @@ export function PrivacyContent() {
                 <ul className="list-none">
                   <li>
                     Email:{" "}
-                    <a href="mailto:info@bitmernmining.com">
+                    <a href={`mailto:${CONTACT.email}`}>
                       info@bitmernmining.com
                     </a>
                   </li>

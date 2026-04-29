@@ -13,6 +13,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { CONTACT } from "@/lib/contact"
 import { useSection, useCountUp } from "@/lib/motion"
 import { SectionCTA } from "@/components/ui/section-cta"
 
@@ -57,7 +58,7 @@ const BLOCKS_FUND_FEATURES = [
   {
     icon: BarChart3,
     title: "Audited Multi-Geography Hosting",
-    body: "Miners deployed across US and international facilities \u2014 geographic diversification by design.",
+    body: "Miners deployed across global facilities \u2014 geographic diversification by design.",
   },
   {
     icon: Eye,
@@ -207,7 +208,7 @@ export function InstitutionalPage() {
                       <Link href="/contact">Request Fund Materials</Link>
                     </Button>
                     <Button variant="secondary" size="lg" asChild>
-                      <a href="https://calendly.com/bitmernmining" target="_blank" rel="noopener noreferrer">Book a Private Consultation</a>
+                      <a href={CONTACT.calendly} target="_blank" rel="noopener noreferrer">Book a Private Consultation</a>
                     </Button>
                   </motion.div>
                   <div className="spacer-xsmall" />

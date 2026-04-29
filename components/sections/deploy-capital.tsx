@@ -12,6 +12,7 @@ import {
 import { Landmark, Server, Pickaxe } from "lucide-react"
 import { Tag } from "@/components/ui/tag"
 import { Button } from "@/components/ui/button"
+import { CONTACT } from "@/lib/contact"
 
 // ---------------------------------------------------------------------------
 // Card data
@@ -42,7 +43,7 @@ const CARDS = [
     audience: "Miners who want the full block reward",
     body: "Mine Bitcoin, Litecoin, Dogecoin, Bitcoin Cash, or DigiByte on Bitmern Solo with a flat 1% fee. No shared payouts, no middlemen — direct wallet payouts, real-time monitoring, and 99.9% uptime infrastructure.",
     cta: "Start Solo Mining",
-    href: "https://bitmernsolo.com",
+    href: CONTACT.solo,
     featured: false,
   },
 ]

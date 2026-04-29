@@ -1,3 +1,5 @@
+import { CONTACT } from "@/lib/contact"
+
 export function CookiesContent() {
   return (
     <>
@@ -139,7 +141,7 @@ export function CookiesContent() {
                 <ul className="list-none">
                   <li>
                     Email:{" "}
-                    <a href="mailto:info@bitmernmining.com">
+                    <a href={`mailto:${CONTACT.email}`}>
                       info@bitmernmining.com
                     </a>
                   </li>

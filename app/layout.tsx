@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Bitmern Mining — Bitcoin Mining Infrastructure & Hosting",
   description:
-    "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across US and Nordic facilities. Built for serious miners.",
+    "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across global facilities. Built for serious miners.",
   metadataBase: new URL("https://bitmernmining.com"),
   alternates: {
     canonical: "/",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Bitmern Mining — Bitcoin Mining Infrastructure & Hosting",
     description:
-      "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across US and Nordic facilities.",
+      "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across global facilities.",
     type: "website",
     url: "https://bitmernmining.com",
     images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
@@ -73,7 +73,7 @@ export default function RootLayout({
               url: "https://bitmernmining.com",
               logo: "https://bitmernmining.com/favicon.png",
               description:
-                "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across US and Nordic facilities.",
+                "Enterprise-grade Bitcoin mining infrastructure, ASIC hosting, and solo mining pools. 20+ MW capacity across global facilities.",
               sameAs: [
                 "https://www.linkedin.com/company/bitmern",
                 "https://www.instagram.com/bitmernmining",

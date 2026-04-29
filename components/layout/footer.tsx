@@ -1,12 +1,8 @@
-"use client"
-
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Linkedin, Instagram, Youtube, CheckCircle2 } from "lucide-react"
+import { Linkedin, Instagram, Youtube, Mail, CalendarDays } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-type NewsletterState = "idle" | "submitting" | "success" | "error"
+import { CONTACT, SOCIAL } from "@/lib/contact"
 
 // ---------------------------------------------------------------------------
 // Footer link columns
@@ -44,9 +40,9 @@ const COLUMNS = [
     title: "Contact",
     links: [
       { label: "Get Started", href: "/contact" },
-      { label: "Contact Sales", href: "mailto:info@bitmernmining.com" },
-      { label: "Book a Call", href: "/contact#book" },
-      { label: "Solo Pool Support", href: "https://bitmernsolo.com/contact" },
+      { label: "Contact Sales", href: `mailto:${CONTACT.email}` },
+      { label: "Book a Call", href: CONTACT.calendly },
+      { label: "Solo Pool Support", href: CONTACT.soloContact },
     ],
   },
   {
@@ -65,87 +61,35 @@ const COLUMNS = [
 // ---------------------------------------------------------------------------
 
 export function Footer() {
-  const [nlState, setNlState] = useState<NewsletterState>("idle")
-
-  async function handleNewsletterSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setNlState("submitting")
-
-    const fd = new FormData(e.currentTarget)
-    const email = fd.get("email") as string
-
-    try {
-      // TODO: Replace with real newsletter API (e.g. Mailchimp, ConvertKit, Loops)
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      console.log("[footer newsletter] subscribed:", email)
-      setNlState("success")
-    } catch {
-      setNlState("error")
-    }
-  }
-
   return (
     <footer className="section-elevated" aria-label="Site footer">
       <div className="padding-global">
         <div className="container-large">
-          {/* Newsletter row */}
+          {/* Top CTA row */}
           <div className="flex flex-col gap-6 py-16 lg:flex-row lg:items-start lg:justify-between">
-            <div>
+            <div className="max-w-xl">
               <h3 className="font-heading text-[1.125rem] font-bold uppercase tracking-tight text-current">
-                Join our newsletter
+                Talk to our team
               </h3>
               <p className="mt-1 opacity-60">
-                Stay updated on mining infrastructure, market insights, and
-                Bitmern news.
+                Hosting quotes, institutional consultation, hardware orders, and
+                Solo Pool support — we respond within 24 hours.
               </p>
             </div>
 
-            <div className="shrink-0">
-              {nlState === "success" ? (
-                <div className="flex items-center gap-2 py-2">
-                  <CheckCircle2 className="size-5 text-primary" strokeWidth={1.5} />
-                  <span className="text-sm font-medium">You&rsquo;re subscribed!</span>
-                </div>
-              ) : (
-                <>
-                  <form
-                    className="flex flex-col gap-3 sm:flex-row sm:items-center"
-                    onSubmit={handleNewsletterSubmit}
-                  >
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      aria-label="Email address"
-                      autoComplete="email"
-                      placeholder="Enter your email"
-                      disabled={nlState === "submitting"}
-                      className="h-11 w-full rounded-md border border-border/60 bg-background/60 px-4 text-sm text-foreground outline-none placeholder:text-foreground/30 focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all duration-200 disabled:opacity-50 sm:min-w-[16rem] sm:w-auto"
-                    />
-                    <Button
-                      type="submit"
-                      isLoading={nlState === "submitting"}
-                      disabled={nlState === "submitting"}
-                    >
-                      {nlState === "submitting" ? "Subscribing..." : "Subscribe"}
-                    </Button>
-                  </form>
-                  {nlState === "error" && (
-                    <p className="mt-2 text-sm text-destructive">
-                      Something went wrong. Please try again.
-                    </p>
-                  )}
-                  <p className="mt-3 font-mono text-xs opacity-40">
-                    By subscribing you agree to with our{" "}
-                    <Link
-                      href="/privacy"
-                      className="underline underline-offset-2 opacity-60 transition-opacity duration-200 hover:opacity-100"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </p>
-                </>
-              )}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Button asChild>
+                <a href={`mailto:${CONTACT.email}`}>
+                  <Mail className="size-4" strokeWidth={1.75} />
+                  Contact Sales
+                </a>
+              </Button>
+              <Button variant="secondary" asChild>
+                <a href={CONTACT.calendly} target="_blank" rel="noopener noreferrer">
+                  <CalendarDays className="size-4" strokeWidth={1.75} />
+                  Book a Call
+                </a>
+              </Button>
             </div>
           </div>
 
@@ -184,28 +128,27 @@ export function Footer() {
           {/* Contact info */}
           <div className="flex flex-col gap-2 py-6 text-sm opacity-50">
             <p>Address available upon request</p>
-            {/* TODO: Add real phone number */}
             <p>Phone available upon request</p>
             <p>
               Email:{" "}
               <a
-                href="mailto:info@bitmernmining.com"
+                href={`mailto:${CONTACT.email}`}
                 className="underline underline-offset-2 transition-opacity duration-200 hover:opacity-80"
               >
-                info@bitmernmining.com
+                {CONTACT.email}
               </a>
             </p>
           </div>
 
           {/* Social links */}
           <div className="flex items-center gap-4 py-6">
-            <a href="https://www.linkedin.com/company/bitmern" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
+            <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Linkedin className="size-5" />
             </a>
-            <a href="https://www.instagram.com/bitmernmining" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
+            <a href={SOCIAL.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Instagram className="size-5" />
             </a>
-            <a href="https://www.youtube.com/@bitmern" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
+            <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center justify-center size-9 rounded-md opacity-50 transition-all duration-200 hover:opacity-100 hover:bg-foreground/[0.08]">
               <Youtube className="size-5" />
             </a>
           </div>

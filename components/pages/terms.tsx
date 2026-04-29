@@ -1,3 +1,5 @@
+import { CONTACT } from "@/lib/contact"
+
 export function TermsContent() {
   return (
     <>
@@ -225,7 +227,7 @@ export function TermsContent() {
                 <ul className="list-none">
                   <li>
                     Email:{" "}
-                    <a href="mailto:info@bitmernmining.com">
+                    <a href={`mailto:${CONTACT.email}`}>
                       info@bitmernmining.com
                     </a>
                   </li>
