@@ -31,7 +31,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Giannis Andreou",
     title: "Founder & CEO",
-    photo: "/team/giannis-new.avif",
+    photo: "/team/Giannis-CEO.jpeg",
     bio: "Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern Mining into a $10M+ business in under two years, with facilities spanning Ethiopia, the United States, and an expansion pipeline into the Nordics. Leads company strategy, investor relations, and facility development.",
     linkedin: "https://linkedin.com/in/giannisandreou",
     email: "GiannisAndreou@bitmern.com",
@@ -39,16 +39,23 @@ const coreTeam: TeamMember[] = [
   {
     name: "Paschalis Pietris",
     title: "Vice President",
-    photo: "/team/paschalis-new.avif",
+    photo: "/team/Pashalis-CEO.jpeg",
     bio: "Oversees day-to-day operations across all facilities and manages strategic partnerships. Ensures operational excellence from hardware procurement through deployment and ongoing performance optimization.",
     linkedin: "https://linkedin.com/in/paschalispietris",
     email: "P.pashalis@bitmernmining.com",
   },
   {
+    name: "Andreas Stirmpou",
+    title: "Chief Technology Officer",
+    photo: "/team/Andreas-CTO.jpeg",
+    bio: "Leads technology strategy, infrastructure architecture, and engineering across Bitmern Mining. Owns the technical roadmap from facility automation and monitoring to customer-facing platforms.",
+    email: "andreas@bitmernmining.com",
+  },
+  {
     name: "Michelle Chikomboya",
-    title: "Chief Financial Officer",
-    photo: "/team/michelle.webp",
-    bio: "Manages financial operations, reporting, and compliance across all Bitmern entities. Ensures transparent accounting for investor and client payouts.",
+    title: "Chief Operating Officer",
+    photo: "/team/Michele-COO.jpeg",
+    bio: "Manages operations, financial reporting, and compliance across all Bitmern entities. Ensures transparent accounting and operational excellence for investor and client payouts.",
     email: "finances@bitmernmining.com",
   },
 ]
@@ -83,7 +90,7 @@ function LeadershipCard({ member }: { member: TeamMember }) {
               alt={member.name}
               fill
               className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               quality={90}
             />
             {/* Gradient overlay for text readability */}
@@ -221,7 +228,7 @@ function CoreTeamSection() {
               <div className="spacer-large" />
 
               {/* Leadership cards */}
-              <div className="grid gap-6 md:grid-cols-3">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 {coreTeam.map((member) => (
                   <motion.div key={member.name} variants={chVariants}>
                     <LeadershipCard member={member} />
