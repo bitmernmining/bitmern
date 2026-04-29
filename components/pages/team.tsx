@@ -89,7 +89,7 @@ function LeadershipCard({ member }: { member: TeamMember }) {
               src={member.photo}
               alt={member.name}
               fill
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               quality={90}
             />
