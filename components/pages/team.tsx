@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { Linkedin, Facebook, Instagram } from "lucide-react"
+import { Linkedin, Facebook, Instagram, Mail } from "lucide-react"
 
 function XIcon({ className }: { className?: string }) {
   return (
@@ -123,32 +123,44 @@ function getInitials(name: string): string {
 // Components
 // ---------------------------------------------------------------------------
 
-/** Leadership card — large photo with gradient overlay, used for top members */
+/** Leadership card — editorial layout: photo, name + title-tag, bio, footer strip */
 function LeadershipCard({ member }: { member: TeamMember }) {
+  const prefersReduced = useReducedMotion()
+
+  // Build social list (legacy `linkedin` field merges with `socials` map)
+  const socials: { platform: keyof typeof SOCIAL_ICONS; href: string }[] = []
+  if (member.linkedin) socials.push({ platform: "linkedin", href: member.linkedin })
+  if (member.socials) {
+    for (const [platform, href] of Object.entries(member.socials) as [
+      keyof typeof SOCIAL_ICONS,
+      string | undefined,
+    ][]) {
+      if (href && !socials.some((s) => s.platform === platform)) {
+        socials.push({ platform, href })
+      }
+    }
+  }
+  const hasContact = socials.length > 0 || member.email
+
   return (
-    <div className="card-surface group flex flex-col overflow-hidden rounded-lg border border-border/60">
+    <div
+      className="group relative flex w-full flex-col overflow-hidden rounded-lg border border-border/60 bg-card shadow-sm transition-[transform,box-shadow,border-color] duration-[350ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:border-border hover:shadow-lg motion-safe:hover:-translate-y-1"
+    >
       {/* Photo area — square 1:1 */}
       <div className="relative aspect-square w-full overflow-hidden bg-foreground/5">
         {member.photo ? (
-          <>
-            <Image
-              src={member.photo}
-              alt={member.name}
-              fill
-              className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              quality={90}
-            />
-            {/* Gradient overlay for text readability */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-            {/* Name overlay at bottom of photo */}
-            <div className="absolute inset-x-0 bottom-0 p-5">
-              <h3 className="text-lg font-medium text-white">{member.name}</h3>
-              <p className="font-mono text-xs uppercase tracking-wide text-white/70">
-                {member.title}
-              </p>
-            </div>
-          </>
+          <Image
+            src={member.photo}
+            alt={`Portrait of ${member.name}`}
+            fill
+            className={
+              prefersReduced
+                ? "object-cover object-top"
+                : "object-cover object-top transition-transform duration-[600ms] ease-out group-hover:scale-[1.04]"
+            }
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+            quality={90}
+          />
         ) : (
           <div className="flex size-full items-center justify-center">
             <span className="font-heading text-4xl font-medium text-foreground/20">
@@ -158,82 +170,70 @@ function LeadershipCard({ member }: { member: TeamMember }) {
         )}
       </div>
 
-      {/* Bio + links */}
-      <div className="flex flex-1 flex-col p-6">
-        {/* Show name/title below if no photo (fallback) */}
-        {!member.photo && (
-          <div className="mb-3">
-            <h3 className="text-base">{member.name}</h3>
-            <p className="font-mono text-xs uppercase tracking-wide text-foreground/50">
-              {member.title}
-            </p>
-          </div>
-        )}
-        <p className="flex-1 text-sm leading-relaxed text-foreground/60">
+      {/* Header: name + role tag */}
+      <div className="px-6 pt-5">
+        <h3 className="font-heading text-[1.0625rem] font-semibold leading-tight text-foreground">
+          {member.name}
+        </h3>
+        <div className="mt-2">
+          <Tag variant="muted" size="sm">
+            {member.title}
+          </Tag>
+        </div>
+      </div>
+
+      {/* Bio */}
+      <div className="flex flex-1 flex-col px-6 py-4">
+        <p className="text-[0.875rem] leading-relaxed text-foreground/75">
           {member.bio}
         </p>
-
-        {(() => {
-          const socials: { platform: keyof typeof SOCIAL_ICONS; href: string }[] = []
-          if (member.linkedin) socials.push({ platform: "linkedin", href: member.linkedin })
-          if (member.socials) {
-            for (const [platform, href] of Object.entries(member.socials) as [
-              keyof typeof SOCIAL_ICONS,
-              string | undefined,
-            ][]) {
-              if (href && !socials.some((s) => s.platform === platform)) {
-                socials.push({ platform, href })
-              }
-            }
-          }
-          const hasContact = socials.length > 0 || member.email
-
-          if (!hasContact) return null
-
-          return (
-            <div className="mt-4 flex flex-col gap-2 border-t border-border/30 pt-4">
-              <div className="flex items-center gap-1">
-                {socials.map(({ platform, href }) => {
-                  const { Icon, label } = SOCIAL_ICONS[platform]
-                  return (
-                    <a
-                      key={platform}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
-                      aria-label={`${member.name} on ${label}`}
-                    >
-                      <Icon className="size-4" />
-                    </a>
-                  )
-                })}
-                {member.email && (
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="ml-auto truncate font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
-                  >
-                    {member.email}
-                  </a>
-                )}
-              </div>
-              {member.secondaryEmail && (
-                <div className="flex items-center justify-end gap-2 font-mono text-xs">
-                  <span className="text-foreground/30">
-                    {member.secondaryEmail.label}:
-                  </span>
-                  <a
-                    href={`mailto:${member.secondaryEmail.address}`}
-                    className="truncate text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
-                  >
-                    {member.secondaryEmail.address}
-                  </a>
-                </div>
-              )}
-            </div>
-          )
-        })()}
       </div>
+
+      {/* Footer strip: socials + email */}
+      {hasContact && (
+        <div className="border-t border-border/40 bg-foreground/[0.02] px-4 py-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1">
+              {socials.map(({ platform, href }) => {
+                const { Icon, label } = SOCIAL_ICONS[platform]
+                return (
+                  <a
+                    key={platform}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex size-9 items-center justify-center rounded-md text-foreground/45 transition-colors duration-200 hover:bg-foreground/[0.06] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                    aria-label={`${member.name} on ${label}`}
+                  >
+                    <Icon className="size-[1.05rem]" />
+                  </a>
+                )
+              })}
+            </div>
+            {member.email && (
+              <a
+                href={`mailto:${member.email}`}
+                className="inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-[0.75rem] font-medium uppercase tracking-wide text-foreground/55 transition-colors duration-200 hover:bg-foreground/[0.06] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                aria-label={`Email ${member.name} at ${member.email}`}
+              >
+                <Mail className="size-4" strokeWidth={1.75} />
+                Email
+              </a>
+            )}
+          </div>
+          {member.secondaryEmail && (
+            <div className="mt-2 flex items-center justify-end gap-2 border-t border-border/30 pt-2 font-mono text-[0.6875rem] uppercase tracking-wider">
+              <span className="text-foreground/40">{member.secondaryEmail.label}</span>
+              <a
+                href={`mailto:${member.secondaryEmail.address}`}
+                className="text-foreground/55 underline-offset-4 transition-colors duration-200 hover:text-foreground hover:underline"
+              >
+                {member.secondaryEmail.address}
+              </a>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -311,9 +311,9 @@ function CoreTeamSection() {
               <div className="spacer-large" />
 
               {/* Leadership cards */}
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {coreTeam.map((member) => (
-                  <motion.div key={member.name} variants={chVariants}>
+                  <motion.div key={member.name} variants={chVariants} className="flex">
                     <LeadershipCard member={member} />
                   </motion.div>
                 ))}
