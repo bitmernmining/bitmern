@@ -47,7 +47,7 @@ const TEAM = [
   },
   {
     name: "Michelle Chikomboya",
-    title: "Chief Financial Officer",
+    title: "Chief Operating Officer",
     image: "/team/michelle.webp",
     linkedin: "#",
     twitter: "#",

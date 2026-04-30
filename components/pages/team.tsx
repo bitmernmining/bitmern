@@ -26,6 +26,7 @@ interface TeamMember {
   bio: string
   linkedin?: string
   email?: string
+  secondaryEmail?: { label: string; address: string }
 }
 
 const coreTeam: TeamMember[] = [
@@ -57,7 +58,8 @@ const coreTeam: TeamMember[] = [
     title: "Chief Operating Officer",
     photo: "/team/Michele-COO.jpeg",
     bio: "Manages operations, financial reporting, and compliance across all Bitmern entities. Ensures transparent accounting and operational excellence for investor and client payouts.",
-    email: "finances@bitmernmining.com",
+    email: "michelle.c@bitmernmining.com",
+    secondaryEmail: { label: "Finance inquiries", address: "finances@bitmernmining.com" },
   },
 ]
 
@@ -129,25 +131,40 @@ function LeadershipCard({ member }: { member: TeamMember }) {
         </p>
 
         {(member.linkedin || member.email) && (
-          <div className="mt-4 flex items-center gap-2 border-t border-border/30 pt-4">
-            {member.linkedin && (
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
-                aria-label={`${member.name} on LinkedIn`}
-              >
-                <Linkedin className="size-4" />
-              </a>
-            )}
-            {member.email && (
-              <a
-                href={`mailto:${member.email}`}
-                className="ml-auto font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
-              >
-                {member.email}
-              </a>
+          <div className="mt-4 flex flex-col gap-2 border-t border-border/30 pt-4">
+            <div className="flex items-center gap-2">
+              {member.linkedin && (
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
+                  aria-label={`${member.name} on LinkedIn`}
+                >
+                  <Linkedin className="size-4" />
+                </a>
+              )}
+              {member.email && (
+                <a
+                  href={`mailto:${member.email}`}
+                  className="ml-auto truncate font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
+                >
+                  {member.email}
+                </a>
+              )}
+            </div>
+            {member.secondaryEmail && (
+              <div className="flex items-center justify-end gap-2 font-mono text-xs">
+                <span className="text-foreground/30">
+                  {member.secondaryEmail.label}:
+                </span>
+                <a
+                  href={`mailto:${member.secondaryEmail.address}`}
+                  className="truncate text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
+                >
+                  {member.secondaryEmail.address}
+                </a>
+              </div>
             )}
           </div>
         )}
