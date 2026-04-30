@@ -88,6 +88,12 @@ const coreTeam: TeamMember[] = [
     title: "Chief Technology Officer",
     photo: "/team/Andreas-CTO.jpeg",
     bio: "Leads technology strategy, infrastructure architecture, and engineering across Bitmern Mining. Owns the technical roadmap from facility automation and monitoring to customer-facing platforms.",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/andreas-strb/",
+      twitter: "https://x.com/AntreasStirbu",
+      facebook: "https://www.facebook.com/antreas.strb",
+      instagram: "https://www.instagram.com/andreas_strb/",
+    },
     email: "andreas@bitmernmining.com",
   },
   {
