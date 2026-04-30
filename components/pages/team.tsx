@@ -1,7 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import { motion, useReducedMotion } from "framer-motion"
-import { Linkedin, Facebook, Instagram, Mail } from "lucide-react"
+import { Linkedin, Facebook, Instagram, Mail, ChevronDown } from "lucide-react"
 
 function XIcon({ className }: { className?: string }) {
   return (
@@ -123,9 +124,14 @@ function getInitials(name: string): string {
 // Components
 // ---------------------------------------------------------------------------
 
+/** Bio length above which the Read more toggle appears */
+const BIO_TRUNCATE_THRESHOLD = 180
+
 /** Leadership card — editorial layout: photo, name + title-tag, bio, footer strip */
 function LeadershipCard({ member }: { member: TeamMember }) {
   const prefersReduced = useReducedMotion()
+  const [expanded, setExpanded] = useState(false)
+  const isLongBio = member.bio.length > BIO_TRUNCATE_THRESHOLD
 
   // Build social list (legacy `linkedin` field merges with `socials` map)
   const socials: { platform: keyof typeof SOCIAL_ICONS; href: string }[] = []
@@ -184,9 +190,33 @@ function LeadershipCard({ member }: { member: TeamMember }) {
 
       {/* Bio */}
       <div className="flex flex-1 flex-col px-6 py-4">
-        <p className="text-[0.875rem] leading-relaxed text-foreground/75">
+        <p
+          className={
+            isLongBio && !expanded
+              ? "text-[0.875rem] leading-relaxed text-foreground/75 line-clamp-3"
+              : "text-[0.875rem] leading-relaxed text-foreground/75"
+          }
+        >
           {member.bio}
         </p>
+        {isLongBio && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className="mt-2 inline-flex w-fit cursor-pointer items-center gap-1 text-xs font-medium uppercase tracking-wide text-foreground/60 transition-colors duration-200 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:rounded"
+          >
+            {expanded ? "Read less" : "Read more"}
+            <ChevronDown
+              className={
+                expanded
+                  ? "size-3.5 rotate-180 transition-transform duration-200"
+                  : "size-3.5 transition-transform duration-200"
+              }
+              strokeWidth={2}
+            />
+          </button>
+        )}
       </div>
 
       {/* Footer strip: socials + email */}
