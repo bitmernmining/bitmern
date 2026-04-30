@@ -74,7 +74,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Paschalis Pietris",
     title: "Vice President",
-    photo: "/team/Pashalis-CEO.jpeg",
+    photo: "/team/Pashalis-VP.jpeg",
     bio: "Vice President of Bitmern Mining, owning operational execution across all facilities and partnerships. Brings deep operational experience from hardware procurement through deployment and performance optimization.",
     socials: {
       linkedin: "https://www.linkedin.com/in/pashalis-pietris-4b8767b7/",

@@ -129,7 +129,7 @@ const teamMembers = [
   {
     name: "Paschalis Pietris",
     title: "Vice President",
-    image: "/team/Pashalis-CEO.jpeg",
+    image: "/team/Pashalis-VP.jpeg",
   },
   {
     name: "Andreas Stirmpou",
