@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useReducedMotion } from "framer-motion"
-import { Linkedin } from "lucide-react"
+import { Linkedin, Twitter, Facebook, Instagram } from "lucide-react"
 import Image from "next/image"
 import { Tag } from "@/components/ui/tag"
 import { SectionCTA } from "@/components/ui/section-cta"
@@ -25,9 +25,22 @@ interface TeamMember {
   photo: string | null
   bio: string
   linkedin?: string
+  socials?: {
+    linkedin?: string
+    twitter?: string
+    facebook?: string
+    instagram?: string
+  }
   email?: string
   secondaryEmail?: { label: string; address: string }
 }
+
+const SOCIAL_ICONS = {
+  linkedin: { Icon: Linkedin, label: "LinkedIn" },
+  twitter: { Icon: Twitter, label: "X (Twitter)" },
+  facebook: { Icon: Facebook, label: "Facebook" },
+  instagram: { Icon: Instagram, label: "Instagram" },
+} as const
 
 const coreTeam: TeamMember[] = [
   {
@@ -35,7 +48,12 @@ const coreTeam: TeamMember[] = [
     title: "Founder & CEO",
     photo: "/team/Giannis-CEO.jpeg",
     bio: "Founded Bitmern Mining in Greece in 2021 and leads the company as CEO. Best-selling author and crypto entrepreneur with 79K+ followers. Built Bitmern from zero into a $10M+ infrastructure business in under two years, with facilities spanning Ethiopia and an expansion pipeline into the Nordics. Owns long-term vision, investor relations, and facility development.",
-    linkedin: "https://linkedin.com/in/giannisandreou",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/giannisandreou/",
+      twitter: "https://x.com/gandreou007",
+      facebook: "https://www.facebook.com/Gi.Andreou/",
+      instagram: "https://www.instagram.com/gianisandreou",
+    },
     email: "GiannisAndreou@bitmern.com",
   },
   {
@@ -130,44 +148,66 @@ function LeadershipCard({ member }: { member: TeamMember }) {
           {member.bio}
         </p>
 
-        {(member.linkedin || member.email) && (
-          <div className="mt-4 flex flex-col gap-2 border-t border-border/30 pt-4">
-            <div className="flex items-center gap-2">
-              {member.linkedin && (
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
-                  aria-label={`${member.name} on LinkedIn`}
-                >
-                  <Linkedin className="size-4" />
-                </a>
-              )}
-              {member.email && (
-                <a
-                  href={`mailto:${member.email}`}
-                  className="ml-auto truncate font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
-                >
-                  {member.email}
-                </a>
+        {(() => {
+          const socials: { platform: keyof typeof SOCIAL_ICONS; href: string }[] = []
+          if (member.linkedin) socials.push({ platform: "linkedin", href: member.linkedin })
+          if (member.socials) {
+            for (const [platform, href] of Object.entries(member.socials) as [
+              keyof typeof SOCIAL_ICONS,
+              string | undefined,
+            ][]) {
+              if (href && !socials.some((s) => s.platform === platform)) {
+                socials.push({ platform, href })
+              }
+            }
+          }
+          const hasContact = socials.length > 0 || member.email
+
+          if (!hasContact) return null
+
+          return (
+            <div className="mt-4 flex flex-col gap-2 border-t border-border/30 pt-4">
+              <div className="flex items-center gap-1">
+                {socials.map(({ platform, href }) => {
+                  const { Icon, label } = SOCIAL_ICONS[platform]
+                  return (
+                    <a
+                      key={platform}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex size-8 items-center justify-center rounded-md text-foreground/40 transition-colors duration-200 hover:bg-foreground/5 hover:text-foreground/70"
+                      aria-label={`${member.name} on ${label}`}
+                    >
+                      <Icon className="size-4" />
+                    </a>
+                  )
+                })}
+                {member.email && (
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="ml-auto truncate font-mono text-xs text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
+                  >
+                    {member.email}
+                  </a>
+                )}
+              </div>
+              {member.secondaryEmail && (
+                <div className="flex items-center justify-end gap-2 font-mono text-xs">
+                  <span className="text-foreground/30">
+                    {member.secondaryEmail.label}:
+                  </span>
+                  <a
+                    href={`mailto:${member.secondaryEmail.address}`}
+                    className="truncate text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
+                  >
+                    {member.secondaryEmail.address}
+                  </a>
+                </div>
               )}
             </div>
-            {member.secondaryEmail && (
-              <div className="flex items-center justify-end gap-2 font-mono text-xs">
-                <span className="text-foreground/30">
-                  {member.secondaryEmail.label}:
-                </span>
-                <a
-                  href={`mailto:${member.secondaryEmail.address}`}
-                  className="truncate text-foreground/40 transition-colors duration-200 hover:text-foreground/70"
-                >
-                  {member.secondaryEmail.address}
-                </a>
-              </div>
-            )}
-          </div>
-        )}
+          )
+        })()}
       </div>
     </div>
   )
