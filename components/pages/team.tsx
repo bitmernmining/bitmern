@@ -75,7 +75,12 @@ const coreTeam: TeamMember[] = [
     title: "Vice President",
     photo: "/team/Pashalis-CEO.jpeg",
     bio: "Vice President of Bitmern Mining, owning operational execution across all facilities and partnerships. Brings deep operational experience from hardware procurement through deployment and performance optimization.",
-    linkedin: "https://linkedin.com/in/paschalispietris",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/pashalis-pietris-4b8767b7/",
+      twitter: "https://x.com/PashalisPietris",
+      facebook: "https://www.facebook.com/pasxalis.pietris",
+      instagram: "https://www.instagram.com/the__businessman/",
+    },
     email: "P.pashalis@bitmernmining.com",
   },
   {
