@@ -94,7 +94,7 @@ const coreTeam: TeamMember[] = [
       facebook: "https://www.facebook.com/antreas.strb",
       instagram: "https://www.instagram.com/andreas_strb/",
     },
-    email: "andreas@bitmernmining.com",
+    email: "Andreas.s@bitmernmining.com",
   },
   {
     name: "Michelle Chikomboya",
