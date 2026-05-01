@@ -105,6 +105,13 @@ const coreTeam: TeamMember[] = [
     email: "michelle.c@bitmernmining.com",
     secondaryEmail: { label: "Finance inquiries", address: "finances@bitmernmining.com" },
   },
+  {
+    name: "Liviou Stirmpou",
+    title: "Operations Manager",
+    photo: "/team/Liviou-OperationsManager.jpg",
+    bio: "Coordinates day-to-day operations across Bitmern Mining — keeping facility logistics, vendor relations, and internal workflows running smoothly so the wider team can focus on growth.",
+    email: "Liviou.s@bitmernmining.com",
+  },
 ]
 
 // ---------------------------------------------------------------------------

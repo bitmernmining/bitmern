@@ -141,6 +141,11 @@ const teamMembers = [
     title: "Chief Operating Officer",
     image: "/team/Michele-COO.jpeg",
   },
+  {
+    name: "Liviou Stirmpou",
+    title: "Operations Manager",
+    image: "/team/Liviou-OperationsManager.jpg",
+  },
 ]
 
 // ---------------------------------------------------------------------------
