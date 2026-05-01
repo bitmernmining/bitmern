@@ -146,6 +146,11 @@ const teamMembers = [
     title: "Operations Manager",
     image: "/team/Liviou-OperationsManager.jpg",
   },
+  {
+    name: "Chrysostomos Dormousoglou",
+    title: "Account Manager",
+    image: "/team/Chrysostomos-AccountManager.webp",
+  },
 ]
 
 // ---------------------------------------------------------------------------
