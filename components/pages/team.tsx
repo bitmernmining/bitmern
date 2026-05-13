@@ -112,13 +112,6 @@ const coreTeam: TeamMember[] = [
     bio: "Coordinates day-to-day operations across Bitmern Mining — keeping facility logistics, vendor relations, and internal workflows running smoothly so the wider team can focus on growth.",
     email: "Liviou.s@bitmernmining.com",
   },
-  {
-    name: "Chrysostomos Dormousoglou",
-    title: "Account Manager",
-    photo: "/team/Chrysostomos-AccountManager.webp",
-    bio: "Owns the client relationship from first call through deployment and ongoing support — making sure every Bitmern customer gets clear answers, timely updates, and a single point of contact across services.",
-    email: "chrysostomos.d@bitmernmining.com",
-  },
 ]
 
 // ---------------------------------------------------------------------------
