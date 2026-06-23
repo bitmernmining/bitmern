@@ -132,19 +132,9 @@ const teamMembers = [
     image: "/team/Pashalis-VP.jpeg",
   },
   {
-    name: "Andreas Stirmpou",
-    title: "Chief Technology Officer",
-    image: "/team/Andreas-CTO.jpeg",
-  },
-  {
     name: "Michelle Chikomboya",
     title: "Chief Operating Officer",
     image: "/team/Michele-COO.jpeg",
-  },
-  {
-    name: "Liviou Stirmpou",
-    title: "Operations Manager",
-    image: "/team/Liviou-OperationsManager.jpg",
   },
 ]
 

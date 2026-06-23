@@ -85,32 +85,12 @@ const coreTeam: TeamMember[] = [
     email: "P.pashalis@bitmernmining.com",
   },
   {
-    name: "Andreas Stirmpou",
-    title: "Chief Technology Officer",
-    photo: "/team/Andreas-CTO.jpeg",
-    bio: "Leads technology strategy, infrastructure architecture, and engineering across Bitmern Mining. Owns the technical roadmap from facility automation and monitoring to customer-facing platforms.",
-    socials: {
-      linkedin: "https://www.linkedin.com/in/andreas-strb/",
-      twitter: "https://x.com/AntreasStirbu",
-      facebook: "https://www.facebook.com/antreas.strb",
-      instagram: "https://www.instagram.com/andreas_strb/",
-    },
-    email: "Andreas.s@bitmernmining.com",
-  },
-  {
     name: "Michelle Chikomboya",
     title: "Chief Operating Officer",
     photo: "/team/Michele-COO.jpeg",
     bio: "Manages operations, financial reporting, and compliance across all Bitmern entities. Ensures transparent accounting and operational excellence for investor and client payouts.",
     email: "michelle.c@bitmernmining.com",
     secondaryEmail: { label: "Finance inquiries", address: "finances@bitmernmining.com" },
-  },
-  {
-    name: "Liviou Stirmpou",
-    title: "Operations Manager",
-    photo: "/team/Liviou-OperationsManager.jpg",
-    bio: "Coordinates day-to-day operations across Bitmern Mining — keeping facility logistics, vendor relations, and internal workflows running smoothly so the wider team can focus on growth.",
-    email: "Liviou.s@bitmernmining.com",
   },
 ]
 
