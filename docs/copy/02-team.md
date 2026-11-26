@@ -24,12 +24,10 @@
 **Social:** LinkedIn, X, Facebook, Instagram
 **Email:** GiannisAndreou@bitmern.com
 
-### Paschalis Pietris
-**Title:** Chief Executive Officer
-**Photo:** /team/pashalis.avif
-**Bio:** Leads Bitmern Mining as CEO, owning company strategy, growth, and execution across all facilities and partnerships. Brings deep operational experience from hardware procurement through deployment and performance optimization.
-**Social:** LinkedIn, X, Facebook, Instagram
-**Email:** P.pashalis@bitmernmining.com
+### Natalie Consuegra
+**Title:** Chief Operating Officer
+**Photo:** /team/natalie-consuegra.png
+**Bio:** Oversees day-to-day operations at Bitmern Mining.
 
 ### Georgia Manuel
 **Title:** Chief Marketing Officer
@@ -45,9 +43,9 @@
 **Social:** LinkedIn, X, Facebook, Instagram
 **Email:** Andreas.S@bitmern.com
 
-### Michelle
-**Title:** Senior Accountant
-**Photo:** (placeholder/initials)
+### Michelle Chikomboya
+**Title:** Chief Financial Officer
+**Photo:** /team/Michele-COO.jpeg
 **Bio:** Manages financial operations, reporting, and compliance across all Bitmern entities. Ensures transparent accounting for investor and client payouts.
 **Email:** finances@bitmernmining.com
 

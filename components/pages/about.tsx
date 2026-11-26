@@ -127,13 +127,13 @@ const teamMembers = [
     image: "/team/Giannis-CEO.jpeg",
   },
   {
-    name: "Paschalis Pietris",
-    title: "Vice President",
-    image: "/team/Pashalis-VP.jpeg",
+    name: "Natalie Consuegra",
+    title: "Chief Operating Officer",
+    image: "/team/natalie-consuegra.png",
   },
   {
     name: "Michelle Chikomboya",
-    title: "Chief Operating Officer",
+    title: "Chief Financial Officer",
     image: "/team/Michele-COO.jpeg",
   },
 ]
