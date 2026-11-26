@@ -129,7 +129,7 @@ const teamMembers = [
   {
     name: "Natalie Consuegra",
     title: "Chief Operating Officer",
-    image: "/team/natalie-consuegra.png",
+    image: "/team/natalie-consuegra-square.webp",
   },
   {
     name: "Michelle Chikomboya",

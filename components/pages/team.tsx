@@ -74,7 +74,7 @@ const coreTeam: TeamMember[] = [
   {
     name: "Natalie Consuegra",
     title: "Chief Operating Officer",
-    photo: "/team/natalie-consuegra.png",
+    photo: "/team/natalie-consuegra-square.webp",
     bio: "Oversees day-to-day operations at Bitmern Mining.",
   },
   {
