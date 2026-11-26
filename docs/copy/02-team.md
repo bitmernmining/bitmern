@@ -26,7 +26,7 @@
 
 ### Natalie Consuegra
 **Title:** Chief Operating Officer
-**Photo:** /team/natalie-consuegra.png
+**Photo:** /team/natalie-consuegra-square.webp
 **Bio:** Oversees day-to-day operations at Bitmern Mining.
 
 ### Georgia Manuel

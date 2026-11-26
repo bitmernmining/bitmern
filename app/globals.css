@@ -622,35 +622,6 @@
   animation: marquee linear infinite;
 }
 
-/* Give Natalie's closer portrait the same visual scale as the other team
-   photos without cropping the source or changing any other card. */
-.aspect-square:has(> img[src*="natalie-consuegra.png"]) {
-  position: relative;
-  isolation: isolate;
-  background: linear-gradient(155deg, #837c70, #625a50 43%, #232332 83%);
-}
-
-.aspect-square:has(> img[src*="natalie-consuegra.png"])::before {
-  content: "";
-  position: absolute;
-  inset: -15%;
-  background: url("/team/natalie-consuegra.png") center 45% / cover;
-  filter: blur(38px) brightness(0.72);
-  opacity: 0.62;
-  z-index: -1;
-}
-
-.aspect-square > img[src*="natalie-consuegra.png"] {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding-top: 9%;
-  object-fit: contain;
-  object-position: center bottom;
-  scale: none;
-}
-
 /* Respect user motion preferences — scoped to CSS animations only.
    Framer Motion handles its own reduced-motion via useReducedMotion(). */
 @media (prefers-reduced-motion: reduce) {
