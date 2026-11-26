@@ -41,7 +41,7 @@ const TEAM = [
   {
     name: "Natalie Consuegra",
     title: "Chief Operating Officer",
-    image: "/team/natalie-consuegra.png",
+    image: "/team/natalie-consuegra-square.webp",
     linkedin: "#",
     twitter: "#",
   },
